@@ -29,7 +29,7 @@ class LoginFragment : Fragment() {
 
         // Handle "Log In" button click
         binding.btnLogIn.setOnClickListener {
-            // TODO: Handle Login action here
+            // TODO: Handle Login logic here
         }
 
         // Handle "Sign Up" text click to navigate to SignUpFragment

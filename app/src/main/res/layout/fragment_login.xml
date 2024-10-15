@@ -13,37 +13,39 @@
             android:id="@+id/tv_welcome_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome Back!"
-            android:textSize="64sp"
-            android:textStyle=""
+            android:text="@string/welcome_back"
+            android:textSize="56sp"
             android:textColor="#FFFFFF"
             android:textAlignment="center"
             android:fontFamily="@font/montserrat_alternates_regular"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="36dp"
 
-    />
+            tools:ignore="TextContrastCheck"/>
 
+    <!-- Rounded rectangle Constraint -->
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/rounded_rectangle_container"
             android:layout_width="411dp"
-            android:layout_height="557dp"
+            android:layout_height="500dp"
             android:background="@drawable/rounded_rectangle_gradient"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="260dp"
-            android:padding="24dp" app:layout_constraintHorizontal_bias="0.0">
+            android:layout_marginTop="236dp"
+            android:padding="24dp" app:layout_constraintHorizontal_bias="0.0"
+            tools:ignore="TextSizeCheck,VisualLintBounds">
 
         <!-- Username -->
         <EditText
                 android:id="@+id/et_username"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Username"
-                android:textSize="32sp"
+                android:autofillHints="username"
+                android:hint="@string/email_address"
+                android:textSize="24sp"
                 android:fontFamily="@font/montserrat_alternates_regular"
                 android:backgroundTint="#FFFFFF"
                 android:textColor="#FFFFFF"
@@ -63,8 +65,9 @@
                 android:id="@+id/et_password"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Password"
-                android:textSize="32sp"
+                android:autofillHints="password"
+                android:hint="@string/password"
+                android:textSize="24sp"
                 android:fontFamily="@font/montserrat_alternates_regular"
                 android:backgroundTint="#FFFFFF"
                 android:textColor="#FFFFFF"
@@ -84,7 +87,7 @@
                 android:id="@+id/tv_forgot_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Forgot Password?"
+                android:text="@string/forgot_password"
                 android:fontFamily="@font/montserrat_alternates_regular"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
@@ -98,7 +101,7 @@
                 android:id="@+id/btn_log_in"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Log In"
+                android:text="@string/log_in"
                 android:textSize="24sp"
                 android:fontFamily="@font/montserrat_alternates_regular"
                 android:textColor="#000000"
@@ -110,15 +113,14 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="16dp"
-        />
+                tools:ignore="DuplicateSpeakableTextCheck"/>
 
         <!-- Log In with SSO Button -->
         <Button
                 android:id="@+id/btn_log_in_sso"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Log In with SSO"
+                android:text="@string/log_in_with_sso"
                 android:textSize="24sp"
                 android:fontFamily="@font/montserrat_alternates_regular"
                 android:textColor="#000000"
@@ -148,7 +150,7 @@
                     android:layout_height="48dp"
                     android:background="@null"
                     android:src="@drawable/ic_apple"
-                    android:contentDescription="Log In with Apple ID"/>
+                    android:contentDescription="@string/log_in_with_apple" tools:ignore="ImageContrastCheck"/>
 
             <!-- Facebook -->
             <ImageButton
@@ -156,7 +158,7 @@
                     android:layout_height="48dp"
                     android:background="@null"
                     android:src="@drawable/ic_facebook"
-                    android:contentDescription="Log In with Facebook"/>
+                    android:contentDescription="@string/log_in_with_facebook"/>
 
             <!-- Google -->
             <ImageButton
@@ -164,7 +166,7 @@
                     android:layout_height="48dp"
                     android:background="@null"
                     android:src="@drawable/ic_google"
-                    android:contentDescription="Log In with Google"/>
+                    android:contentDescription="@string/log_in_with_google"/>
         </LinearLayout>
 
         <!-- Log In and Sign Up Links (bottom of screen) -->
@@ -175,25 +177,24 @@
                 android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginBottom="32dp" android:layout_marginStart="32dp">
+                android:layout_marginBottom="12dp" android:layout_marginStart="32dp">
 
             <TextView
                     android:id="@+id/tv_log_in"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Log In"
+                    android:text="@string/log_in"
                     android:fontFamily="@font/montserrat_alternates_regular"
                     android:textColor="#FFFFFF"
-                    android:textStyle="bold"
                     android:textSize="32sp"
                     android:layout_marginStart="0dp"/>
             <TextView
                     android:id="@+id/tv_sign_up"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sign Up"
+                    android:text="@string/sign_up"
                     android:fontFamily="@font/montserrat_alternates_regular"
-                    android:textColor="#000000"
+                    android:textColor="#26A69A"
                     android:textSize="32sp"
                     android:layout_marginStart="64dp"/>
         </LinearLayout>
