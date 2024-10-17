@@ -26,7 +26,7 @@ class SignUpFragment : Fragment() {
 
         // Handle Sign Up button click
         binding.btnSignUp.setOnClickListener {
-            // TODO: Handle Sign Up logic here
+            // TODO: Handle Sign Up logic here Sandoval Tackle this section today!!
         }
 
         // Handle "Log In" text click to navigate to LogInFragment
