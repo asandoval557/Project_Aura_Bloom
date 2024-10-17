@@ -9,7 +9,10 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.ComponentActivity
+import androidx.activity.enableEdgeToEdge
 import com.example.project_aura_bloom.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 

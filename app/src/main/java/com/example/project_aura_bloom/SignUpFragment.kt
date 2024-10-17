@@ -6,34 +6,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.project_aura_bloom.databinding.FragmentFirstBinding
+import com.example.project_aura_bloom.databinding.FragmentSignUpBinding
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
-class FirstFragment : Fragment() {
+class SignUpFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        // Handle Sign Up button click
+        binding.btnSignUp.setOnClickListener {
+            // TODO: Handle Sign Up logic here
+        }
+
+        // Handle "Log In" text click to navigate to LogInFragment
+        binding.tvLogIn.setOnClickListener {
+            findNavController().navigate(R.id.action_SignUpFragment_to_LoginFragment)
         }
     }
 
