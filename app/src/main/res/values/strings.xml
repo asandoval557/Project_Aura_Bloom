@@ -18,13 +18,13 @@
     <string name="log_in_with_facebook">Log In with Facebook</string>
     <string name="log_in_with_google">Log In with Google</string>
     <string name="sign_up">Sign Up</string>
+    <string name="log_in_button">Log in to Account</string>
 
     <!-- Strings used in Sign Up Screen -->
     <string name="welcome_to_aurabloom">Welcome\nto\nAUraBloom</string>
     <string name="full_name">Full Name</string>
     <string name="email">Email</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up_button">Sign Up for Account</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
