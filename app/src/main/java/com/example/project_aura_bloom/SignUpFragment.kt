@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.project_aura_bloom.databinding.FragmentSignUpBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -19,7 +21,8 @@ class SignUpFragment : Fragment() {
 
     private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
-    //Implement firebase authentication and database variables
+
+    //Implement Firebase Authentication and database variables
     private lateinit var auth: FirebaseAuth
     private lateinit var signUpDB: FirebaseFirestore
 
@@ -47,30 +50,47 @@ class SignUpFragment : Fragment() {
             val password = binding.etPassword.text.toString()
             val confirmPassword = binding.etConfirmPassword.text.toString()
 
-            //Validate User Input
+            // Validate User Input
             if(fullName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            //Confirm Password Match
+            // Validate Email Format
+            val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+            if (!email.matches(emailPattern.toRegex())) {
+                Toast.makeText(context,"Invalid email format", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Confirm Password Match
             if(password != confirmPassword) {
                 Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
+            // Disable Sign Up button to prevent multiple clicks
+            binding.btnSignUp.isEnabled = false
+
             //Create the User Firebase Authentication
             auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
+                binding.btnSignUp.isEnabled = true
                 if (task.isSuccessful) {
                     //User has been created successfully
                     val userID = auth.currentUser ?.uid
                     //Move user information to FireStore
                     storeUserInfo(userID, fullName, email)
-                    }
+                }
                 else
                 {
-                    Toast.makeText(context, "Authentication failed: ${task.exception}.message", Toast.LENGTH_SHORT).show()
+                    try {
+                        throw task.exception!!
+                    } catch (e: FirebaseAuthUserCollisionException) {
+                        Toast.makeText(context, "Email is already in use", Toast.LENGTH_SHORT).show()
+                    } catch (e: Exception) {
+                        Toast.makeText(context, "Authentication failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -95,8 +115,6 @@ class SignUpFragment : Fragment() {
                 .addOnFailureListener{ e -> Log.w("SignUpFragment", "Error updating User info: ", e)
                 }
         }
-
-
     }
 
     override fun onDestroyView() {
