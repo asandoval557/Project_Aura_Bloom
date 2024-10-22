@@ -11,8 +11,7 @@
     <com.google.android.material.appbar.AppBarLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:fitsSystemWindows="true"
-    >
+            android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
@@ -30,6 +29,8 @@
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="@dimen/fab_margin"
             android:layout_marginBottom="16dp"
-            app:srcCompat="@android:drawable/ic_dialog_email"/>
+            app:srcCompat="@android:drawable/ic_dialog_email"
+            android:contentDescription="@string/email_button"/>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
