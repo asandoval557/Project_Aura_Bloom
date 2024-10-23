@@ -38,4 +38,18 @@
         dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="email_button">Email Button</string>
+    <string name="brush_icon">Brush Icon</string>
+    <string name="brush_size">Brush Size</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="small_brush_size">Small</string>
+    <string name="medium_brush_size">Medium</string>
+    <string name="large_brush_size">Large</string>
+    <string name="erase_size_button">Erase Size Button</string>
+    <string name="undo_button">Undo Button</string>
+    <string name="redo_button">Redo Button</string>
+    <string name="color_picker_button">Color Picker Button</string>
+    <string name="small_eraser_size">Small Eraser Size</string>
+    <string name="medium_eraser_size">Medium Eraser Size</string>
+    <string name="large_eraser_size">Large Eraser Size</string>
 </resources>
