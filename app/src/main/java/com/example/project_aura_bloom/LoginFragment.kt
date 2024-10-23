@@ -13,6 +13,11 @@ import com.example.project_aura_bloom.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.android.play.core.integrity.IntegrityManagerFactory
+import com.google.android.play.core.integrity.IntegrityTokenRequest
+import com.google.android.play.core.tasks.Task
+import com.google.android.play.core.integrity.IntegrityTokenResponse
+
 
 class LoginFragment : Fragment() {
 
@@ -47,7 +52,7 @@ class LoginFragment : Fragment() {
                 return@setOnClickListener
             }
             //Log in the user
-            loginUser(email, password)
+            requestIntegrityToken(email, password)
         }
 
         // Handle "Sign Up" text click to navigate to SignUpFragment
@@ -60,16 +65,37 @@ class LoginFragment : Fragment() {
     }
 
     //Function to log in the user with Firebase Authentication
-    private fun loginUser(email: String, password: String) {
+    //TODO continue debugging authentication
+    private fun requestIntegrityToken(email: String, password: String) {
+       val integrityManager = IntegrityManagerFactory.create(requireContext())
+
+        //Create the token request
+        val request = IntegrityTokenRequest.builder()
+            .setCloudProjectNumber(860582708038)
+            .build()
+        integrityManager.requestIntegrityToken(request)
+        .addOnSuccessListener {task: Task<IntegrityTokenResponse> ->
+            if (task.isSuccessful) {
+                val token = task.result.token
+                loginUser(email, password, token)
+            } else {
+                Toast.makeText(context, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+            .addOnFailureListener {exception ->
+                Toast.makeText(context, "Failed to request token: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun loginUser(email: String, password: String, token: String) {
+        // Optionally send the token to your backend for validation before login
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    //User successfully logged in
                     Toast.makeText(context, "Login Successful!", Toast.LENGTH_SHORT).show()
-                    //TODO Need to adjust the navigation to the name of the next screen
-                    //findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
+                    // Navigate to the next screen
+                    // findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
                 } else {
-                    //If sign in fails, alert the user
                     Toast.makeText(context, "Login Failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }

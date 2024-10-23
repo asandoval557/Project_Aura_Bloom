@@ -57,6 +57,9 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:25.1.0")
     //Import Firebase Cloud Storage
     implementation("com.google.firebase:firebase-storage:21.0.1")
+    //Import play integrity
+    implementation("com.google.android.play:integrity:1.4.0")
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -12,6 +12,11 @@ import android.view.MenuItem
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import com.example.project_aura_bloom.databinding.ActivityMainBinding
+import com.google.firebase.FirebaseApp
+import com.google.android.play.core.integrity.IntegrityManagerFactory
+import com.google.android.play.core.integrity.IntegrityTokenRequest
+import android.util.Log
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,10 +26,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        FirebaseApp.initializeApp(this)  // Firebase initialization
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//Test Comment
+
         setSupportActionBar(binding.toolbar)
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
