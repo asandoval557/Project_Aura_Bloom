@@ -59,6 +59,12 @@ class SignUpFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            //Add valid email check
+            if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(context, "Please enter a valid email address", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             //Create the User Firebase Authentication
             auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -70,7 +76,7 @@ class SignUpFragment : Fragment() {
                     }
                 else
                 {
-                    Toast.makeText(context, "Authentication failed: ${task.exception}.message", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -91,8 +97,10 @@ class SignUpFragment : Fragment() {
             signUpDB.collection("UserSignUp").document(userID.toString()).set(user).addOnSuccessListener {
                 Log.d("SignUpFragment", "User info successfully updated")
                 //TODO Do we want to update the screen to reflect that the user can now sign in or when the user is successfully created take them to the homepage?
+                findNavController().navigate(R.id.action_SignUpFragment_to_LoginFragment)
             }
                 .addOnFailureListener{ e -> Log.w("SignUpFragment", "Error updating User info: ", e)
+                    Toast.makeText(context, "Failed to store user info", Toast.LENGTH_SHORT).show()
                 }
         }
 
