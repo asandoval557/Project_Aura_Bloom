@@ -1,6 +1,7 @@
 package com.example.project_aura_bloom
 
 import android.os.Bundle
+import android.view.Gravity
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -88,8 +89,26 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
+        // Handle nav drawer item selection
+        navView.setNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_settings -> {
+                    // Handle settings navigation
+                }
+                R.id.nav_help -> {
+                    // Handle help center navigation
+                }
+                R.id.nav_profile -> {
+                    // Handle profile navigation
+                    navController.navigate(R.id.ProfileFragment)
+                }
+            }
+            drawerLayout.closeDrawer(GravityCompat.START) // Close drawer after selection
+            true
+        }
+
         // When Statement for bottom nav button click
-        bottomNavView.setOnNavigationItemSelectedListener { item ->
+        bottomNavView.setOnItemSelectedListener { item ->
             when (item.itemId) {
 
                 // If mood meter is clicked then...

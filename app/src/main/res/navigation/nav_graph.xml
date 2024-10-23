@@ -61,4 +61,10 @@
             android:name="com.example.project_aura_bloom.MoodProgressFragment"
             android:label="Mood Progress"
             tools:layout="@layout/mood_progress_screen" />
+
+    <fragment
+            android:id="@+id/ProfileFragment"
+            android:name="com.example.project_aura_bloom.ProfileFragment"
+            android:label="Profile"
+            tools:layout="@layout/fragment_profile" />
 </navigation>
