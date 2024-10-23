@@ -15,7 +15,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.android.play.core.integrity.IntegrityManagerFactory
 import com.google.android.play.core.integrity.IntegrityTokenRequest
-import com.google.android.play.core.tasks.Task
+import com.google.android.gms.tasks.Task
 import com.google.android.play.core.integrity.IntegrityTokenResponse
 
 
@@ -74,15 +74,11 @@ class LoginFragment : Fragment() {
             .setCloudProjectNumber(860582708038)
             .build()
         integrityManager.requestIntegrityToken(request)
-        .addOnSuccessListener {task: Task<IntegrityTokenResponse> ->
-            if (task.isSuccessful) {
-                val token = task.result.token
+        .addOnSuccessListener { response: IntegrityTokenResponse ->
+                val token = response.token()
                 loginUser(email, password, token)
-            } else {
-                Toast.makeText(context, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
             }
-        }
-            .addOnFailureListener {exception ->
+        .addOnFailureListener { exception ->
                 Toast.makeText(context, "Failed to request token: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
     }
