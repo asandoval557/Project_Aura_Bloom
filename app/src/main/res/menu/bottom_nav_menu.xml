@@ -1,4 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+            android:id="@+id/nav_resources"
+            android:icon="@drawable/ic_resources"
+            android:title="@string/resources_button"
+    />
+
+    <item
+            android:id="@+id/nav_mood_meter"
+            android:icon="@drawable/ic_mood_meter"
+            android:title="@string/mood_meter"/>
+
+    <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home" />
+
+    <item
+            android:id="@+id/nav_exercise"
+            android:icon="@drawable/ic_exercise"
+            android:title="@string/exercise" />
+
+    <item
+            android:id="@+id/nav_calm_zone"
+            android:icon="@drawable/ic_calmzone"
+            android:title="@string/calm_zone" />
+
 </menu>

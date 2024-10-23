@@ -1,6 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:fillViewport="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:padding="16dp"
+         android:background="@drawable/gradient_background">
+
+        <!-- Profile Picture and Info -->
+        <LinearLayout
+                android:id="@+id/profile_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:gravity="center_vertical"
+                android:paddingBottom="16dp">
+
+            <!-- Profile Image -->
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:src="@drawable/ic_avatar"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Profile Picture"
+                android:scaleType="centerCrop" />
+
+            <!-- User Info -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textSize="32sp"
+                    android:textColor="@color/dark_gray"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_joined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Joined 2024"
+                    android:textSize="20sp"
+                    android:textColor="@color/dark_gray" />
+
+                <TextView
+                    android:id="@+id/tv_contact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Emergency Contact:\nMary 866-222-1234"
+                    android:textSize="20sp"
+                    android:textColor="@color/dark_gray" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Search bar with rounded background -->
+        <LinearLayout
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_background"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@id/profile_info"
+            android:layout_marginTop="16dp">
+
+            <SearchView
+                android:id="@+id/search_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:queryHint="Search"
+                android:background="@null" />
+
+            <!-- Location Icon -->
+            <ImageView
+                android:id="@+id/location_ic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_location"
+                android:contentDescription="Location"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+        <!-- Horizontal Scroll panels -->
+        <HorizontalScrollView
+            android:id="@+id/panel_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            app:layout_constraintTop_toBottomOf="@id/search_bar"
+            android:layout_marginTop="16dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <!-- White panels -->
+                <View
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/panel_background" />
+
+                <View
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/panel_background" />
+
+                <View
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/panel_background" />
+
+                <View
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/panel_background" />
+
+                <View
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/panel_background" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- How are you Button -->
+        <Button
+            android:id="@+id/btn_how_are_you"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textSize="32sp"
+            android:stateListAnimator="@animator/button_state_animator"
+            android:text="How are you today?"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/panel_scroll"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="16dp" />
+
+        <!-- How are you Button -->
+        <Button
+                android:id="@+id/btn_help"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:textSize="32sp"
+                android:stateListAnimator="@animator/button_state_animator"
+                android:text="Help"
+                android:textColor="@color/black"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                app:layout_constraintTop_toBottomOf="@id/btn_how_are_you"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="16dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+
+
+
+
+
+
+
+
+
+
+
+

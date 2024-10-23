@@ -29,7 +29,14 @@ class LoginFragment : Fragment() {
 
         // Handle "Log In" button click
         binding.btnLogIn.setOnClickListener {
-            // TODO: Handle Login logic here
+            // TODO: Handle Login logic here (Replace with actual logic when Firebase is implemented)
+            val isLoginSuccessful = handleLogin()
+
+            if (isLoginSuccessful) {
+                findNavController().navigate(R.id.action_LoginFragment_to_HomeScreenFragment)
+            } else {
+                // Handle login failure here
+            }
         }
 
         // Handle "Sign Up" text click to navigate to SignUpFragment
@@ -37,8 +44,13 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_LoginFragment_to_SignUpFragment)
         }
 
-        val customFont = ResourcesCompat.getFont(requireContext(), R.font.montserrat_alternates_bold)
+        val customFont = ResourcesCompat.getFont(requireContext(), R.font.montserrat_alternates_regular)
         binding.tvSignUp.typeface = customFont
+    }
+
+    private fun handleLogin(): Boolean {
+        // TODO: Place actual logic here
+        return true // Assuming successful login
     }
 
     override fun onDestroyView() {

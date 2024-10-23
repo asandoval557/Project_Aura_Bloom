@@ -1,6 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".CalmZoneFragment">
+
+    <!--Calm Zone greeting message-->
+    <TextView
+            android:id="@+id/calm_zone_into"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Calm_Zone_Greeting"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="16dp"/>
+
+    <!--Meditation Button-->
+    <Button
+            android:id="@+id/meditation_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/meditation"
+            app:layout_constraintTop_toBottomOf="@+id/calm_zone_into"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="16dp"/>
+
+    <!--Ambient Music Button-->
+    <Button
+            android:id="@+id/ambient_music_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/ambient_music"
+            app:layout_constraintTop_toBottomOf="@+id/meditation_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="16dp"/>
+
+    <!--Peaceful Creations Button-->
+    <Button
+            android:id="@+id/peaceful_creations_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/peaceful_creations"
+            app:layout_constraintTop_toBottomOf="@id/ambient_music_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="16dp"
+
+    />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
