@@ -37,19 +37,24 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus vestibulum. Fusce
         dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
-    <string name="email_button">Email Button</string>
-    <string name="brush_icon">Brush Icon</string>
-    <string name="brush_size">Brush Size</string>
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="small_brush_size">Small</string>
-    <string name="medium_brush_size">Medium</string>
-    <string name="large_brush_size">Large</string>
-    <string name="erase_size_button">Erase Size Button</string>
-    <string name="undo_button">Undo Button</string>
-    <string name="redo_button">Redo Button</string>
-    <string name="color_picker_button">Color Picker Button</string>
-    <string name="small_eraser_size">Small Eraser Size</string>
-    <string name="medium_eraser_size">Medium Eraser Size</string>
-    <string name="large_eraser_size">Large Eraser Size</string>
+    <string name="resources_button">Open Resources</string>
+    <string name="help">Help</string>
+    <string name="exercise">Exercise</string>
+    <string name="calm_zone">Calm Zone</string>
+    <string name="mood_meter">mood meter</string>
+    <string name="fab_email">Fab Email</string>
+    <string name="mood_progress">Mood Progress</string>
+    <string name="_50">50%</string>
+    <string name="Calm_Zone_Greeting">Welcome to your world of peace</string>
+    <string name="meditation">Meditation</string>
+    <string name="ambient_music">Ambient Music</string>
+    <string name="peaceful_creations">Peaceful Creations</string>
+    <string name="lumos_path">Lumos Path</string>
+    <string name="coloring">Coloring</string>
+    <string name="mindful_art">Mindful Art</string>
+    <string name="settings">Settings</string>
+    <string name="help_center">Help Center</string>
+    <string name="navigation_drawer_open">Open Menu</string>
+    <string name="navigation_drawer_close">Close Menu</string>
+    <string name="welcome">Welcome!</string>
 </resources>

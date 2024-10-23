@@ -3,7 +3,40 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/nav_graph"
-            app:startDestination="@id/FirstFragment">
+            app:startDestination="@id/HomeScreenFragment">
+
+    <fragment
+            android:id="@+id/HomeScreenFragment"
+            android:name="com.example.project_aura_bloom.HomeScreenFragment"
+            android:label="Home Screen"
+            tools:layout="@layout/home_screen">
+
+    </fragment>
+
+    <fragment
+            android:id="@+id/CalmZoneFragment"
+            android:name="com.example.project_aura_bloom.CalmZoneFragment"
+            android:label="Calm Zone"
+            tools:layout="@layout/calm_zone_screen">
+        <action
+            android:id="@+id/action_calm_zone_to_peaceful_creations"
+            app:destination="@+id/PeacefulCreationsFragment"/>
+
+    </fragment>
+
+    <fragment
+            android:id="@+id/PeacefulCreationsFragment"
+            android:name="com.example.project_aura_bloom.PeacefulCreationsFragment"
+            android:label="Peaceful Creations"
+            tools:layout="@layout/peaceful_creations_hub"
+
+
+    >
+
+
+
+    </fragment>
+
 
     <fragment
             android:id="@+id/FirstFragment"
@@ -25,4 +58,13 @@
                 android:id="@+id/action_SecondFragment_to_FirstFragment"
                 app:destination="@id/FirstFragment"/>
     </fragment>
+
+    <fragment
+            android:id="@+id/MoodProgressFragment"
+            android:name="com.example.project_aura_bloom.MoodProgressFragment"
+            android:label="Mood Progress"
+            tools:layout="@layout/mood_progress_screen">
+
+    </fragment>
+
 </navigation>
