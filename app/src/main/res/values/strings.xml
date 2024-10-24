@@ -37,6 +37,7 @@
     <string name="email">Email</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="sign_up_button">Sign Up for Account</string>
+    <string name="show_password">Show Password</string>
 
     <string name="resources_button">Open Resources</string>
     <string name="help">Help</string>
