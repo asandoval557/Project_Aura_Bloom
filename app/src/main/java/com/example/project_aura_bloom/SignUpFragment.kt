@@ -10,8 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.project_aura_bloom.databinding.FragmentSignUpBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -21,8 +19,7 @@ class SignUpFragment : Fragment() {
 
     private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
-
-    //Implement Firebase Authentication and database variables
+    //Implement firebase authentication and database variables
     private lateinit var auth: FirebaseAuth
     private lateinit var signUpDB: FirebaseFirestore
 
@@ -50,47 +47,37 @@ class SignUpFragment : Fragment() {
             val password = binding.etPassword.text.toString()
             val confirmPassword = binding.etConfirmPassword.text.toString()
 
-            // Validate User Input
+            //Validate User Input
             if(fullName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Validate Email Format
-            val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
-            if (!email.matches(emailPattern.toRegex())) {
-                Toast.makeText(context,"Invalid email format", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            // Confirm Password Match
+            //Confirm Password Match
             if(password != confirmPassword) {
                 Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Disable Sign Up button to prevent multiple clicks
-            binding.btnSignUp.isEnabled = false
+            //Add valid email check
+            if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(context, "Please enter a valid email address", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             //Create the User Firebase Authentication
             auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
-                binding.btnSignUp.isEnabled = true
                 if (task.isSuccessful) {
                     //User has been created successfully
-                    val userID = auth.currentUser ?.uid
+                    val userID = auth.currentUser?.uid
                     //Move user information to FireStore
                     storeUserInfo(userID, fullName, email)
-                }
+                    }
                 else
                 {
-                    try {
-                        throw task.exception!!
-                    } catch (e: FirebaseAuthUserCollisionException) {
-                        Toast.makeText(context, "Email is already in use", Toast.LENGTH_SHORT).show()
-                    } catch (e: Exception) {
-                        Toast.makeText(context, "Authentication failed: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
+                    //Toast.makeText(context, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    Log.e("SignUpFragment", "User creation failed: ${task.exception?.message}")
                 }
             }
         }
@@ -105,15 +92,20 @@ class SignUpFragment : Fragment() {
     {
     if(userID != null)
         {
-            val user = hashMapOf("fullName" to fullName, "email" to email)
+        Log.d("SignUpFragment", "Storing user info: userID=$userID, fullName=$fullName, email=$email")
+        val user = hashMapOf("fullName" to fullName, "email" to email, "user_id" to userID)
 
             //Store the user information in the "UserSignUp" collection
-            signUpDB.collection("UserSignUp").document(userID.toString()).set(user).addOnSuccessListener {
+            signUpDB.collection("UserSignUp").document(userID).set(user).addOnSuccessListener {
                 Log.d("SignUpFragment", "User info successfully updated")
                 //TODO Do we want to update the screen to reflect that the user can now sign in or when the user is successfully created take them to the homepage?
+                findNavController().navigate(R.id.action_SignUpFragment_to_LoginFragment)
             }
                 .addOnFailureListener{ e -> Log.w("SignUpFragment", "Error updating User info: ", e)
+                    Toast.makeText(context, "Failed to store user info", Toast.LENGTH_SHORT).show()
                 }
+        } else {
+            Log.d("SignUpFragment", "User info is null, cannot store user info")
         }
     }
 

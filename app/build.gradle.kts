@@ -53,10 +53,16 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     //Import Firebase Authentication
     implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore-ktx")
     //Import Firebase CloudFirestore
     implementation("com.google.firebase:firebase-firestore:25.1.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:25.1.1")
     //Import Firebase Cloud Storage
     implementation("com.google.firebase:firebase-storage:21.0.1")
+    //Import play integrity
+    implementation("com.google.android.play:integrity:1.4.0")
+    implementation("com.google.firebase:firebase-appcheck-playintegrity:18.0.0")
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
