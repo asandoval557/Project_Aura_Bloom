@@ -36,24 +36,24 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        // Setup for drawer and nav view for the side menu
+          // Setup for drawer and nav view for the side menu
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
 
-        // Setting up nav for switch management between screens
+          // Setting up nav for switch management between screens
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
-        // Toggle button for closing and opening menu drawer
+          // Toggle button for closing and opening menu drawer
         toggle = ActionBarDrawerToggle(
             this, drawerLayout, binding.toolbar,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
 
-        // Syncing for the toggle state and menu drawer state
+          // Syncing for the toggle state and menu drawer state
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        // Forming the app bar to work with the drawer
+          // Forming the app bar to work with the drawer
         appBarConfiguration = AppBarConfiguration(setOf(R.id.HomeScreenFragment,
                                                         R.id.CalmZoneFragment,
                                                         R.id.MoodProgressFragment), drawerLayout)
@@ -63,10 +63,10 @@ class MainActivity : AppCompatActivity() {
 
 
 
-            // Display hotdog menu as default icon for side drawer and syncing when returning to home screen
+          // Display hotdog menu as default icon for side drawer and syncing when returning to home screen
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.HomeScreenFragment) {
-                // Only show hotdog menu icon on home screen
+                  // Only show hotdog menu icon on home screen
                 toggle.isDrawerIndicatorEnabled = true
                 binding.toolbar.setNavigationIcon(R.drawable.ic_hotdog_menu)
                 binding.toolbar.setNavigationOnClickListener {
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                // Show back arrow on fragment screens
+                  // Show back arrow on fragment screens
                 toggle.isDrawerIndicatorEnabled = false
                 supportActionBar?.setDisplayShowTitleEnabled(true)
                 binding.toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Setting up the click event for the hot dog menu
+          // Setting up the click event for the hot dog menu
         binding.toolbar.setNavigationOnClickListener {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START)
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        // When Statement for bottom nav button click
+          // When Statement for bottom nav button click
         navView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_mood_meter ->{

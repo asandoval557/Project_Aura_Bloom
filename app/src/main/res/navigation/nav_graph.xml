@@ -19,8 +19,8 @@
             android:label="Calm Zone"
             tools:layout="@layout/calm_zone_screen">
         <action
-            android:id="@+id/action_calm_zone_to_peaceful_creations"
-            app:destination="@+id/PeacefulCreationsFragment"/>
+                android:id="@+id/action_calm_zone_to_peaceful_creations"
+                app:destination="@id/PeacefulCreationsFragment"/>
 
     </fragment>
 
@@ -28,12 +28,17 @@
             android:id="@+id/PeacefulCreationsFragment"
             android:name="com.example.project_aura_bloom.PeacefulCreationsFragment"
             android:label="Peaceful Creations"
-            tools:layout="@layout/peaceful_creations_hub"
+            tools:layout="@layout/peaceful_creations_hub">
+        <action
+                android:id="@+id/action_peaceful_creations_to_lumosPathFragment"
+                app:destination="@id/lumosPathFragment"
+        />
 
+    </fragment>
 
-    >
-
-
+    <fragment
+            android:id="@+id/lumosPathFragment"
+            android:name="com.example.project_aura_bloom.LumosPathFragment">
 
     </fragment>
 
