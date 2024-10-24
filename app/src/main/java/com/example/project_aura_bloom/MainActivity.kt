@@ -25,6 +25,7 @@ import com.google.android.play.core.integrity.IntegrityTokenRequest
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import android.util.Log
+import androidx.activity.OnBackPressedCallback
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
+    private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +58,15 @@ class MainActivity : AppCompatActivity() {
         // Setting up nav for switch management between screens
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
+        // Toggle button for closing and opening menu drawer
+        toggle = ActionBarDrawerToggle(
+            this, drawerLayout, binding.toolbar,
+            R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        // Syncing for the toggle state and menu drawer state
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
         // Forming the app bar to work with the drawer
         appBarConfiguration = AppBarConfiguration(setOf(R.id.HomeScreenFragment,
             R.id.CalmZoneFragment,
@@ -64,30 +75,29 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        // Setup for the bottom nav for easy switch between screens
-        val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav)
-        bottomNavView.setupWithNavController(navController)
-
-        // Add listener to hide bottom nav on specific fragments
+        // Display hot-dog menu as default icon for side drawer and syncing when returning to home screen
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.LoginFragment, R.id.SignUpFragment -> {
-                    bottomNavView.visibility = View.GONE
-                } else -> {
-                    bottomNavView.visibility = View.VISIBLE
+            if (destination.id == R.id.HomeScreenFragment) {
+                // Only show hot-dog menu icon on home screen
+                toggle.isDrawerIndicatorEnabled = true
+                binding.toolbar.setNavigationIcon(R.drawable.ic_hotdog_menu)
+                binding.toolbar.setNavigationOnClickListener {
+                    if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                        drawerLayout.closeDrawer(GravityCompat.START)
+                    } else {
+                        drawerLayout.openDrawer(GravityCompat.START)
+                    }
+                }
+            } else {
+                // Show back arrow on fragment screens
+                toggle.isDrawerIndicatorEnabled = false
+                supportActionBar?.setDisplayShowTitleEnabled(true)
+                binding.toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
+                binding.toolbar.setNavigationOnClickListener {
+                    navController.navigateUp()
                 }
             }
         }
-
-        // Toggle button for closing and opening menu drawer
-        val toggle = ActionBarDrawerToggle(
-            this, drawerLayout, binding.toolbar,
-            R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        )
-
-        // Disabled the default menu icon and set to the hot dog icon
-        toggle.isDrawerIndicatorEnabled = false
-        binding.toolbar.setNavigationIcon(R.drawable.ic_hotdog_menu)
 
         // Setting up the click event for the hot dog menu
         binding.toolbar.setNavigationOnClickListener {
@@ -105,59 +115,35 @@ class MainActivity : AppCompatActivity() {
         // Handle nav drawer item selection
         navView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.nav_home -> navController.navigate(R.id.HomeScreenFragment)
+                R.id.nav_profile -> navController.navigate(R.id.ProfileFragment)
+                R.id.nav_calm_zone -> navController.navigate(R.id.CalmZoneFragment)
+                R.id.nav_mood_progress -> navController.navigate(R.id.MoodProgressFragment)
+                R.id.nav_peaceful_creations -> navController.navigate(R.id.PeacefulCreationsFragment)
                 R.id.nav_settings -> {
                     // Handle settings navigation
                 }
                 R.id.nav_help -> {
                     // Handle help center navigation
                 }
-                R.id.nav_profile -> {
-                    // Handle profile navigation
-                    navController.navigate(R.id.ProfileFragment)
-                }
+
             }
             drawerLayout.closeDrawer(GravityCompat.START) // Close drawer after selection
             true
         }
 
-        // When Statement for bottom nav button click
-        bottomNavView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-
-                // If mood meter is clicked then...
-                R.id.nav_mood_meter -> {
-                    // Screen switches to the (mood) progress screen
-                    navController.navigate(R.id.MoodProgressFragment)
-                    true
+        // Handle back press event
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Check if the drawer is open; if so, close it. Otherwise, do default back.
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
                 }
-
-                R.id.nav_resources -> {
-
-                    true
-                }
-
-                R.id.nav_home -> {
-                    // Screen switches to the Home screen
-                    navController.navigate(R.id.HomeScreenFragment)
-                    true
-                }
-
-                R.id.nav_exercise -> {
-
-                    true
-                }
-
-                // If calm zone button is clicked then...
-                R.id.nav_calm_zone -> {
-                    // Screen switches to the calm zones main hub
-                    navController.navigate(R.id.CalmZoneFragment)
-                    true
-                }
-
-                else -> false
             }
-        }
-
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

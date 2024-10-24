@@ -28,7 +28,7 @@
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_avatar"
-                android:contentDescription="Profile Picture"
+                android:contentDescription="@string/profile_picture"
                 android:scaleType="centerCrop"/>
 
         <!-- Name and Details -->
@@ -85,7 +85,7 @@
                                 android:id="@+id/general_info_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="General Information"
+                                android:text="@string/general_information"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
@@ -94,7 +94,7 @@
                                 android:id="@+id/edit_general_info"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Edit"
+                                android:text="@string/edit"
                                 android:textColor="@android:color/holo_blue_dark"
                                 android:gravity="end"
                                 android:layout_gravity="end"
@@ -127,7 +127,7 @@
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Meditation Time"
+                                android:text="@string/meditation_time"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
@@ -155,7 +155,7 @@
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Coloring Stats"
+                                android:text="@string/coloring_stats"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 

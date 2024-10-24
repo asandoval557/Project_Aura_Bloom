@@ -7,6 +7,17 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <!-- Strings used in Profile and Home screens -->
+    <string name="meditation_time">Meditation Time</string>
+    <string name="coloring_stats">Coloring Stats</string>
+    <string name="edit">Edit</string>
+    <string name="general_information">General Information</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="how_are_you_today">How are you today?</string>
+    <string name="location">Location</string>
+    <string name="home_screen_panel_scroll">Home screen horizontal panel scroll</string>
+    <string name="profile">Profile</string>
+
     <!-- Strings used in Log In Screen -->
     <string name="welcome_back">Welcome Back!</string>
     <string name="email_address">Email Address</string>

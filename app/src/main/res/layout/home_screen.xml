@@ -7,7 +7,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
          android:layout_width="match_parent"
-         android:layout_height="match_parent"
+         android:layout_height="wrap_content"
          android:padding="16dp"
          android:background="@drawable/gradient_background">
 
@@ -30,7 +30,7 @@
                 android:layout_height="160dp"
                 android:src="@drawable/ic_avatar"
                 android:layout_marginEnd="16dp"
-                android:contentDescription="Profile Picture"
+                android:contentDescription="@string/profile_picture"
                 android:scaleType="centerCrop" />
 
             <!-- User Info -->
@@ -88,11 +88,11 @@
 
             <!-- Location Icon -->
             <ImageView
-                android:id="@+id/location_ic"
+                android:id="@+id/geo_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_location"
-                android:contentDescription="Location"
+                android:contentDescription="@string/location"
                 android:layout_marginStart="8dp" />
         </LinearLayout>
 
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:scrollbars="none"
             app:layout_constraintTop_toBottomOf="@id/search_bar"
-            android:contentDescription="Home screen Horizontal Scroll Panels"
+            android:contentDescription="@string/home_screen_panel_scroll"
             android:layout_marginTop="16dp">
 
             <LinearLayout
@@ -147,7 +147,7 @@
             </LinearLayout>
         </HorizontalScrollView>
 
-        <!-- How are you Button -->
+        <!-- How are you? button -->
         <Button
             android:id="@+id/btn_how_are_you"
             android:layout_width="320dp"
@@ -155,7 +155,7 @@
             android:layout_marginTop="24dp"
             android:textSize="32sp"
             android:stateListAnimator="@animator/button_state_animator"
-            android:text="How are you today?"
+            android:text="@string/how_are_you_today"
             android:textColor="@color/black"
             android:backgroundTint="@color/white"
             app:layout_constraintTop_toBottomOf="@id/panel_scroll"
@@ -171,7 +171,7 @@
                 android:layout_marginTop="24dp"
                 android:textSize="32sp"
                 android:stateListAnimator="@animator/button_state_animator"
-                android:text="Help"
+                android:text="@string/help"
                 android:textColor="@color/black"
                 android:backgroundTint="@android:color/holo_blue_dark"
                 app:layout_constraintTop_toBottomOf="@id/btn_how_are_you"

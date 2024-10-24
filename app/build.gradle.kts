@@ -72,4 +72,11 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
