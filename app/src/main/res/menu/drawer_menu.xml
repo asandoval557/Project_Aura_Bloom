@@ -22,8 +22,8 @@
         android:icon="@drawable/ic_mood_meter" />
 
     <item
-        android:id="@+id/nav_peaceful_creations"
-        android:title="@string/peaceful_creations"
+        android:id="@+id/nav_exercise"
+        android:title="@string/exercise"
         android:icon="@drawable/ic_exercise" />
 
     <item
@@ -36,8 +36,15 @@
             android:title="@string/help_center"
             android:icon="@drawable/ic_help_center"/>
 
+<item
+    android:id="@+id/nav_divider"
+    android:title=""
+    android:enabled="false"
+    android:icon="@null"
+    android:checkable="false" />
 
-
-
+    <item
+        android:id="@+id/nav_sign_out"
+        android:title="@string/sign_out" />
 
 </menu>

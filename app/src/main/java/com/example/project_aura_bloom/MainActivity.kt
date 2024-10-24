@@ -1,5 +1,6 @@
 package com.example.project_aura_bloom
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import com.google.android.material.snackbar.Snackbar
@@ -24,6 +25,7 @@ import com.google.android.play.core.integrity.IntegrityManagerFactory
 import com.google.android.play.core.integrity.IntegrityTokenRequest
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
+import com.google.firebase.auth.FirebaseAuth
 import android.util.Log
 import androidx.activity.OnBackPressedCallback
 
@@ -119,13 +121,16 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_profile -> navController.navigate(R.id.ProfileFragment)
                 R.id.nav_calm_zone -> navController.navigate(R.id.CalmZoneFragment)
                 R.id.nav_mood_progress -> navController.navigate(R.id.MoodProgressFragment)
-                R.id.nav_peaceful_creations -> navController.navigate(R.id.PeacefulCreationsFragment)
+                R.id.nav_exercise -> {
+                    // Handle exercises navigation
+                }
                 R.id.nav_settings -> {
                     // Handle settings navigation
                 }
                 R.id.nav_help -> {
                     // Handle help center navigation
                 }
+                R.id.nav_sign_out -> signOutUser()
 
             }
             drawerLayout.closeDrawer(GravityCompat.START) // Close drawer after selection
@@ -144,6 +149,18 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun signOutUser() {
+        // Firebase sign out
+        FirebaseAuth.getInstance().signOut()
+
+        // Navigate back to the login screen
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        navController.navigate(R.id.LoginFragment)
+
+        // Clear the back stack to prevent users going back after signing off
+        navController.popBackStack(R.id.HomeScreenFragment, true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
