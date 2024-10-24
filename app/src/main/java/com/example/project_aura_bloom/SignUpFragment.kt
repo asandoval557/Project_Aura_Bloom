@@ -98,7 +98,7 @@ class SignUpFragment : Fragment() {
             //Store the user information in the "UserSignUp" collection
             signUpDB.collection("UserSignUp").document(userID).set(user).addOnSuccessListener {
                 Log.d("SignUpFragment", "User info successfully updated")
-                //TODO Do we want to update the screen to reflect that the user can now sign in or when the user is successfully created take them to the homepage?
+
                 findNavController().navigate(R.id.action_SignUpFragment_to_LoginFragment)
             }
                 .addOnFailureListener{ e -> Log.w("SignUpFragment", "Error updating User info: ", e)
