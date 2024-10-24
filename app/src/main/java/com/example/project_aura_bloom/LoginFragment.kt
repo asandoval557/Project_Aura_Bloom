@@ -42,7 +42,7 @@ class LoginFragment : Fragment() {
 
         // Handle "Log In" button click
         binding.btnLogIn.setOnClickListener {
-            // TODO: Handle Login logic here
+
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
 
@@ -65,7 +65,7 @@ class LoginFragment : Fragment() {
     }
 
     //Function to log in the user with Firebase Authentication
-    //TODO continue debugging authentication
+
     private fun requestIntegrityToken(email: String, password: String) {
        val integrityManager = IntegrityManagerFactory.create(requireContext())
 
@@ -90,7 +90,7 @@ class LoginFragment : Fragment() {
                 if (task.isSuccessful) {
                     Toast.makeText(context, "Login Successful!", Toast.LENGTH_SHORT).show()
                     // Navigate to the next screen
-                    // findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
+                    //findNavController().navigate(R.id.action_LoginFragment_to_HomeFragment)
                 } else {
                     Toast.makeText(context, "Login Failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }

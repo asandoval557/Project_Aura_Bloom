@@ -70,13 +70,14 @@ class SignUpFragment : Fragment() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     //User has been created successfully
-                    val userID = auth.currentUser ?.uid
+                    val userID = auth.currentUser?.uid
                     //Move user information to FireStore
                     storeUserInfo(userID, fullName, email)
                     }
                 else
                 {
-                    Toast.makeText(context, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    Log.e("SignUpFragment", "User creation failed: ${task.exception?.message}")
                 }
             }
         }
@@ -91,10 +92,11 @@ class SignUpFragment : Fragment() {
     {
     if(userID != null)
         {
-            val user = hashMapOf("fullName" to fullName, "email" to email)
+        Log.d("SignUpFragment", "Storing user info: userID=$userID, fullName=$fullName, email=$email")
+        val user = hashMapOf("fullName" to fullName, "email" to email, "user_id" to userID)
 
             //Store the user information in the "UserSignUp" collection
-            signUpDB.collection("UserSignUp").document(userID.toString()).set(user).addOnSuccessListener {
+            signUpDB.collection("UserSignUp").document(userID).set(user).addOnSuccessListener {
                 Log.d("SignUpFragment", "User info successfully updated")
                 //TODO Do we want to update the screen to reflect that the user can now sign in or when the user is successfully created take them to the homepage?
                 findNavController().navigate(R.id.action_SignUpFragment_to_LoginFragment)
@@ -102,9 +104,9 @@ class SignUpFragment : Fragment() {
                 .addOnFailureListener{ e -> Log.w("SignUpFragment", "Error updating User info: ", e)
                     Toast.makeText(context, "Failed to store user info", Toast.LENGTH_SHORT).show()
                 }
+        } else {
+            Log.d("SignUpFragment", "User info is null, cannot store user info")
         }
-
-
     }
 
     override fun onDestroyView() {
