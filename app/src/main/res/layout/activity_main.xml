@@ -43,8 +43,11 @@
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            app:itemVerticalPadding="16dp"
             android:layout_gravity="start"
             app:menu="@menu/drawer_menu"
+            app:itemIconSize="@dimen/nav_icon_size"
+            app:itemTextAppearance="@style/CustomDrawerMenuText"
             app:headerLayout="@layout/nav_header_main"
     />
 
