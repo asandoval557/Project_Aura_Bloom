@@ -39,21 +39,30 @@
     <string name="sign_up_button">Sign Up for Account</string>
     <string name="show_password">Show Password</string>
 
+    <!--Menu Drawer-->
     <string name="resources_button">Open Resources</string>
     <string name="help">Help</string>
     <string name="exercise">Exercise</string>
     <string name="calm_zone">Calm Zone</string>
     <string name="mood_meter">mood meter</string>
     <string name="fab_email">Fab Email</string>
+
+    <!--Mood Meter Screen-->
     <string name="mood_progress">Mood Progress</string>
     <string name="_50">50%</string>
+
+    <!--Calm Zone Hub-->
     <string name="Calm_Zone_Greeting">Welcome to your world of peace</string>
     <string name="meditation">Meditation</string>
     <string name="ambient_music">Ambient Music</string>
     <string name="peaceful_creations">Peaceful Creations</string>
+
+    <!--Peaceful Creation Hub-->
     <string name="lumos_path">Lumos Path</string>
     <string name="coloring">Coloring</string>
     <string name="mindful_art">Mindful Art</string>
+
+
     <string name="settings">Settings</string>
     <string name="help_center">Help Center</string>
     <string name="navigation_drawer_open">Open Menu</string>
@@ -62,7 +71,21 @@
     <string name="home">Home</string>
     <string name="sign_out">Sign Out</string>
     <string name="aurabloom">AUraBloom</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Mindful Art Supplies-->
+    <string name="small_brush_size">Small Brush</string>
+    <string name="medium_brush_size">Medium Brush</string>
+    <string name="large_brush_size">Large Brush</string>
+    <string name="small_eraser_size">Small Eraser</string>
+    <string name="medium_eraser_size">Medium Eraser</string>
+    <string name="large_eraser_size">Large Eraser</string>
+    <string name="brush_icon">Brush Icon</string>
+    <string name="erase_size_button">Eraser Size</string>
+    <string name="undo_button">Undo</string>
+    <string name="redo_button">Redo</string>
+    <string name="color_picker_button">Color Picker</string>
 
 </resources>

@@ -56,6 +56,15 @@
             android:label="Peaceful Creations"
             tools:layout="@layout/peaceful_creations_hub" />
 
+        <action
+            android:id="@+id/action_peaceful_creations_to_lumosPathFragment"
+            app:destination="@id/lumosPathFragment"
+        />
+
+    <fragment
+            android:id="@+id/lumosPathFragment"
+            android:name="com.example.project_aura_bloom.LumosPathFragment" />
+
     <fragment
             android:id="@+id/MoodProgressFragment"
             android:name="com.example.project_aura_bloom.MoodProgressFragment"
