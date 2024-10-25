@@ -57,4 +57,25 @@
     <string name="navigation_drawer_open">Open Menu</string>
     <string name="navigation_drawer_close">Close Menu</string>
     <string name="welcome">Welcome!</string>
+
+    <!-- Strings for DrawingFragment -->
+    <string name="small_brush_size">Small Brush Size</string>
+    <string name="medium_brush_size">Medium Brush Size</string>
+    <string name="large_brush_size">Large Brush Size</string>
+    <string name="brush_icon">Brush Icon</string>
+    <string name="erase_size_button">Erase Size Button</string>
+    <string name="undo_button">Undo Button</string>
+    <string name="redo_button">Redo Button</string>
+    <string name="color_picker_button">Color Picker Button</string>
+    <string name="small_eraser_size">Small Eraser Size</string>
+    <string name="medium_eraser_size">Medium Eraser Size</string>
+    <string name="large_eraser_size">Large Eraser Size</string>
+    <string name="arrow_up_menu">Arrow Up Menu</string>
+    <string name="save_button">Save Button</string>
+    <string name="share_button">Share Button</string>
+    <string name="small">Small</string>
+    <string name="medium">medium</string>
+    <string name="large">large</string>
+    <string name="save">Save</string>
+    <string name="share">Share</string>
 </resources>

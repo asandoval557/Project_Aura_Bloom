@@ -32,9 +32,11 @@
 
 
     >
-
-
-
+        <action
+            android:id="@+id/action_PeacefulCreationsFragment_to_MindfulArt"
+            app:destination="@id/drawingFragment2"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
 
@@ -66,5 +68,10 @@
             tools:layout="@layout/mood_progress_screen">
 
     </fragment>
+    <fragment
+        android:id="@+id/drawingFragment2"
+        android:name="com.example.project_aura_bloom.DrawingFragment"
+        android:label="mindful_art"
+        tools:layout="@layout/mindful_art" />
 
 </navigation>
