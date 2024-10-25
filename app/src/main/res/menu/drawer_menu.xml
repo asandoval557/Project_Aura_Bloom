@@ -2,13 +2,50 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_settings"
-        android:title="@string/settings"
-        android:icon="@drawable/ic_settings"/>
+            android:id="@+id/nav_home"
+            android:title="@string/home"
+            android:icon="@drawable/ic_home" />
 
     <item
-        android:id="@+id/nav_help"
-        android:title="@string/help_center"
-        android:icon="@drawable/ic_help_center" />
+            android:id="@+id/nav_profile"
+            android:title="@string/profile"
+            android:icon="@drawable/ic_avatar"/>
+
+    <item
+        android:id="@+id/nav_calm_zone"
+        android:title="@string/calm_zone"
+        android:icon="@drawable/ic_calmzone" />
+
+    <item
+        android:id="@+id/nav_mood_progress"
+        android:title="@string/mood_progress"
+        android:icon="@drawable/ic_mood_meter" />
+
+    <item
+        android:id="@+id/nav_exercise"
+        android:title="@string/exercise"
+        android:icon="@drawable/ic_exercise" />
+
+    <item
+            android:id="@+id/nav_settings"
+            android:title="@string/settings"
+            android:icon="@drawable/ic_settings"/>
+
+    <item
+            android:id="@+id/nav_help"
+            android:title="@string/help_center"
+            android:icon="@drawable/ic_help_center"/>
+
+<item
+    android:id="@+id/nav_divider"
+    android:title=""
+    android:enabled="false"
+    android:icon="@null"
+    android:checkable="false" />
+
+    <item
+        android:id="@+id/nav_sign_out"
+        android:icon="@drawable/ic_sign_off"
+        android:title="@string/sign_out" />
 
 </menu>

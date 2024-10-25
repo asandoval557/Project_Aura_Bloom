@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="28dp"
+        android:background="@drawable/gradient_background"
+        tools:context=".LoginFragment">
+
+    <!-- Welcome Back -->
+    <TextView
+            android:id="@+id/tv_welcome_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/welcome_back"
+            android:textSize="56sp"
+            android:textColor="@color/dark_gray"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="52dp"/>
+
+    <!-- Email Address -->
+    <EditText
+            android:id="@+id/et_email"
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="emailAddress"
+            android:hint="@string/email_address"
+            android:textSize="24sp"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:background="@drawable/rounded_border"
+            android:textColor="@color/dark_gray"
+            android:textColorHint="@color/dark_gray"
+            android:inputType="textEmailAddress"
+            android:padding="16dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_welcome_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp"/>
+
+    <!-- Password -->
+    <EditText
+            android:id="@+id/et_password"
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="password"
+            android:hint="@string/password"
+            android:textSize="24sp"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:background="@drawable/rounded_border"
+            android:textColor="@color/dark_gray"
+            android:textColorHint="@color/dark_gray"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/et_email"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:minHeight="48dp"/>
+
+    <!-- Forgot Password -->
+    <TextView
+            android:id="@+id/tv_forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forgot_password"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:textColor="@color/dark_gray"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/et_password"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+    <!-- Log In Button -->
+    <Button
+            android:id="@+id/btn_log_in"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/log_in_button"
+            android:text="@string/log_in"
+            android:textSize="28sp"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:stateListAnimator="@animator/button_state_animator"
+            android:textAllCaps="false"
+            app:layout_constraintTop_toBottomOf="@id/tv_forgot_password"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+    <!-- Log In with SSO Button -->
+    <Button
+            android:id="@+id/btn_log_in_sso"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:text="@string/log_in_with_sso"
+            android:textSize="28sp"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:stateListAnimator="@animator/button_state_animator"
+            android:textAllCaps="false"
+            app:layout_constraintTop_toBottomOf="@id/btn_log_in"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp"/>
+
+    <!-- Social Login Icons -->
+    <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/btn_log_in_sso"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp">
+
+        <!-- Apple -->
+        <ImageButton
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@null"
+                android:src="@drawable/ic_apple"
+                android:contentDescription="@string/log_in_with_apple"/>
+
+        <!-- Facebook -->
+        <ImageButton
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@null"
+                android:src="@drawable/ic_facebook"
+                android:contentDescription="@string/log_in_with_facebook"/>
+
+        <!-- Google -->
+        <ImageButton
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@null"
+                android:src="@drawable/ic_google"
+                android:contentDescription="@string/log_in_with_google"/>
+    </LinearLayout>
+
+    <!-- Log In and Sign Up Links (bottom of screen) -->
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="16dp"
+            android:gravity="center">
+
+        <TextView
+                android:id="@+id/tv_log_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/log_in"
+                android:fontFamily="@font/montserrat_alternates_regular"
+                android:textColor="@color/white"
+                android:textSize="32sp" />
+
+        <TextView
+                android:id="@+id/tv_sign_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_up"
+                android:fontFamily="@font/montserrat_alternates_regular"
+                android:textColor="@color/aqua"
+                android:textSize="32sp"
+                android:layout_marginStart="64dp"/>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

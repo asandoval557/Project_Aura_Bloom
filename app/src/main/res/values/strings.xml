@@ -7,75 +7,85 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="lorem_ipsum">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris volutpat, dolor id
-        interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus dui nec risus. Maecenas non sodales
-        nisi, vel dictum dolor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-        himenaeos. Suspendisse blandit eleifend diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet,
-        imperdiet nisl a, ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
-        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus egestas, est a
-        condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed neque. Morbi tellus erat, dapibus ut
-        sem a, iaculis tincidunt dui. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur et eros
-        porttitor, ultricies urna vitae, molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl
-        nec dolor bibendum, vel congue leo egestas.\n\n
-        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit amet auctor at,
-        mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel, molestie quam. Fusce blandit tincidunt
-        nulla, quis sollicitudin libero facilisis et. Integer interdum nunc ligula, et fermentum metus hendrerit id.
-        Vestibulum lectus felis, dictum at lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse
-        sodales nunc ligula, in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
-        est.\n\n
-        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh. Morbi laoreet, tortor
-        sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui non lorem. Nam mollis ipsum quis auctor
-        varius. Quisque elementum eu libero sed commodo. In eros nisl, imperdiet vel imperdiet et, scelerisque a mauris.
-        Pellentesque varius ex nunc, quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non
-        viverra ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a placerat
-        diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus convallis.\n\n
-        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
-        egestas. In volutpat arcu ut felis sagittis, in finibus massa gravida. Pellentesque id tellus orci. Integer
-        dictum, lorem sed efficitur ullamcorper, libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec
-        maximus ullamcorper sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
-        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus vestibulum. Fusce
-        dictum libero quis erat maximus, vitae volutpat diam dignissim.
-    </string>
+    <!-- Strings used in Profile and Home screens -->
+    <string name="meditation_time">Meditation Time</string>
+    <string name="coloring_stats">Coloring Stats</string>
+    <string name="edit">Edit</string>
+    <string name="general_information">General Information</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="how_are_you_today">How are you today?</string>
+    <string name="location">Location</string>
+    <string name="home_screen_panel_scroll">Home screen horizontal panel scroll</string>
+    <string name="profile">Profile</string>
+
+    <!-- Strings used in Log In Screen -->
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="log_in">Log In</string>
+    <string name="log_in_with_sso">Log In with SSO</string>
+    <string name="log_in_with_apple">Log In with Apple</string>
+    <string name="log_in_with_facebook">Log In with Facebook</string>
+    <string name="log_in_with_google">Log In with Google</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="log_in_button">Log in to Account</string>
+
+    <!-- Strings used in Sign Up Screen -->
+    <string name="welcome_to_aurabloom">Welcome\nto\nAUraBloom</string>
+    <string name="full_name">Full Name</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up_button">Sign Up for Account</string>
+    <string name="show_password">Show Password</string>
+
+    <!--Menu Drawer-->
     <string name="resources_button">Open Resources</string>
     <string name="help">Help</string>
     <string name="exercise">Exercise</string>
     <string name="calm_zone">Calm Zone</string>
     <string name="mood_meter">mood meter</string>
     <string name="fab_email">Fab Email</string>
+
+    <!--Mood Meter Screen-->
     <string name="mood_progress">Mood Progress</string>
     <string name="_50">50%</string>
+
+    <!--Calm Zone Hub-->
     <string name="Calm_Zone_Greeting">Welcome to your world of peace</string>
     <string name="meditation">Meditation</string>
     <string name="ambient_music">Ambient Music</string>
     <string name="peaceful_creations">Peaceful Creations</string>
+
+    <!--Peaceful Creation Hub-->
     <string name="lumos_path">Lumos Path</string>
     <string name="coloring">Coloring</string>
     <string name="mindful_art">Mindful Art</string>
+
+
     <string name="settings">Settings</string>
     <string name="help_center">Help Center</string>
     <string name="navigation_drawer_open">Open Menu</string>
     <string name="navigation_drawer_close">Close Menu</string>
     <string name="welcome">Welcome!</string>
+    <string name="home">Home</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="aurabloom">AUraBloom</string>
 
-    <!-- Strings for DrawingFragment -->
-    <string name="small_brush_size">Small Brush Size</string>
-    <string name="medium_brush_size">Medium Brush Size</string>
-    <string name="large_brush_size">Large Brush Size</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Mindful Art Supplies-->
+    <string name="small_brush_size">Small Brush</string>
+    <string name="medium_brush_size">Medium Brush</string>
+    <string name="large_brush_size">Large Brush</string>
+    <string name="small_eraser_size">Small Eraser</string>
+    <string name="medium_eraser_size">Medium Eraser</string>
+    <string name="large_eraser_size">Large Eraser</string>
     <string name="brush_icon">Brush Icon</string>
-    <string name="erase_size_button">Erase Size Button</string>
-    <string name="undo_button">Undo Button</string>
-    <string name="redo_button">Redo Button</string>
-    <string name="color_picker_button">Color Picker Button</string>
-    <string name="small_eraser_size">Small Eraser Size</string>
-    <string name="medium_eraser_size">Medium Eraser Size</string>
-    <string name="large_eraser_size">Large Eraser Size</string>
-    <string name="arrow_up_menu">Arrow Up Menu</string>
-    <string name="save_button">Save Button</string>
-    <string name="share_button">Share Button</string>
-    <string name="small">Small</string>
-    <string name="medium">medium</string>
-    <string name="large">large</string>
-    <string name="save">Save</string>
-    <string name="share">Share</string>
+    <string name="erase_size_button">Eraser Size</string>
+    <string name="undo_button">Undo</string>
+    <string name="redo_button">Redo</string>
+    <string name="color_picker_button">Color Picker</string>
+
 </resources>

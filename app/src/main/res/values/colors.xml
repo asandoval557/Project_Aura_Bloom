@@ -2,5 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="teal">#2FABA4</color>
+    <color name="dark_gray">#2B2B2B</color>
+    <color name="aqua">#4AFEF4</color>
+    <color name="charcoal">#192B33</color>
+    <color name="transparent">#00000000</color>
     <color name="aura_bloom_background">#209EA2</color>
 </resources>

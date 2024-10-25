@@ -37,25 +37,19 @@
                 app:navGraph="@navigation/nav_graph"
                 app:defaultNavHost="true" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottom_nav"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                app:menu="@menu/bottom_nav_menu"
-                app:labelVisibilityMode="unlabeled"
-                app:itemIconTint="@color/black" />
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/drawer_menu"
-        app:headerLayout="@layout/nav_header_main"
-        />
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:itemVerticalPadding="16dp"
+            android:layout_gravity="start"
+            app:menu="@menu/drawer_menu"
+            app:itemIconSize="@dimen/nav_icon_size"
+            app:itemTextAppearance="@style/CustomDrawerMenuText"
+            app:headerLayout="@layout/nav_header_main"
+    />
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
