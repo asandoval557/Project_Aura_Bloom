@@ -5,35 +5,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/lumos_path_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lumos_path"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="65dp" />
 
     <Button
-            android:id="@+id/lumos_path_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lumos_path"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="65dp" />
+        android:id="@+id/coloring_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/coloring"
+        app:layout_constraintTop_toBottomOf="@+id/lumos_path_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="65dp" />
 
     <Button
-            android:id="@+id/coloring_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/coloring"
-            app:layout_constraintTop_toBottomOf="@+id/lumos_path_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="65dp" />
-
-    <Button
-            android:id="@+id/mindful_art"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/mindful_art"
-            app:layout_constraintTop_toBottomOf="@+id/coloring_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="65dp" />
+        android:id="@+id/mindful_art"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mindful_art"
+        app:layout_constraintTop_toBottomOf="@+id/coloring_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="65dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
