@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DrawingFragment" >
+
+    <FrameLayout
+        android:id="@+id/drawing_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@android:color/darker_gray"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageButton
+            android:id="@+id/brush_size_button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/brush_24dp"
+            android:contentDescription="@string/brush_icon"/>
+
+        <ImageButton
+            android:id="@+id/erase_size_button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/eraser_24dp"
+            android:contentDescription="@string/erase_size_button"/>
+
+        <ImageButton
+            android:id="@+id/undo_button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/undo_24dp"
+            android:contentDescription="@string/undo_button"/>
+
+        <ImageButton
+            android:id="@+id/redo_button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/redo_24dp"
+            android:contentDescription="@string/redo_button"/>
+
+        <ImageButton
+            android:id="@+id/color_picker_button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/palette_24dp"
+            android:contentDescription="@string/color_picker_button"/>
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
