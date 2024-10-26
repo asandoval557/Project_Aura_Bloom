@@ -8,9 +8,8 @@ import android.view.View
 
 class DrawingView constructor(
     context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr) {
+    attrs: AttributeSet? = null
+) : View(context, attrs) {
 
    private val paint = Paint().apply {
       color = Color.BLACK
