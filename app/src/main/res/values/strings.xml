@@ -87,5 +87,9 @@
     <string name="undo_button">Undo</string>
     <string name="redo_button">Redo</string>
     <string name="color_picker_button">Color Picker</string>
+    <string name="save">Save</string>
+    <string name="share">Share</string>
+    <string name="arrow_menu">Arrow Menu</string>
+    <string name="clear_button">Clear Button</string>
 
 </resources>

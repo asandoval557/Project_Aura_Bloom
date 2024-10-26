@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="lumos_path" type="id"/>
+    <item name="coloring" type="id"/>
+    <item name="mindful_art_fragment" type="id"/>
+    <item name="drawing_canvas" type="id"/>
+    <item name="drawing_menubar" type="id"/>
+    <item name="brush_size_button" type="id"/>
+    <item name="erase_size_button" type="id"/>
+    <item name="undo_button" type="id"/>
+    <item name="redo_button" type="id"/>
+    <item name="LoginFragment" type="id"/>
+    <item name="SignUpFragment" type="id"/>
+    <item name="HomeScreenFragment" type="id"/>
+    <item name="CalmZoneFragment" type="id"/>
+    <item name="PeacefulCreationsFragment" type="id"/>
+    <item name="action_LoginFragment_to_SignUpFragment" type="id"/>
+    <item name="action_LoginFragment_to_HomeScreenFragment" type="id"/>
+    <item name="action_SignUpFragment_to_LoginFragment" type="id"/>
+    <item name="action_calm_zone_to_peaceful_creations" type="id"/>
+    <item name="lumos_path_button" type="id"/>
+    <item name="coloring_button" type="id"/>
+    <item name="mindful_art" type="id"/>
+</resources>

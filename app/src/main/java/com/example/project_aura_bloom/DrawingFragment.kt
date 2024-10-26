@@ -8,49 +8,32 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.ImageButton
-import com.example.project_aura_bloom.databinding.MindfulArtBinding
+import com.example.project_aura_bloom.databinding.MindfulArtFragmentBinding
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [DrawingFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DrawingFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
     private lateinit var drawingView: DrawingView
     private var isMenuOpen = false
-    private var _binding: MindfulArtBinding? = null
+    private var _binding: MindfulArtFragmentBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = MindfulArtBinding.inflate(inflater, container, false)
+    ): View {
+        _binding = MindfulArtFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // Inflate the layout for this fragment
-        // return inflater.inflate(R.layout.fragment_drawing,
-        // container, false)
+        drawingView = view.findViewById(R.id.drawing_canvas)!!
 
+        return view
+    }
 
-        drawingView = view.findViewById(R.id.mindful_art)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val brushSizeButton: ImageButton = view
             .findViewById(R.id.brush_size_button)
@@ -86,13 +69,20 @@ class DrawingFragment : Fragment() {
             openColorPickerDialog()
         }
 
+        val clearButton: ImageButton = view
+            .findViewById(R.id.clear_button)
+        clearButton.setOnClickListener{
+            // Handle clear
+            drawingView.clear()
+        }
+
         val arrowMenuButton: ImageButton = view
             .findViewById(R.id.arrow_menu_button)
         arrowMenuButton.setOnClickListener{
             showSaveShareMenu(it)
         }
 
-        return view
+        return
     }
 
 
@@ -104,19 +94,19 @@ class DrawingFragment : Fragment() {
 
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
-                R.id.brush_small -> {
-                    // Handle small brush size
-                    drawingView.setBrushSize(5f)
+                R.id.brush_large -> {
+                    // Handle large brush size
+                    drawingView.setBrushSize(BrushSize.LARGE_BRUSH_SIZE)
                     true
                 }
                 R.id.brush_medium -> {
                     // Handle medium brush size
-                    drawingView.setBrushSize(10f)
+                    drawingView.setBrushSize(BrushSize.MEDIUM_BRUSH_SIZE)
                     true
                 }
                 R.id.brush_large -> {
-                    // Handle large brush size
-                    drawingView.setBrushSize(20f)
+                    // Handle small brush size
+                    drawingView.setBrushSize(BrushSize.SMALL_BRUSH_SIZE)
                     true
                 }
                 else -> false
@@ -166,23 +156,13 @@ class DrawingFragment : Fragment() {
         isMenuOpen = !isMenuOpen
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DrawingFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DrawingFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
+}
+object BrushSize {
+    const val LARGE_BRUSH_SIZE = 30f
+    const val MEDIUM_BRUSH_SIZE = 20f
+    const val SMALL_BRUSH_SIZE = 10f
 }

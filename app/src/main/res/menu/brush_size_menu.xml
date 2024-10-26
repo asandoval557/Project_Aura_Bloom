@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
+<menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/brush_small"
-        android:icon="@drawable/brush_small"
-        android:title="@string/small"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/brush_medium"
-        android:icon="@drawable/brush_medium"
-        android:title="@string/medium"
-        app:showAsAction="always"/>
+
+
     <item
         android:id="@+id/brush_large"
-        android:icon="@drawable/brush_large"
-        android:title="@string/large"
+        android:contentDescription="@string/large_brush_size"
+        android:src="@drawable/brush_large"
+        android:title="@string/large_brush_size"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
+        android:id="@+id/brush_medium"
+        android:contentDescription="@string/medium_brush_size"
+        android:src="@drawable/brush_medium"
+        android:title="@string/medium_brush_size"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/brush_small"
+        android:contentDescription="@string/small_brush_size"
+        android:src="@drawable/brush_small"
+        android:title="@string/small_brush_size"
         app:showAsAction="always"/>
 </menu>

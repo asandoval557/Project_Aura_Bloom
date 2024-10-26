@@ -54,7 +54,15 @@
             android:id="@+id/PeacefulCreationsFragment"
             android:name="com.example.project_aura_bloom.PeacefulCreationsFragment"
             android:label="Peaceful Creations"
-            tools:layout="@layout/peaceful_creations_hub" />
+            tools:layout="@layout/peaceful_creations_hub" >
+
+
+
+    </fragment>
+
+    <action
+        android:id="@+id/action_peaceful_creations_to_mindful_art_fragment"
+        app:destination="@id/DrawingFragment"/>
 
         <action
             android:id="@+id/action_peaceful_creations_to_lumosPathFragment"
@@ -64,6 +72,13 @@
     <fragment
             android:id="@+id/lumosPathFragment"
             android:name="com.example.project_aura_bloom.LumosPathFragment" />
+
+    <fragment
+        android:id="@+id/DrawingFragment"
+        android:name="com.example.project_aura_bloom.DrawingFragment"
+        android:label="Mindful Art"
+        tools:layout="@layout/mindful_art_fragment" />
+
 
     <fragment
             android:id="@+id/MoodProgressFragment"
@@ -76,4 +91,5 @@
             android:name="com.example.project_aura_bloom.ProfileFragment"
             android:label="Profile"
             tools:layout="@layout/fragment_profile" />
+
 </navigation>

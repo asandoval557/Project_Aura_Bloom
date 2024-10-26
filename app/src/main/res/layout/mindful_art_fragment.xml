@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".DrawingFragment">
 
-    <FrameLayout
+    <com.example.project_aura_bloom.DrawingView
         android:id="@+id/drawing_canvas"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -31,44 +31,51 @@
 
         <ImageButton
             android:id="@+id/brush_size_button"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:contentDescription="@string/brush_icon"
             android:src="@drawable/brush_24dp" />
 
         <ImageButton
             android:id="@+id/erase_size_button"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:contentDescription="@string/erase_size_button"
             android:src="@drawable/eraser_24dp" />
 
         <ImageButton
             android:id="@+id/undo_button"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:contentDescription="@string/undo_button"
             android:src="@drawable/undo_24dp" />
 
         <ImageButton
             android:id="@+id/redo_button"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:contentDescription="@string/redo_button"
             android:src="@drawable/redo_24dp" />
 
         <ImageButton
             android:id="@+id/color_picker_button"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:contentDescription="@string/color_picker_button"
             android:src="@drawable/palette_24dp" />
 
         <ImageButton
+            android:id="@+id/clear_button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:contentDescription="@string/clear_button"
+            android:src="@drawable/close" />
+
+        <ImageButton
             android:id="@+id/arrow_menu_button"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:contentDescription="@string/arrow_up_menu"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:contentDescription="@string/arrow_menu"
             android:src="@drawable/arrow_up_24dp" />
     </LinearLayout>
 

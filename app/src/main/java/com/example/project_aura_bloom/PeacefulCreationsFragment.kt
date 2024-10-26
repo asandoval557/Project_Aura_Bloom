@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.project_aura_bloom.databinding.PeacefulCreationsHubBinding
@@ -29,6 +28,9 @@ class PeacefulCreationsFragment : Fragment() {
                 // Screen switches to the lumos activity screen
             findNavController().navigate(R.id.action_peaceful_creations_to_lumosPathFragment)
         }
+         binding.mindfulArt.setOnClickListener {
+             findNavController().navigate(R.id.action_peaceful_creations_to_mindful_art_fragment)
+         }
     }
 
         // Binding clean up when view is destroyed to avoid memory leaks
