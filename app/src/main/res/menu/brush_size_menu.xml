@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/brush_small"
         android:icon="@drawable/brush_small"
-        android:title="@string/small_brush_size"/>
+        android:title="@string/small"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/brush_medium"
         android:icon="@drawable/brush_medium"
-        android:title="@string/medium_brush_size"/>
+        android:title="@string/medium"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/brush_large"
         android:icon="@drawable/brush_large"
-        android:title="@string/large_brush_size"/>
+        android:title="@string/large"
+        app:showAsAction="always"/>
 </menu>
