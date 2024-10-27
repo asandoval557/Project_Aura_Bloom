@@ -98,4 +98,33 @@
             android:label="Mindful Art"
             tools:layout="@layout/mindful_art"/>
 
+    <fragment
+        android:id="@+id/HelpCenterFragment"
+        android:name="com.example.project_aura_bloom.HelpCenterFragment"
+        android:label="Help Center"
+        tools:layout="@layout/fragment_help_center">
+
+        <!-- Navigation from Help Center to Terms and Conditions -->
+        <action
+            android:id="@+id/action_HelpCenterFragment_to_TermsFragment"
+            app:destination="@id/TermsFragment" />
+
+        <!-- Navigation from Help Center to Privacy Policy -->
+        <action
+            android:id="@+id/action_HelpCenterFragment_to_PrivacyPolicyFragment"
+            app:destination="@id/PrivacyPolicyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/TermsFragment"
+        android:name="com.example.project_aura_bloom.TermsFragment"
+        android:label="Terms and Conditions"
+        tools:layout="@layout/fragment_terms" />
+
+    <fragment
+        android:id="@+id/PrivacyPolicyFragment"
+        android:name="com.example.project_aura_bloom.PrivacyPolicyFragment"
+        android:label="Privacy Policy"
+        tools:layout="@layout/fragment_privacy_policy" />
+
 </navigation>
