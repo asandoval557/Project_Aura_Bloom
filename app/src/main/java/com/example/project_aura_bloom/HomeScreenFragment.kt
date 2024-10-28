@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.location.LocationManagerCompat.getCurrentLocation
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.example.project_aura_bloom.databinding.HomeScreenBinding
@@ -28,7 +29,14 @@ class HomeScreenFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = HomeScreenBinding.inflate(inflater,container,false)
-        return binding.root
+        val view = binding.root
+
+        // Click listener for the "Finish Your Drawing" panel
+        binding.finishDrawingPanel.setOnClickListener {
+            findNavController().navigate(R.id.action_HomeScreenFragment_to_DrawingFragment)
+        }
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

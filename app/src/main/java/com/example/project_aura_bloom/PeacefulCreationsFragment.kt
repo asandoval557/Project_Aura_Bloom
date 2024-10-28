@@ -21,12 +21,15 @@ class PeacefulCreationsFragment : Fragment() {
         return binding.root
     }
 
-        // Setting up the view once everything has been created and displayed
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-            // If button below is clicked within peaceful creations hub then...
+        binding.mindfulArt.setOnClickListener {
+            // Screen switches to the mindful art screen
+            findNavController().navigate(R.id.action_PeacefulCreationsFragment_to_MindfulArt)
+        }
+        // If button below is clicked within peaceful creations hub then...
         binding.lumosPathButton.setOnClickListener {
-                // Screen switches to the lumos activity screen
+            // Screen switches to the lumos activity screen
             findNavController().navigate(R.id.action_peaceful_creations_to_lumosPathFragment)
         }
     }

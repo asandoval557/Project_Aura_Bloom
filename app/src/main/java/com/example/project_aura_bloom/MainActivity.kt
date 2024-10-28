@@ -127,9 +127,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_settings -> {
                     // Handle settings navigation
                 }
-                R.id.nav_help -> {
-                    // Handle help center navigation
-                }
+                R.id.nav_help -> navController.navigate(R.id.HelpCenterFragment)
                 R.id.nav_sign_out -> signOutUser()
 
             }
