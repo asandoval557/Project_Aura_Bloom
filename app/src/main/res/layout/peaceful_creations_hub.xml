@@ -2,44 +2,62 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@drawable/gradient_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-
-    <Button
-        android:id="@+id/lumos_path_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lumos_path"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="65dp" />
-
-    <Button
-        android:id="@+id/coloring_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
-        android:linksClickable="false"
-        android:text="@string/coloring"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lumos_path_button" />
+    <!--Peaceful Creations header-->
+    <TextView
+            android:id="@+id/peaceful_creations_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="@string/peaceful_creations"
+            android:textColor="@color/dark_gray"
+            android:textSize="64sp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:fontFamily="@font/montserrat_alternates_semi_bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="32dp"/>
 
     <Button
-        android:id="@+id/mindful_art"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/mindful_art"
-        app:layout_constraintTop_toBottomOf="@+id/coloring_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="65dp" />
+            android:id="@+id/lumos_path_button"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:text="@string/lumos_path"
+            android:textSize="32sp"
+            android:stateListAnimator="@animator/button_state_animator"
+            app:layout_constraintTop_toBottomOf="@id/peaceful_creations_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp"/>
+
+    <Button
+            android:id="@+id/coloring_button"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="65dp"
+            android:linksClickable="false"
+            android:text="@string/coloring"
+            android:textSize="32sp"
+            android:stateListAnimator="@animator/button_state_animator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lumos_path_button"/>
+
+    <Button
+            android:id="@+id/mindful_art"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:text="@string/mindful_art"
+            android:textSize="32sp"
+            android:stateListAnimator="@animator/button_state_animator"
+            app:layout_constraintTop_toBottomOf="@+id/coloring_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="65dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -149,6 +149,40 @@
             </LinearLayout>
         </HorizontalScrollView>
 
+        <LinearLayout
+                android:id="@+id/profile_completion_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/panel_scroll"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp">
+
+            <ProgressBar
+                    android:id="@+id/profile_completion_bar"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressTint="@color/aqua"/>
+
+            <TextView
+                    android:id="@+id/profile_completion_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:text="0%"
+                    android:textSize="18sp"
+                    android:textColor="@color/dark_gray"
+                    android:gravity="center_vertical" />
+        </LinearLayout>
+
         <!-- How are you? button -->
         <Button
                 android:id="@+id/btn_how_are_you"
@@ -160,12 +194,12 @@
                 android:text="@string/how_are_you_today"
                 android:textColor="@color/black"
                 android:backgroundTint="@color/white"
-                app:layout_constraintTop_toBottomOf="@id/panel_scroll"
+                app:layout_constraintTop_toBottomOf="@id/profile_completion_layout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:padding="16dp"/>
 
-        <!-- How are you Button -->
+        <!-- Help button -->
         <Button
                 android:id="@+id/btn_help"
                 android:layout_width="320dp"

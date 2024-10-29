@@ -43,6 +43,11 @@
     <action
         android:id="@+id/action_HomeScreenFragment_to_DrawingFragment"
         app:destination="@id/drawingFragment2" />
+
+        <!-- Navigation from Home to Mood Progress -->
+        <action
+            android:id="@+id/action_HomeScreenFragment_to_MoodProgressFragment"
+            app:destination="@id/MoodProgressFragment" />
     </fragment>
 
     <fragment

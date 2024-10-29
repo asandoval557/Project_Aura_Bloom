@@ -30,8 +30,10 @@ class HomeScreenFragment : Fragment() {
     private lateinit var binding: HomeScreenBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val LOCATION_PERMISSION_REQUEST_CODE = 1001
-    private lateinit var db: FirebaseFirestore
     private var emergencyContactNumber: String? = null
+
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
 
     // Inflating the layout, and setting up the view
     override fun onCreateView(
@@ -41,32 +43,14 @@ class HomeScreenFragment : Fragment() {
 
         // Initialize Firestore
         db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
 
         // Fetch Emergency Contact
         fetchEmergencyContact()
-
-        // Click listener for the "Finish Your Drawing" panel
-        binding.finishDrawingPanel.setOnClickListener {
-            findNavController().navigate(R.id.action_HomeScreenFragment_to_DrawingFragment)
-        }
+        // Check profile completion
+        checkProfileCompletion()
 
         return view
-    }
-
-    //TODO: Adrian, this is where the Firebase pull for Emergency Contact happens
-    private fun fetchEmergencyContact() {
-        val userId = FirebaseAuth.getInstance().currentUser!!.uid
-        db.collection("users").document(userId).get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    emergencyContactNumber = document.getString("contact_number")
-                } else {
-                    Toast.makeText(requireContext(),"No contact found",Toast.LENGTH_SHORT).show()
-                }
-            }
-            .addOnFailureListener{exception ->
-                Toast.makeText(requireContext(),"Error fetching contact: ${exception.message}",Toast.LENGTH_SHORT).show()
-            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -83,10 +67,76 @@ class HomeScreenFragment : Fragment() {
             }
         }
 
+        // Click listener for the "Finish Your Drawing" panel
+        binding.finishDrawingPanel.setOnClickListener {
+            findNavController().navigate(R.id.action_HomeScreenFragment_to_DrawingFragment)
+        }
+
+        // Click listener for the "How are you today?" button
+        binding.btnHowAreYou.setOnClickListener {
+            findNavController().navigate(R.id.action_HomeScreenFragment_to_MoodProgressFragment)
+        }
+
         // Help Button functionality with Bottom Sheet
         binding.btnHelp.setOnClickListener {
             showHelpOptions()
         }
+    }
+
+    // TODO: Change based on Firebase data
+    private fun checkProfileCompletion() {
+        val userId = auth.currentUser!!.uid ?: return
+
+        db.collection("users").document(userId).get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    var filledFields = 0
+                    val totalFields = 7 // Adjust based on # of field in collection
+
+                    // Check each field (Change based on Field names)
+                    if (!document.getString("name").isNullOrEmpty()) filledFields++
+                    if (!document.getString("dateOfBirth").isNullOrEmpty()) filledFields++
+                    if (!document.getString("email").isNullOrEmpty()) filledFields++
+                    if (!document.getString("address").isNullOrEmpty()) filledFields++
+                    if (!document.getString("emergencyContactName").isNullOrEmpty()) filledFields++
+                    if (!document.getString("emergencyContactPhoneNumber").isNullOrEmpty()) filledFields++
+
+                    // Calculate profile completion percentage
+                    val completionPercentage = (filledFields / totalFields.toDouble() * 100).toInt()
+
+                    // Update the ProgressBar and TextView
+                    updateProfileCompletionUI(completionPercentage)
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to load profile data", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun updateProfileCompletionUI(percentage: Int) {
+        if (percentage < 100) {
+            binding.profileCompletionLayout.visibility = View.VISIBLE
+            binding.profileCompletionBar.progress = percentage
+            binding.profileCompletionText.text = "$percentage%"
+        } else {
+            binding.profileCompletionLayout.visibility = View.GONE
+        }
+    }
+
+    //TODO: Adrian, this is where the Firebase pull for Emergency Contact happens
+    private fun fetchEmergencyContact() {
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        db.collection("users").document(userId).get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    emergencyContactNumber = document.getString("contact_number")
+                } else {
+                    Toast.makeText(requireContext(),"No contact found",Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener{exception ->
+                Toast.makeText(requireContext(),"Error fetching contact: ${exception.message}",Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun showHelpOptions() {
