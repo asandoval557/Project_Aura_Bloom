@@ -17,6 +17,11 @@
     <string name="location">Location</string>
     <string name="home_screen_panel_scroll">Home screen horizontal panel scroll</string>
     <string name="profile">Profile</string>
+    <string name="help_options">Help Options</string>
+    <string name="crisis_lifeline">Suicide and Crisis Lifeline</string>
+    <string name="call_911">Call 911</string>
+    <string name="crisis_text_line">Crisis Text Line</string>
+    <string name="emergency_contact">Call Emergency Contact</string>
 
     <!-- Strings used in Log In Screen -->
     <string name="welcome_back">Welcome Back!</string>
@@ -64,9 +69,9 @@
     <string name="aurabloom">AUraBloom</string>
 
     <!-- DrawingFragment -->
-    <string name="small_brush_size">Small</string>
-    <string name="medium_brush_size">Medium</string>
-    <string name="large_brush_size">Large</string>
+    <string name="small_brush_size">Small Brush</string>
+    <string name="medium_brush_size">Medium Brush</string>
+    <string name="large_brush_size">Large Brush</string>
     <string name="erase_size_button">Erase Size Button</string>
     <string name="undo_button">Undo Button</string>
     <string name="redo_button">Redo Button</string>
@@ -90,6 +95,5 @@
     <string name="options_learn_more">Select an option to learn more</string>
     <string name="terms_conditions">Terms and Conditions</string>
     <string name="privacy_policy">Privacy Policy</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

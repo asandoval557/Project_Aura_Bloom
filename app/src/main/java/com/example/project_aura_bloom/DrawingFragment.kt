@@ -98,9 +98,26 @@ class DrawingFragment : Fragment() {
 
 
     private fun showBrushSizeMenu(view: View) {
-        val popup = PopupMenu(requireContext(), view)
+        val popup = PopupMenu(context, view)
         val inflater: MenuInflater = popup.menuInflater
         inflater.inflate(R.menu.brush_size_menu, popup.menu)
+
+        // Force icons to show in the popup menu
+        try {
+            val fields = popup.javaClass.declaredFields
+            for (field in fields) {
+                if (field.name == "mPopup") {
+                    field.isAccessible = true
+                    val menuPopupHelper = field.get(popup)
+                    val classPopupHelper = Class.forName(menuPopupHelper.javaClass.name)
+                    val setForceIcons = classPopupHelper.getMethod("setForceShowIcon", Boolean::class.java)
+                    setForceIcons.invoke(menuPopupHelper, true)
+                    break
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
