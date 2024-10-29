@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_options"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:paddingBottom="8dp"/>
+
+    <Button
+            android:id="@+id/crisisLifelineButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/crisis_lifeline"
+            android:textSize="20sp"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:backgroundTint="@color/teal"
+            android:paddingBottom="12dp"/>
+
+    <Button
+            android:id="@+id/emergencyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/call_911"
+            android:textSize="20sp"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:backgroundTint="@color/teal"
+            android:paddingBottom="12dp"/>
+
+    <Button
+            android:id="@+id/emergencyContactButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/emergency_contact"
+            android:textSize="20sp"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:backgroundTint="@color/teal"
+            android:paddingBottom="12dp"/>
+
+    <Button
+            android:id="@+id/crisisTextLineButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/crisis_text_line"
+            android:textSize="20sp"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:backgroundTint="@color/teal"/>
+</LinearLayout>

@@ -13,13 +13,13 @@
 
         <!-- Navigation from Login to Sign Up -->
         <action
-            android:id="@+id/action_LoginFragment_to_SignUpFragment"
-            app:destination="@id/SignUpFragment"/>
+                android:id="@+id/action_LoginFragment_to_SignUpFragment"
+                app:destination="@id/SignUpFragment"/>
 
-        <!-- Navigate from Login to Home -->
+        <!-- Navigation from Login to Home -->
         <action
-            android:id="@+id/action_LoginFragment_to_HomeScreenFragment"
-            app:destination="@id/HomeScreenFragment" />
+                android:id="@+id/action_LoginFragment_to_HomeScreenFragment"
+                app:destination="@id/HomeScreenFragment"/>
     </fragment>
     <fragment
             android:id="@+id/SignUpFragment"
@@ -27,7 +27,7 @@
             android:label="Sign Up"
             tools:layout="@layout/fragment_sign_up">
 
-        <!-- Navigate from Sign Up to Login -->
+        <!-- Navigation from Sign Up to Login -->
         <action
                 android:id="@+id/action_SignUpFragment_to_LoginFragment"
                 app:destination="@id/LoginFragment"/>
@@ -37,7 +37,13 @@
             android:id="@+id/HomeScreenFragment"
             android:name="com.example.project_aura_bloom.HomeScreenFragment"
             android:label="Home Screen"
-            tools:layout="@layout/home_screen" />
+            tools:layout="@layout/home_screen">
+
+            <!-- Navigation from Home to Mindful Art -->
+    <action
+        android:id="@+id/action_HomeScreenFragment_to_DrawingFragment"
+        app:destination="@id/drawingFragment2" />
+    </fragment>
 
     <fragment
             android:id="@+id/CalmZoneFragment"
@@ -45,26 +51,80 @@
             android:label="Calm Zone"
             tools:layout="@layout/calm_zone_screen">
 
-    <action
-            android:id="@+id/action_calm_zone_to_peaceful_creations"
-            app:destination="@+id/PeacefulCreationsFragment"/>
+        <!-- Navigation from Calm Zone to Peaceful Creations -->
+        <action
+                android:id="@+id/action_calm_zone_to_peaceful_creations"
+                app:destination="@+id/PeacefulCreationsFragment"/>
     </fragment>
 
     <fragment
             android:id="@+id/PeacefulCreationsFragment"
             android:name="com.example.project_aura_bloom.PeacefulCreationsFragment"
             android:label="Peaceful Creations"
-            tools:layout="@layout/peaceful_creations_hub" />
+            tools:layout="@layout/peaceful_creations_hub">
+
+        <!-- Navigation from Peaceful Creations to Lumos Path -->
+        <action
+                android:id="@+id/action_peaceful_creations_to_lumosPathFragment"
+                app:destination="@id/lumosPathFragment"/>
+
+        <!-- Navigation from Peaceful Creations to Mindful Art -->
+        <action
+                android:id="@+id/action_PeacefulCreationsFragment_to_MindfulArt"
+                app:destination="@id/drawingFragment2"
+                app:enterAnim="@animator/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
 
     <fragment
             android:id="@+id/MoodProgressFragment"
             android:name="com.example.project_aura_bloom.MoodProgressFragment"
             android:label="Mood Progress"
-            tools:layout="@layout/mood_progress_screen" />
+            tools:layout="@layout/mood_progress_screen"/>
 
     <fragment
             android:id="@+id/ProfileFragment"
             android:name="com.example.project_aura_bloom.ProfileFragment"
             android:label="Profile"
-            tools:layout="@layout/fragment_profile" />
+            tools:layout="@layout/fragment_profile"/>
+
+    <fragment
+            android:id="@+id/lumosPathFragment"
+            android:name="com.example.project_aura_bloom.LumosPathFragment"/>
+
+    <fragment
+            android:id="@+id/drawingFragment2"
+            android:name="com.example.project_aura_bloom.DrawingFragment"
+            android:label="Mindful Art"
+            tools:layout="@layout/mindful_art"/>
+
+    <fragment
+        android:id="@+id/HelpCenterFragment"
+        android:name="com.example.project_aura_bloom.HelpCenterFragment"
+        android:label="Help Center"
+        tools:layout="@layout/fragment_help_center">
+
+        <!-- Navigation from Help Center to Terms and Conditions -->
+        <action
+            android:id="@+id/action_HelpCenterFragment_to_TermsFragment"
+            app:destination="@id/TermsFragment" />
+
+        <!-- Navigation from Help Center to Privacy Policy -->
+        <action
+            android:id="@+id/action_HelpCenterFragment_to_PrivacyPolicyFragment"
+            app:destination="@id/PrivacyPolicyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/TermsFragment"
+        android:name="com.example.project_aura_bloom.TermsFragment"
+        android:label="Terms and Conditions"
+        tools:layout="@layout/fragment_terms" />
+
+    <fragment
+        android:id="@+id/PrivacyPolicyFragment"
+        android:name="com.example.project_aura_bloom.PrivacyPolicyFragment"
+        android:label="Privacy Policy"
+        tools:layout="@layout/fragment_privacy_policy" />
+
 </navigation>

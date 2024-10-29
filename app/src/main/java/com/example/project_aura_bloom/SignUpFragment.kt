@@ -1,6 +1,8 @@
 package com.example.project_aura_bloom
 
 import android.os.Bundle
+import android.text.InputType
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +40,39 @@ class SignUpFragment : Fragment() {
         //implement the authorization and creating the database for userSignUpDB
         auth = Firebase.auth
         signUpDB = FirebaseFirestore.getInstance()
+
+        // Handle password toggle
+        var isPasswordVisible = false
+        binding.ivPasswordToggle.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+            if (isPasswordVisible) {
+                // Show password
+                binding.etPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.ivPasswordToggle.setImageResource(R.drawable.hide) // Show Closed eye
+            } else {
+                binding.etPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.etPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+                binding.ivPasswordToggle.setImageResource(R.drawable.view) // Show Open eye
+            }
+            // Keep cursor at end of input
+            binding.etPassword.setSelection(binding.etPassword.text.length)
+        }
+
+        // Handle confirm password toggle
+        var isConfirmPasswordVisible = false
+        binding.ivConfirmPasswordToggle.setOnClickListener {
+            isConfirmPasswordVisible = !isConfirmPasswordVisible
+            if (isConfirmPasswordVisible) {
+                // Show confirm password
+                binding.etConfirmPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.ivConfirmPasswordToggle.setImageResource(R.drawable.hide) // Show Closed eye
+            } else {
+                binding.etConfirmPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.etConfirmPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+                binding.ivConfirmPasswordToggle.setImageResource(R.drawable.view) // Show Open eye
+            }
+            binding.etConfirmPassword.setSelection(binding.etConfirmPassword.text.length)
+        }
 
         //Handle Sign Up button click
         binding.btnSignUp.setOnClickListener {

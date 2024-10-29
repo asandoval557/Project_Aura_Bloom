@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@drawable/gradient_background"
+        android:padding="16dp">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/options_learn_more"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:textSize="20sp"
+            android:textColor="@color/dark_gray"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="36dp" />
+
+    <!-- Terms and Conditions Button-->
+    <Button
+            android:id="@+id/termsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stateListAnimator="@animator/button_state_animator"
+            android:text="@string/terms_conditions"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp" />
+
+    <!-- Privacy Policy Button-->
+    <Button
+            android:id="@+id/privacyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stateListAnimator="@animator/button_state_animator"
+            android:text="@string/privacy_policy"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp" />
+</LinearLayout>
