@@ -59,7 +59,24 @@ class LoginFragment : Fragment() {
 
         // TODO: Antonio/Adrian ... work on this
         binding.tvForgotPassword.setOnClickListener {
+            val email = binding.etEmail.text.toString()
 
+            //Check for empty email field
+            if(email.isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter email", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            //Check if the users email is valid and store in authentication database and send the reset password link.
+            //We don't have to take the user to another screen, they can use the email text box, enter their email and click on the "forgot password"
+            //to begin the reset password process.
+            auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener { task ->
+                    if(task.isSuccessful) {
+                        Toast.makeText(requireContext(), "Check your email for reset password link", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Email not found, check your email and try again", Toast.LENGTH_SHORT).show()
+                    }
+                }
         }
 
         // Handle "Sign Up" text click to navigate to SignUpFragment
