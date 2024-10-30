@@ -126,26 +126,27 @@ class SignUpFragment : Fragment() {
     }
     //
     private fun storeUserInfo( userID: String?, fullName: String, email: String) {
-            //Updating logic with updated collections for the AuraBloom user information and adding in the ability to increment and give a numerical value to the user_id
+        // Reference to the document that stores the current user count
             val auraUserDF = signUpDB.collection("auraUserID").document("auraUserCount")
-            //retrieve the authenticated user's id
+        // Retrieve the authenticated user's ID, exit function if null
             val authUid = auth.currentUser?.uid ?: return
 
-            //retrieve current month and year for date_joined
+        // Get current date in "Month-Year" format for the date_joined field
             val dateFormat = SimpleDateFormat("MMMM-yyyy", Locale.getDefault())
             val dateJoined = dateFormat.format(System.currentTimeMillis())
 
-            //Fetch the most recent userID and increment
+        // Fetch the most recent userID and increment it
             auraUserDF.get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
+                        // Get current user count, default to 1 if null
                         val currentUserID = document.getLong("UserID") ?: 1
                         val newUserID = currentUserID + 1
 
-                        //Formatting the number of userID's to 6 digits
+                        // Format the new user ID to a 6-digit string (e.g., "000001")
                         val idFormat = String.format("%06d", newUserID)
 
-                        //Map the user data
+                        // Create a map of user data to be stored
                         val auraUser = hashMapOf(
                             "auth_uid" to authUid,
                             "fullName" to fullName,
@@ -153,14 +154,16 @@ class SignUpFragment : Fragment() {
                             "user_id" to idFormat,
                             "date_joined" to dateJoined
                         )
+                        // Add the new user data to the "AuraBloomUserData" collection
                         signUpDB.collection("AuraBloomUserData")
                             .add(auraUser)
                             .addOnSuccessListener {
                                 Log.d("SignUpFragment", "User information successfully updated")
-                                // Update the user count in auraUserID collection to the new ID
+                                // Update the user count in auraUserID collection
                                 auraUserDF.update("UserID", newUserID)
                                     .addOnSuccessListener {
                                         Log.d("SignUpFragment", "User count incremented successfully")
+                                        // Navigate to the Login Fragment after successful registration
                                         findNavController().navigate(R.id.action_SignUpFragment_to_LoginFragment)
                                     }
                                     .addOnFailureListener { e ->
