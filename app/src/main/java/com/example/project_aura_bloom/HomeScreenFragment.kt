@@ -131,16 +131,25 @@ class HomeScreenFragment : Fragment() {
     //TODO: Adrian, this is where the Firebase pull for Emergency Contact happens
     private fun fetchEmergencyContact() {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
-        db.collection("users").document(userId).get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    emergencyContactNumber = document.getString("contact_number")
+        db.collection("AuraBloomUserData")
+            .whereEqualTo("auth_uid", userId)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                if (!querySnapshot.isEmpty) {
+                    //get the first matching document
+                    val document = querySnapshot.documents[0]
+                    emergencyContactNumber = document.getString("emergencyContactPhoneNumber")
+
+                    // Optionally, handle when contact number is null
+                    if (emergencyContactNumber.isNullOrEmpty()) {
+                        Toast.makeText(requireContext(), "No emergency contact found", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
-                    Toast.makeText(requireContext(),"No contact found",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "No emergency contact found", Toast.LENGTH_SHORT).show()
                 }
             }
-            .addOnFailureListener{exception ->
-                Toast.makeText(requireContext(),"Error fetching contact: ${exception.message}",Toast.LENGTH_SHORT).show()
+            .addOnFailureListener { exception ->
+                Toast.makeText(requireContext(), "Error fetching contact: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
     }
 
