@@ -13,8 +13,17 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/drawing_menubar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <com.example.project_aura_bloom.EraserCircleView
+        android:id="@+id/eraser_circle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
 
     <LinearLayout
         android:id="@+id/drawing_menubar"
@@ -24,10 +33,12 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="8dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible">
 
         <ImageButton
             android:id="@+id/brush_size_button"
@@ -40,7 +51,7 @@
             android:id="@+id/erase_size_button"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:contentDescription="@string/erase_size_button"
+            android:contentDescription="@string/eraser_icon"
             android:src="@drawable/eraser_24dp" />
 
         <ImageButton

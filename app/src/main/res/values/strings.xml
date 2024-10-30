@@ -76,14 +76,20 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--Mindful Art Supplies-->
-    <string name="small_brush_size">Small Brush</string>
-    <string name="medium_brush_size">Medium Brush</string>
-    <string name="large_brush_size">Large Brush</string>
-    <string name="small_eraser_size">Small Eraser</string>
-    <string name="medium_eraser_size">Medium Eraser</string>
-    <string name="large_eraser_size">Large Eraser</string>
-    <string name="brush_icon">Brush Icon</string>
-    <string name="erase_size_button">Eraser Size</string>
+    <string name="large_brush_button">Large Brush Button</string>
+    <string name="medium_brush_button">Medium Brush Button</string>
+    <string name="small_brush_button">Small Brush Button</string>
+    <string name="small_brush_size">Small</string>
+    <string name="medium_brush_size">Medium</string>
+    <string name="large_brush_size">Large</string>
+    <string name="large_eraser_button">Large Eraser Button</string>
+    <string name="medium_eraser_button">Medium Eraser Button</string>
+    <string name="small_eraser_button">Small Eraser Button</string>
+    <string name="small_eraser_size">Small</string>
+    <string name="medium_eraser_size">Medium</string>
+    <string name="large_eraser_size">Large</string>
+    <string name="brush_icon">Brush Button</string>
+    <string name="eraser_icon">Eraser Button</string>
     <string name="undo_button">Undo</string>
     <string name="redo_button">Redo</string>
     <string name="color_picker_button">Color Picker</string>
@@ -91,5 +97,7 @@
     <string name="share">Share</string>
     <string name="arrow_menu">Arrow Menu</string>
     <string name="clear_button">Clear Button</string>
+
+
 
 </resources>

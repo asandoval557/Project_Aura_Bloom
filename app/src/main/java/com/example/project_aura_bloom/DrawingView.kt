@@ -12,102 +12,133 @@ class DrawingView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-   private var paint = Paint().apply {
-      color = Color.BLACK
-      style = Paint.Style.STROKE
-      strokeWidth = 10f
-        isAntiAlias = true
-   }
-
-    private var path = Path()
-    private var drawPath: CustomPath? = null
-    //List to store all history of the paths
-    private val paths = mutableListOf<Pair<Path, Paint>>()
-    private val undonePaths = mutableListOf<Pair<Path, Paint>>()
-
-    private var color = Color.BLACK
+    private var paint = initializePaint()
+    private var currentPath: CustomPath? = null
+    private val drawingPaths = mutableListOf<Pair<Path, Paint>>()
+    private val removedPaths = mutableListOf<Pair<Path, Paint>>()
+    private var brushColor = Color.BLACK
+    private var eraserColor = Color.WHITE
+    private var eraserThickness = 30f
     private var brushThickness = 10f
+    var isEraserMode = false
+
+    private fun initializePaint() = Paint().apply {
+        style = Paint.Style.STROKE
+        strokeWidth = brushThickness
+        isAntiAlias = true
+
+    }
 
     init {
         setupPaint()
     }
+
     private fun setupPaint() {
-            paint = Paint().apply {
-               color = this@DrawingView.color
-                style = Paint.Style.STROKE
-                strokeWidth = this@DrawingView.brushThickness
-                isAntiAlias = true
-            }
-        drawPath = CustomPath(color, brushThickness)
+        paint = initializePaint().apply {
+            color = if (isEraserMode) eraserColor else brushColor
+            strokeWidth = if (isEraserMode) eraserThickness else brushThickness
         }
+    }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        for ((path, paint) in paths) canvas.drawPath(path, paint)
-        canvas.drawPath(path, paint)
+        for ((path, paint) in drawingPaths) {
+            canvas.drawPath(path, paint)
+        }
+        currentPath?.let { canvas.drawPath(it, paint) }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val x = event.x
         val y = event.y
-
         when (event.action) {
-            MotionEvent.ACTION_DOWN, -> {
-                path = Path().apply {moveTo(x, y) }
-                paths.add(Pair(path, Paint(paint)))
-                undonePaths.clear()
-            }
-            MotionEvent.ACTION_MOVE -> {
-                val pressure = event.pressure
-                val pointerCount = event.pointerCount
-
-                paint.strokeWidth = 10f * pressure
-
-                for (i in 0 until pointerCount) {
-                    val px = event.getX(i)
-                    val py = event.getY(i)
-                    path.lineTo(px, py)
-                }
-                invalidate()
-            }
-            MotionEvent.ACTION_UP -> {
-                // finalize the path
-                path.lineTo(x, y)
-                invalidate()
-            }
+            MotionEvent.ACTION_DOWN -> startPath(x, y)
+            MotionEvent.ACTION_MOVE -> continuePath(x, y)
+            MotionEvent.ACTION_UP -> endPath(x, y)
             else -> return false
         }
-
         return true
     }
 
+    fun startPath(x: Float, y: Float) {
+        currentPath = CustomPath(brushColor, brushThickness).apply {
+            moveTo(x, y)
+        }
+    }
+
+    fun continuePath(x: Float, y: Float) {
+        currentPath?.let {
+            it.lineTo(x, y)
+            invalidate()
+        }
+    }
+
+    fun endPath(x: Float, y: Float) {
+        currentPath?.let {
+            it.lineTo(x, y)
+            drawingPaths.add(Pair(it, Paint(paint)))
+        }
+        currentPath = null
+        invalidate()
+    }
+
     fun setEraseMode() {
-        paint.color = Color.WHITE
+        isEraserMode = true
+        invalidate()
+    }
+
+    fun exitEraseMode() {
+        isEraserMode = false
+        setupPaint()
+        invalidate()
+    }
+
+    fun setEraseSize(size: Float) {
+        eraserThickness = size
+        if (isEraserMode) {
+            paint.strokeWidth = size
+        }
         invalidate()
     }
 
     fun undo() {
-        if (paths.isNotEmpty()) {
-            undonePaths.add(paths.removeAt(paths.size - 1))
+        if (currentPath != null) {
+            currentPath = null
             invalidate()
+        } else if (drawingPaths.isNotEmpty()) {
+            removedPaths.add(drawingPaths.removeAt(drawingPaths.size - 1))
         }
+        invalidate()
     }
 
     fun redo() {
-        if (undonePaths.isNotEmpty()) {
-            paths.add(undonePaths.removeAt(undonePaths.size - 1))
+        if (removedPaths.isNotEmpty()) {
+            drawingPaths.add(removedPaths.removeAt(removedPaths.size - 1))
             invalidate()
         }
     }
 
-    fun setBrushSize(fl: Float) {
-        paint.strokeWidth = fl
+    fun setBrushSize(size: Float) {
+        brushThickness = size
+        if (!isEraserMode) {
+            paint.strokeWidth = size
+        }
         invalidate()
     }
 
     fun setBrushColor(color: Int) {
-        this.color = color
-        paint.color = color
+        brushColor = color
+        if (!isEraserMode) {
+            paint.color = color
+        }
+        invalidate()
+    }
+
+    fun setEraserColor(color: Int) {
+        eraserColor = color
+        if (isEraserMode) {
+            paint.color = color
+        }
         invalidate()
     }
 
@@ -120,12 +151,11 @@ class DrawingView @JvmOverloads constructor(
     }
 
     fun clear() {
-        paths.clear()
-        undonePaths.clear()
+        drawingPaths.clear()
+        removedPaths.clear()
         invalidate()
     }
-
-
 }
 
 internal class CustomPath(var color: Int, var brushThickness: Float) : Path()
+
