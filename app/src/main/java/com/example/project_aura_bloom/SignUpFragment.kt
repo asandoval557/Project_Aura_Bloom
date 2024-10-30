@@ -15,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class SignUpFragment : Fragment() {
@@ -123,25 +125,61 @@ class SignUpFragment : Fragment() {
         }
     }
     //
-    private fun storeUserInfo( userID: String?, fullName: String, email: String)
-    {
-    if(userID != null)
-        {
-        Log.d("SignUpFragment", "Storing user info: userID=$userID, fullName=$fullName, email=$email")
-        val user = hashMapOf("fullName" to fullName, "email" to email, "user_id" to userID)
+    private fun storeUserInfo( userID: String?, fullName: String, email: String) {
+            //Updating logic with updated collections for the AuraBloom user information and adding in the ability to increment and give a numerical value to the user_id
+            val auraUserDF = signUpDB.collection("auraUserID").document("auraUserCount")
+            //retrieve the authenticated user's id
+            val authUid = auth.currentUser?.uid ?: return
 
-            //Store the user information in the "UserSignUp" collection
-            signUpDB.collection("UserSignUp").document(userID).set(user).addOnSuccessListener {
-                Log.d("SignUpFragment", "User info successfully updated")
+            //retrieve current month and year for date_joined
+            val dateFormat = SimpleDateFormat("MMMM-yyyy", Locale.getDefault())
+            val dateJoined = dateFormat.format(System.currentTimeMillis())
 
-                findNavController().navigate(R.id.action_SignUpFragment_to_LoginFragment)
-            }
-                .addOnFailureListener{ e -> Log.w("SignUpFragment", "Error updating User info: ", e)
-                    Toast.makeText(context, "Failed to store user info", Toast.LENGTH_SHORT).show()
+            //Fetch the most recent userID and increment
+            auraUserDF.get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val currentUserID = document.getLong("UserID") ?: 1
+                        val newUserID = currentUserID + 1
+
+                        //Formatting the number of userID's to 6 digits
+                        val idFormat = String.format("%06d", newUserID)
+
+                        //Map the user data
+                        val auraUser = hashMapOf(
+                            "auth_uid" to authUid,
+                            "fullName" to fullName,
+                            "email" to email,
+                            "user_id" to idFormat,
+                            "date_joined" to dateJoined
+                        )
+                        signUpDB.collection("AuraBloomUserData")
+                            .add(auraUser)
+                            .addOnSuccessListener {
+                                Log.d("SignUpFragment", "User information successfully updated")
+                                // Update the user count in auraUserID collection to the new ID
+                                auraUserDF.update("UserID", newUserID)
+                                    .addOnSuccessListener {
+                                        Log.d("SignUpFragment", "User count incremented successfully")
+                                        findNavController().navigate(R.id.action_SignUpFragment_to_LoginFragment)
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.w("SignUpFragment", "Error updating User count: ", e)
+                                        Toast.makeText(context, "Failed to update user count", Toast.LENGTH_SHORT).show()
+                                    }
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("SignUpFragment", "Error updating User info: ", e)
+                                Toast.makeText(context, "Failed to store user info", Toast.LENGTH_SHORT).show()
+                            }
+                    } else {
+                        Log.w("SignUpFragment", "UserCounter document does not exist.")
+                    }
                 }
-        } else {
-            Log.d("SignUpFragment", "User info is null, cannot store user info")
-        }
+                .addOnFailureListener { e ->
+                    Log.w("SignUpFragment", "Error fetching latestUserID: ", e)
+                }
+
     }
 
     override fun onDestroyView() {
