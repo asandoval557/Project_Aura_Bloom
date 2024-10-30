@@ -29,6 +29,10 @@ class CalmZoneFragment: Fragment() {
                 // Screen switches to the peaceful creations hub
             findNavController().navigate(R.id.action_calm_zone_to_peaceful_creations)
         }
+
+        binding.meditationButton.setOnClickListener {
+            findNavController().navigate(R.id.action_calm_zone_to_Meditation)
+        }
     }
 
         // Binding clean up when view is destroyed to avoid memory leaks

@@ -55,6 +55,19 @@
         <action
                 android:id="@+id/action_calm_zone_to_peaceful_creations"
                 app:destination="@+id/PeacefulCreationsFragment"/>
+
+        <action
+                android:id="@+id/action_calm_zone_to_Meditation"
+                app:destination="@+id/MeditationFragment"
+        />
+    </fragment>
+
+    <fragment
+        android:id="@+id/MeditationFragment"
+        android:name="com.example.project_aura_bloom.MeditationFragment"
+        android:label="Meditation Fragment"
+    >
+
     </fragment>
 
     <fragment
@@ -97,9 +110,6 @@
             android:label="Profile"
             tools:layout="@layout/fragment_profile"/>
 
-    <fragment
-            android:id="@+id/lumosPathFragment"
-            android:name="com.example.project_aura_bloom.LumosPathFragment"/>
 
     <fragment
             android:id="@+id/drawingFragment2"
