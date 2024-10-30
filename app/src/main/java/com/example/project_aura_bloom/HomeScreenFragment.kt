@@ -86,21 +86,25 @@ class HomeScreenFragment : Fragment() {
     // TODO: Change based on Firebase data
     private fun checkProfileCompletion() {
         val userId = auth.currentUser!!.uid ?: return
-
-        db.collection("UserSignUp").document(userId).get()
-            .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
+        //updating the logic to search for the firebase user ID for the current user
+        db.collection("AuraBloomUserData")
+            //search based on the auth_id field within the AuraBloomUserData documents
+            .whereEqualTo("auth_id",userId)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                if(querySnapshot != null && !querySnapshot.isEmpty) {
+                    val userDataDocument = querySnapshot.documents[0]
                     var filledFields = 0
                     val totalFields = 6 // Adjust based on # of field in collection
 
                     // Check each field (Change based on Field names)
                     // If "name" field is NOT empty or NULL, increment filledFields
-                    if (!document.getString("fullName").isNullOrEmpty()) filledFields++
-                    if (!document.getString("dateOfBirth").isNullOrEmpty()) filledFields++
-                    if (!document.getString("email").isNullOrEmpty()) filledFields++
-                    if (!document.getString("address").isNullOrEmpty()) filledFields++
-                    if (!document.getString("emergencyContactName").isNullOrEmpty()) filledFields++
-                    if (!document.getString("emergencyContactPhoneNumber").isNullOrEmpty()) filledFields++
+                    if (!userDataDocument.getString("fullName").isNullOrEmpty()) filledFields++
+                    if (!userDataDocument.getString("dateOfBirth").isNullOrEmpty()) filledFields++
+                    if (!userDataDocument.getString("email").isNullOrEmpty()) filledFields++
+                    if (!userDataDocument.getString("address").isNullOrEmpty()) filledFields++
+                    if (!userDataDocument.getString("emergencyContactName").isNullOrEmpty()) filledFields++
+                    if (!userDataDocument.getString("emergencyContactPhoneNumber").isNullOrEmpty()) filledFields++
 
                     // Calculate profile completion percentage
                     val completionPercentage = (filledFields / totalFields.toDouble() * 100).toInt()

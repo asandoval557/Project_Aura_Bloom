@@ -54,7 +54,7 @@ class LoginFragment : Fragment() {
                 return@setOnClickListener
             }
             //Log in the user
-            requestIntegrityToken(email, password)
+            loginUser(email, password)
         }
 
         // TODO: Antonio/Adrian ... work on this
@@ -88,51 +88,9 @@ class LoginFragment : Fragment() {
         binding.tvSignUp.typeface = customFont
     }
 
-    //Function to log in the user with Firebase Authentication
-
-    private fun requestIntegrityToken(email: String, password: String) {
-       val integrityManager = IntegrityManagerFactory.create(requireContext())
-
-        //Generate a unique nonce
-        val nonce = UUID.randomUUID().toString()
-
-        //Create the token request
-        val request = IntegrityTokenRequest.builder()
-            .setCloudProjectNumber(860582708038)
-            .setNonce(nonce)
-            .build()
-
-        integrityManager.requestIntegrityToken(request)
-        .addOnSuccessListener { response: IntegrityTokenResponse ->
-                val token = response.token()
-                loginUser(email, password, token)
-            }
-        .addOnFailureListener { exception ->
-                Toast.makeText(context, "Failed to request token: ${exception.message}", Toast.LENGTH_SHORT).show()
-            loginWithoutIntegrityCheck(email, password)
-        }
-    }
-
-    private fun loginWithoutIntegrityCheck(email: String, password: String) {
-        Toast.makeText(context, "Proceeding without integrity check (DEV MODE)", Toast.LENGTH_SHORT).show()
-        // Proceed with Firebase authentication
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(context, "Login Successful!", Toast.LENGTH_SHORT).show()
-                    // Navigate to the next screen
-                    findNavController().navigate(R.id.action_LoginFragment_to_HomeScreenFragment)
-                } else {
-                    Toast.makeText(context, "Login Failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-    }
-
-    // Updating loginUser function to handle the token
-    private fun loginUser(email: String, password: String, token: String?) {
-        // Log token and proceed with login
-        Log.d("IntegrityCheck", "Received integrity token: $token")
-
+    // Simplified log in for the user with firebase Authentication
+    private fun loginUser(email: String, password: String) {
+        //continue with firebase Authentication
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {

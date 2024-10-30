@@ -15,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class SignUpFragment : Fragment() {
@@ -126,6 +128,12 @@ class SignUpFragment : Fragment() {
     private fun storeUserInfo( userID: String?, fullName: String, email: String) {
             //Updating logic with updated collections for the AuraBloom user information and adding in the ability to increment and give a numerical value to the user_id
             val auraUserDF = signUpDB.collection("auraUserID").document("auraUserCount")
+            //retrieve the authenticated user's id
+            val authUid = auth.currentUser?.uid ?: return
+
+            //retrieve current month and year for date_joined
+            val dateFormat = SimpleDateFormat("MMMM-yyyy", Locale.getDefault())
+            val dateJoined = dateFormat.format(System.currentTimeMillis())
 
             //Fetch the most recent userID and increment
             auraUserDF.get()
@@ -139,9 +147,11 @@ class SignUpFragment : Fragment() {
 
                         //Map the user data
                         val auraUser = hashMapOf(
+                            "auth_uid" to authUid,
                             "fullName" to fullName,
                             "email" to email,
-                            "user_id" to idFormat
+                            "user_id" to idFormat,
+                            "date_joined" to dateJoined
                         )
                         signUpDB.collection("AuraBloomUserData")
                             .add(auraUser)
