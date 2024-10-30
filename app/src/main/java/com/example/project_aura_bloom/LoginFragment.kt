@@ -57,6 +57,11 @@ class LoginFragment : Fragment() {
             requestIntegrityToken(email, password)
         }
 
+        // TODO: Antonio/Adrian ... work on this
+        binding.tvForgotPassword.setOnClickListener {
+
+        }
+
         // Handle "Sign Up" text click to navigate to SignUpFragment
         binding.tvSignUp.setOnClickListener {
             findNavController().navigate(R.id.action_LoginFragment_to_SignUpFragment)

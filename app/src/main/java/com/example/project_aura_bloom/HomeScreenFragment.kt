@@ -87,14 +87,15 @@ class HomeScreenFragment : Fragment() {
     private fun checkProfileCompletion() {
         val userId = auth.currentUser!!.uid ?: return
 
-        db.collection("users").document(userId).get()
+        db.collection("UserSignUp").document(userId).get()
             .addOnSuccessListener { document ->
                 if (document != null && document.exists()) {
                     var filledFields = 0
-                    val totalFields = 7 // Adjust based on # of field in collection
+                    val totalFields = 6 // Adjust based on # of field in collection
 
                     // Check each field (Change based on Field names)
-                    if (!document.getString("name").isNullOrEmpty()) filledFields++
+                    // If "name" field is NOT empty or NULL, increment filledFields
+                    if (!document.getString("fullName").isNullOrEmpty()) filledFields++
                     if (!document.getString("dateOfBirth").isNullOrEmpty()) filledFields++
                     if (!document.getString("email").isNullOrEmpty()) filledFields++
                     if (!document.getString("address").isNullOrEmpty()) filledFields++
