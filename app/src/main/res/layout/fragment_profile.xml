@@ -1,179 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+
+<FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:padding="16dp"
-        android:background="@drawable/gradient_background">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!-- Main Vertical Layout -->
-    <LinearLayout
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:background="@drawable/gradient_background">
 
+        <!-- Main Vertical Layout -->
         <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
 
-        <!-- Profile Image -->
-        <ImageView
-                android:id="@+id/profile_image"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_avatar"
-                android:contentDescription="@string/profile_picture"
-                android:scaleType="centerCrop"/>
-
-        <!-- Name and Details -->
             <TextView
-                    android:id="@+id/profile_name"
+                    android:id="@+id/birthdayMessage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="John Doe"
-                    android:textSize="32sp"
-                    android:textColor="@color/dark_gray"
-                    android:textStyle="bold"/>
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/happy_birthday"
+                    android:textColor="@color/purple"
+                    android:fontFamily="@font/montserrat_alternates_regular"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textSize="42sp"
+                    android:visibility="gone"/>
 
-            <TextView
-                    android:id="@+id/profile_details"
-                    android:gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Age: 28 years\nJoined: Dec 2024"
-                    android:textSize="24sp"
-                    android:textColor="@color/dark_gray"/>
-        </LinearLayout>
-
-        <!-- Scrollable Panels -->
-        <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
-                android:scrollbars="none">
 
             <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="28dp"
-                    android:paddingEnd="28dp"
-                    android:padding="8dp">
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
 
-                <!--General Information Panel -->
-                <androidx.cardview.widget.CardView
-                        android:layout_width="280dp"
-                        android:layout_height="260dp"
-                        android:layout_marginEnd="16dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="16dp">
+                <!-- Profile Image -->
+                <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/profile_image"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/ic_avatar"
+                        android:contentDescription="@string/profile_picture"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance_Material3_smallComponent"
+                        app:strokeColor="@color/white"
+                        android:padding="4dp"
+                        app:strokeWidth="2dp"
+                        android:scaleType="centerCrop"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="16dp">
+                <!-- Name and Details -->
+                <TextView
+                        android:id="@+id/profile_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text=""
+                        android:textSize="32sp"
+                        android:textColor="@color/dark_gray"
+                        android:textStyle="bold"/>
 
-                        <TextView
-                                android:id="@+id/general_info_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/general_information"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                        <!-- Edit button -->
-                        <TextView
-                                android:id="@+id/edit_general_info"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/edit"
-                                android:textColor="@android:color/holo_blue_dark"
-                                android:gravity="end"
-                                android:layout_gravity="end"
-                                android:textStyle="bold" />
-
-                        <!-- General Information Content -->
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Name: John Doe\nEmail:john@example.com\nAddress: 123 Main Street\nCity, State Zipcode"
-                                android:textSize="20sp"
-                                android:textColor="@color/black" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Meditation Time Panel -->
-                <androidx.cardview.widget.CardView
-                        android:layout_width="280dp"
-                        android:layout_height="260dp"
-                        android:layout_marginEnd="16dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="16dp">
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="16dp">
-
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/meditation_time"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                        <!-- Bar graph for meditation stats -->
-                        <com.github.mikephil.charting.charts.BarChart
-                            android:id="@+id/meditation_bar_chart"
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                        android:layout_width="250dp"
-                        android:layout_height="260dp"
-                        android:layout_marginEnd="16dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="16dp">
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:padding="16dp">
-
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/coloring_stats"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                        <!-- Circular Stats -->
-                        <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:text="12 pages"
-                                android:textSize="36sp"
-                                android:textStyle="bold"
-                                android:gravity="center"
-                                android:textColor="@android:color/holo_blue_dark"
-                                android:background="@drawable/circle_background" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                <TextView
+                        android:id="@+id/profile_details"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="24sp"
+                        android:textColor="@color/dark_gray"/>
             </LinearLayout>
 
-        </HorizontalScrollView>
+            <!-- Scrollable Panels -->
+            <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:scrollbars="none">
 
-    </LinearLayout>
-</ScrollView>
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="28dp"
+                        android:paddingEnd="28dp"
+                        android:padding="8dp">
+
+                    <!--General Information Panel -->
+                    <androidx.cardview.widget.CardView
+                            android:layout_width="320dp"
+                            android:layout_height="320dp"
+                            android:layout_marginEnd="16dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="16dp">
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="16dp">
+
+                            <TextView
+                                    android:id="@+id/general_info_title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/general_information"
+                                    android:textSize="24sp"
+                                    android:textStyle="bold"/>
+
+                            <!-- Edit button -->
+                            <TextView
+                                    android:id="@+id/edit_general_info"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/edit"
+                                    android:textSize="20sp"
+                                    android:textColor="@android:color/holo_blue_dark"
+                                    android:gravity="end"
+                                    android:layout_gravity="end"
+                                    android:textStyle="bold"
+                                    android:clickable="true"
+                                    android:focusable="true"/>
+
+                            <!-- General Information Content -->
+                            <TextView
+                                    android:id="@+id/general_information"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textSize="24sp"
+                                    android:textColor="@color/black"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Meditation Time Panel -->
+                    <androidx.cardview.widget.CardView
+                            android:layout_width="320dp"
+                            android:layout_height="320dp"
+                            android:layout_marginEnd="16dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="16dp">
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="16dp">
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/meditation_time"
+                                    android:textSize="24sp"
+                                    android:textStyle="bold"/>
+
+                            <!-- Bar graph for meditation stats -->
+                            <com.github.mikephil.charting.charts.BarChart
+                                    android:id="@+id/meditation_bar_chart"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="200dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                            android:layout_width="320dp"
+                            android:layout_height="320dp"
+                            android:layout_marginEnd="16dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="16dp">
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:padding="16dp">
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/coloring_stats"
+                                    android:textSize="24sp"
+                                    android:textStyle="bold"/>
+
+                            <!-- Circular Stats -->
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text="12 pages\ncompleted"
+                                    android:textSize="36sp"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:textColor="@android:color/holo_blue_dark"
+                                    android:background="@drawable/circle_background"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Confetti animation layout -->
+    <nl.dionsegijn.konfetti.xml.KonfettiView
+            android:id="@+id/konfettiView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+</FrameLayout>

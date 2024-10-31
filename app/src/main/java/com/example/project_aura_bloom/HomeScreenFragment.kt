@@ -85,17 +85,14 @@ class HomeScreenFragment : Fragment() {
 
     // TODO: Change based on Firebase data
     private fun checkProfileCompletion() {
-        // Retrieve the current user's ID from the authentication instance
-        val userId = auth.currentUser!!.uid ?: return // Exit if userId is null
-        // Query the Firestore database for user data associated with the current user's ID
+        val userId = auth.currentUser!!.uid ?: return
+        //updating the logic to search for the firebase user ID for the current user
         db.collection("AuraBloomUserData")
-            // Filter the documents where the 'auth_id' field matches the current user's ID
+            //search based on the auth_id field within the AuraBloomUserData documents
             .whereEqualTo("auth_id",userId)
-            .get() // Execute the query
+            .get()
             .addOnSuccessListener { querySnapshot ->
-                // Check if the query returned any documents
                 if(querySnapshot != null && !querySnapshot.isEmpty) {
-                    // Access the first document in the query result
                     val userDataDocument = querySnapshot.documents[0]
                     var filledFields = 0
                     val totalFields = 6 // Adjust based on # of field in collection
@@ -133,36 +130,17 @@ class HomeScreenFragment : Fragment() {
 
     //TODO: Adrian, this is where the Firebase pull for Emergency Contact happens
     private fun fetchEmergencyContact() {
-        // Retrieve the current user's ID from Firebase Authentication
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
-
-        // Query the Firestore database for user data associated with the current user's ID
-        db.collection("AuraBloomUserData")
-            // Filter the documents where the 'auth_uid' field matches the current user's ID
-            .whereEqualTo("auth_uid", userId)
-            .get() // Execute the query
-            .addOnSuccessListener { querySnapshot ->
-                // Check if any documents were returned in the query result
-                if (!querySnapshot.isEmpty) {
-                    // Get the first matching document from the query result
-                    val document = querySnapshot.documents[0]
-                    // Retrieve the emergency contact phone number from the document
-                    emergencyContactNumber = document.getString("emergencyContactPhoneNumber")
-
-                    // Optionally, handle the case when the contact number is null or empty
-                    if (emergencyContactNumber.isNullOrEmpty()) {
-                        // Show a toast message indicating no emergency contact was found
-                        Toast.makeText(requireContext(), "No emergency contact found", Toast.LENGTH_SHORT).show()
-                    }
+        db.collection("users").document(userId).get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    emergencyContactNumber = document.getString("contact_number")
                 } else {
-                    // Show a toast message if no documents were found
-                    Toast.makeText(requireContext(), "No emergency contact found", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),"No contact found",Toast.LENGTH_SHORT).show()
                 }
             }
-            // Handle any errors that occur during the query
-            .addOnFailureListener { exception ->
-                // Show a toast message with the error details
-                Toast.makeText(requireContext(), "Error fetching contact: ${exception.message}", Toast.LENGTH_SHORT).show()
+            .addOnFailureListener{exception ->
+                Toast.makeText(requireContext(),"Error fetching contact: ${exception.message}",Toast.LENGTH_SHORT).show()
             }
     }
 
