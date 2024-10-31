@@ -15,6 +15,7 @@ class MeditationFragment : Fragment(R.layout.guided_meditation_player) {
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var playButton: ImageButton
     private lateinit var seekBar: SeekBar
+    private lateinit var volumeSeekBar: SeekBar
     private var currentTrackIndex = 0
 
     // Updating seekBar periodically
@@ -32,12 +33,28 @@ class MeditationFragment : Fragment(R.layout.guided_meditation_player) {
         playButton = view.findViewById(R.id.play_button)
         val nextButton = view.findViewById<ImageButton>(R.id.next_button)
         seekBar = view.findViewById(R.id.guided_seekbar)
+        volumeSeekBar = view.findViewById(R.id.volume_seekbar)
 
         // Setting the first track
         mediaPlayer = MediaPlayer.create(requireContext(), R.raw.meditation)
 
         // Setting the seekBar to the max duration of the track
         seekBar.max = mediaPlayer.duration
+
+        // Setting the default volume level to 50%
+        volumeSeekBar.max = 100
+        volumeSeekBar.progress = 50
+        mediaPlayer.setVolume(0.5f, 0.5f)
+
+        // Adjust the volume based on the volume seek bar changes
+        volumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val volume = progress / 100.0f
+                mediaPlayer.setVolume(volume, volume)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
 
         // Toggling between the play and pause button
         playButton.setOnClickListener{
