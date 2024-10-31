@@ -183,7 +183,7 @@ class HomeScreenFragment : Fragment() {
         }
     }
 
-    //TODO: Adrian, this is where the Firebase pull for Emergency Contact happens
+
     private fun fetchEmergencyContact() {
         // Retrieve the current user's ID from Firebase Authentication
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
