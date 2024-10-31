@@ -143,4 +143,9 @@
 
     <string name="hello_blank_fragment">Hello blank Fragment</string>
 
+    <string name="arrow_menu">Arrow Menu</string>
+    <string name="clear_button">Clear Button</string>
+
+
+
 </resources>

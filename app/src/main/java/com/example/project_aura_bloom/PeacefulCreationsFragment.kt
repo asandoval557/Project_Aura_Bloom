@@ -21,6 +21,7 @@ class PeacefulCreationsFragment : Fragment() {
         return binding.root
     }
 
+        // Setting up the view once everything has been created and displayed
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.mindfulArt.setOnClickListener {

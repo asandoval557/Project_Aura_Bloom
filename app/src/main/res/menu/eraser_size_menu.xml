@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/eraser_small"
-        android:icon="@drawable/eraser_small"
-        android:title="@string/small"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/eraser_medium"
-        android:icon="@drawable/eraser_medium"
-        android:title="@string/medium"
-        app:showAsAction="always"/>
+
+
     <item
         android:id="@+id/eraser_large"
+        android:contentDescription="@string/large_eraser_button"
         android:icon="@drawable/eraser_large"
-        android:title="@string/large"
+        android:title="@string/large_eraser_size"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/eraser_medium"
+        android:contentDescription="@string/medium_eraser_button"
+        android:icon="@drawable/eraser_medium"
+        android:title="@string/medium_eraser_size"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/eraser_small"
+        android:contentDescription="@string/small_eraser_button"
+        android:icon="@drawable/eraser_small"
+        android:title="@string/small_eraser_size"
+        app:showAsAction="ifRoom"/>
 </menu>
