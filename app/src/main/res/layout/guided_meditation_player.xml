@@ -114,12 +114,39 @@
 
                 </LinearLayout>
 
-                <SeekBar
-                    android:id="@+id/volume_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:max="100"
-                    android:layout_marginTop="45dp"/>
+               <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:layout_gravity="center_horizontal"
+                       android:layout_marginTop="16dp"
+                       android:layout_marginBottom="16dp"
+                       >
+
+                   <ImageView
+                           android:id="@+id/low_volume_icon"
+                           android:layout_width="17dp"
+                           android:layout_height="17dp"
+                           android:src="@drawable/ic_vol_decrease"
+                           android:contentDescription="@string/low_volume_icon"/>
+
+                   <SeekBar
+                           android:id="@+id/volume_seekbar"
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:max="100"/>
+
+                   <ImageView
+                           android:id="@+id/raise_volume_icon"
+                           android:layout_width="17dp"
+                           android:layout_height="17dp"
+                           android:src="@drawable/ic_vol_increase"
+                           android:contentDescription="@string/increase_volume_icon"
+                   />
+
+               </LinearLayout>
+
 
             </LinearLayout>
 
