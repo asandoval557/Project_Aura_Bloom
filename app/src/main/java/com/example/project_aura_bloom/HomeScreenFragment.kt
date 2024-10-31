@@ -8,6 +8,7 @@ import android.location.Location
 import android.location.LocationRequest
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,10 +19,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.location.LocationManagerCompat.getCurrentLocation
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.example.project_aura_bloom.databinding.HomeScreenBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.example.project_aura_bloom.models.UserProfile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -45,16 +48,18 @@ class HomeScreenFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
-        // Fetch Emergency Contact
-        fetchEmergencyContact()
-        // Check profile completion
-        checkProfileCompletion()
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Fetch Emergency Contact
+        fetchEmergencyContact()
+        // Check profile completion
+        checkProfileCompletion()
+
+        loadUserData()
 
         //  Initialize FusedLocationProviderClient for geolocation
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
@@ -65,6 +70,11 @@ class HomeScreenFragment : Fragment() {
             } else {
                 requestLocationPermission()
             }
+        }
+
+        // Click listener for "Finish your profile"
+        binding.finishYourProfile.setOnClickListener {
+            findNavController().navigate(R.id.action_HomeScreenFragment_to_ProfileFragment)
         }
 
         // Click listener for the "Finish Your Drawing" panel
@@ -83,26 +93,71 @@ class HomeScreenFragment : Fragment() {
         }
     }
 
-    // TODO: Change based on Firebase data
+    private fun loadUserData() {
+        val userId = auth.currentUser?.uid ?: return // Make sure the user is logged in
+
+        db.collection("AuraBloomUserData").whereEqualTo("auth_uid", userId)
+            .get().addOnSuccessListener { querySnapshot ->
+                if (querySnapshot != null && querySnapshot.documents.isNotEmpty()) {
+                    val userDataDocument = querySnapshot.documents[0]
+                    val userProfile = userDataDocument.toObject(UserProfile::class.java)
+                    userProfile?.let {updateUI(it)}
+
+                    // Load profile image if URL exists
+                    val profileImageUrl = userDataDocument.getString("profileImageUrl")
+                    if (!profileImageUrl.isNullOrBlank()) {
+                        Glide.with(this).load(profileImageUrl).into(binding.profileImage)
+                    } else {
+                        binding.profileImage.setImageResource(R.drawable.ic_avatar)
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "User data not found", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(requireContext(), "Failed to load user data ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun updateUI(userProfile: UserProfile) {
+        binding.tvName.text = userProfile.fullName
+        binding.tvJoined.text = "Joined ${userProfile.date_joined}"
+
+        // Format emergency contact phone number
+        val formattedPhoneNumber = formatPhoneNumber(userProfile.emergencyContactPhoneNumber)
+        binding.tvContact.text = "Emergency Contact: ${userProfile.emergencyContactName}\n$formattedPhoneNumber"
+
+        // Load the profile image
+        if (!userProfile.profileImageUrl.isNullOrBlank()) {
+            Glide.with(this).load(userProfile.profileImageUrl).into(binding.profileImage)
+        } else {
+            binding.profileImage.setImageResource(R.drawable.ic_avatar)
+        }
+    }
+
+    private fun formatPhoneNumber(phoneNumber: String): String {
+        if (phoneNumber == null || phoneNumber.length != 10) return phoneNumber ?: ""
+        return "(${phoneNumber.substring(0, 3)}) ${phoneNumber.substring(3,6)}-${phoneNumber.substring(6)}"
+    }
+
     private fun checkProfileCompletion() {
         val userId = auth.currentUser!!.uid ?: return
         //updating the logic to search for the firebase user ID for the current user
         db.collection("AuraBloomUserData")
             //search based on the auth_id field within the AuraBloomUserData documents
-            .whereEqualTo("auth_id",userId)
+            .whereEqualTo("auth_uid",userId)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 if(querySnapshot != null && !querySnapshot.isEmpty) {
                     val userDataDocument = querySnapshot.documents[0]
                     var filledFields = 0
-                    val totalFields = 6 // Adjust based on # of field in collection
+                    val totalFields = 5 // Adjust based on # of field in collection
 
                     // Check each field (Change based on Field names)
                     // If "name" field is NOT empty or NULL, increment filledFields
                     if (!userDataDocument.getString("fullName").isNullOrEmpty()) filledFields++
-                    if (!userDataDocument.getString("dateOfBirth").isNullOrEmpty()) filledFields++
+                    if (!userDataDocument.getString("birthday").isNullOrEmpty()) filledFields++
                     if (!userDataDocument.getString("email").isNullOrEmpty()) filledFields++
-                    if (!userDataDocument.getString("address").isNullOrEmpty()) filledFields++
                     if (!userDataDocument.getString("emergencyContactName").isNullOrEmpty()) filledFields++
                     if (!userDataDocument.getString("emergencyContactPhoneNumber").isNullOrEmpty()) filledFields++
 

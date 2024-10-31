@@ -48,6 +48,11 @@
         <action
             android:id="@+id/action_HomeScreenFragment_to_MoodProgressFragment"
             app:destination="@id/MoodProgressFragment" />
+
+        <!-- Navigation from Home to Profile -->
+        <action
+            android:id="@+id/action_HomeScreenFragment_to_ProfileFragment"
+            app:destination="@id/ProfileFragment" />
     </fragment>
 
     <fragment

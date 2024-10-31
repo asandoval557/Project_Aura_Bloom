@@ -25,13 +25,17 @@
                 android:paddingBottom="16dp">
 
             <!-- Profile Image -->
-            <ImageView
-                    android:id="@+id/profile_image"
+            <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/profileImage"
                     android:layout_width="160dp"
                     android:layout_height="160dp"
                     android:src="@drawable/ic_avatar"
                     android:layout_marginEnd="16dp"
+                    android:padding="4dp"
                     android:contentDescription="@string/profile_picture"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance_Material3_smallComponent"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="2dp"
                     android:scaleType="centerCrop"/>
 
             <!-- User Info -->
@@ -41,7 +45,7 @@
                     android:orientation="vertical">
 
                 <TextView
-                        android:id="@+id/tv_name"
+                        android:id="@+id/tvName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Name"
@@ -50,7 +54,7 @@
                         android:textStyle="bold"/>
 
                 <TextView
-                        android:id="@+id/tv_joined"
+                        android:id="@+id/tvJoined"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Joined 2024"
@@ -58,7 +62,7 @@
                         android:textColor="@color/dark_gray"/>
 
                 <TextView
-                        android:id="@+id/tv_contact"
+                        android:id="@+id/tvContact"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Emergency Contact:\nMary 866-222-1234"
@@ -149,11 +153,11 @@
             </LinearLayout>
         </HorizontalScrollView>
 
-        <LinearLayout
+        <!-- Profile Completion Progress Bar Layout -->
+        <FrameLayout
                 android:id="@+id/profile_completion_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/panel_scroll"
@@ -161,12 +165,28 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="16dp">
 
+            <TextView
+                    android:id="@+id/finish_your_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:paddingStart="16dp"
+                    android:paddingBottom="48dp"
+                    android:text="@string/finish_your_profile"
+                    android:textStyle="italic|bold"
+                    android:fontFamily="@font/montserrat_alternates_regular"
+                    android:textSize="18sp"
+                    android:textColor="@color/dark_gray"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+
             <ProgressBar
                     android:id="@+id/profile_completion_bar"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="center"
                     android:indeterminate="false"
                     android:max="100"
                     android:progress="0"
@@ -176,12 +196,14 @@
                     android:id="@+id/profile_completion_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingStart="16dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="48dp"
                     android:text="0%"
                     android:textSize="18sp"
                     android:textColor="@color/dark_gray"
-                    android:gravity="center_vertical" />
-        </LinearLayout>
+                    android:gravity="center_vertical"/>
+        </FrameLayout>
 
         <!-- How are you? button -->
         <Button
