@@ -132,7 +132,7 @@ class SignUpFragment : Fragment() {
             val authUid = auth.currentUser?.uid ?: return
 
         // Get current date in "Month-Year" format for the date_joined field
-            val dateFormat = SimpleDateFormat("MMMM-yyyy", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
             val dateJoined = dateFormat.format(System.currentTimeMillis())
 
         // Fetch the most recent userID and increment it
