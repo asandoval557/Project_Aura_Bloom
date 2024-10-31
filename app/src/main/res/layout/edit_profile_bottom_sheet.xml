@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_profile"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"/>
+
+    <!-- Edit Name Field -->
+    <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="name"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:hint="@string/full_name"
+            android:inputType="textPersonName"
+            android:layout_marginTop="16dp"/>
+
+    <!-- Date of Birth Field-->
+    <DatePicker
+            android:id="@+id/dob_datePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:calendarTextColor="@color/dark_gray"
+            android:layout_gravity="center"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false" />
+
+    <!-- Edit Email Field -->
+    <EditText
+            android:id="@+id/edit_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="emailAddress"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:textSize="18sp"
+            android:hint="@string/email_address"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="16dp"/>
+
+    <!-- Edit Address Field -->
+    <EditText
+            android:id="@+id/edit_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="postalAddress"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:hint="@string/address"
+            android:inputType="textPostalAddress"
+            android:layout_marginTop="16dp"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+        <!-- Edit City Field -->
+        <EditText
+                android:id="@+id/edit_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autofillHints="postalAddress"
+                android:fontFamily="@font/montserrat_alternates_regular"
+                android:hint="@string/city"
+                android:inputType="text"/>
+
+        <!-- Spacer -->
+        <View
+                android:layout_width="8dp"
+                android:layout_height="wrap_content"/>
+
+        <!-- State Spinner -->
+        <Spinner
+                android:id="@+id/state_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat_alternates_regular"
+                android:backgroundTint="@color/dark_gray"
+                android:spinnerMode="dropdown"
+                android:entries="@array/us_states"/>
+
+        <View
+                android:layout_width="8dp"
+                android:layout_height="wrap_content"/>
+
+        <!-- Edit Zip Code Field -->
+        <EditText
+                android:id="@+id/edit_zip_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autofillHints="postalCode"
+                android:fontFamily="@font/montserrat_alternates_regular"
+                android:hint="@string/zip_code"
+                android:inputType="text"/>
+
+
+    </LinearLayout>
+
+
+    <!-- Emergency Contact Name -->
+    <EditText
+            android:id="@+id/edit_emergency_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="name"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:hint="@string/emergency_contact_name"
+            android:inputType="textPersonName"
+            android:layout_marginTop="16dp"/>
+
+    <!-- Emergency Contact Phone Number -->
+    <EditText
+            android:id="@+id/edit_emergency_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="phone"
+            android:fontFamily="@font/montserrat_alternates_regular"
+            android:hint="@string/emergency_contact_phone"
+            android:inputType="phone|number"
+            android:layout_marginTop="16dp"/>
+
+    <!-- Save and Cancel options -->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="16dp">
+
+        <TextView
+                android:id="@+id/cancel_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:textColor="@color/purple"
+                android:paddingStart="0dp"
+                android:paddingEnd="16dp"
+                android:textSize="28sp"
+                android:clickable="true"
+                android:focusable="true"
+                android:textStyle="bold"/>
+
+        <TextView
+                android:id="@+id/save_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                android:textColor="@color/purple"
+                android:paddingStart="0dp"
+                android:paddingEnd="16dp"
+                android:textSize="28sp"
+                android:clickable="true"
+                android:focusable="true"
+                android:textStyle="bold"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

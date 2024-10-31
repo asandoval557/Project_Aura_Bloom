@@ -18,6 +18,36 @@
     <string name="location">Location</string>
     <string name="home_screen_panel_scroll">Home screen horizontal panel scroll</string>
     <string name="profile">Profile</string>
+    <string name="help_options">Help Options</string>
+    <string name="crisis_lifeline">Suicide and Crisis Lifeline</string>
+    <string name="call_911">Call 911</string>
+    <string name="crisis_text_line">Crisis Text Line</string>
+    <string name="emergency_contact">Call Emergency Contact</string>
+    <string name="finish_your_profile">Finish your profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="address">Address (optional)</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="zip_code">Zip Code</string>
+    <string name="cancel">Cancel</string>
+    <string name="emergency_contact_name">Emergency Contact Name</string>
+    <string name="emergency_contact_phone">Emergency Contact Phone Number</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="happy_birthday">Happy Birthday!</string>
+
+    <!-- Array for State Spinner -->
+    <string-array name="us_states">
+        <item>AL</item> <item>AK</item> <item>AZ</item> <item>AR</item> <item>CA</item>
+        <item>CO</item> <item>CT</item> <item>DE</item> <item>FL</item> <item>GA</item>
+        <item>HI</item> <item>ID</item> <item>IL</item> <item>IN</item> <item>IA</item>
+        <item>KS</item> <item>KY</item> <item>LA</item> <item>ME</item> <item>MD</item>
+        <item>MA</item> <item>MI</item> <item>MN</item> <item>MS</item> <item>MO</item>
+        <item>MT</item> <item>NE</item> <item>NV</item> <item>NH</item> <item>NJ</item>
+        <item>NM</item> <item>NY</item> <item>NC</item> <item>ND</item> <item>OH</item>
+        <item>OK</item> <item>OR</item> <item>PA</item> <item>RI</item> <item>SC</item>
+        <item>SD</item> <item>TN</item> <item>TX</item> <item>UT</item> <item>VT</item>
+        <item>VA</item> <item>WA</item> <item>WV</item> <item>WI</item> <item>WY</item>
+    </string-array>
 
     <!-- Strings used in Log In Screen -->
     <string name="welcome_back">Welcome Back!</string>
@@ -74,9 +104,9 @@
     <string name="aurabloom">AUraBloom</string>
 
     <!-- DrawingFragment -->
-    <string name="small_brush_size">Small</string>
-    <string name="medium_brush_size">Medium</string>
-    <string name="large_brush_size">Large</string>
+    <string name="small_brush_size">Small Brush</string>
+    <string name="medium_brush_size">Medium Brush</string>
+    <string name="large_brush_size">Large Brush</string>
     <string name="erase_size_button">Erase Size Button</string>
     <string name="undo_button">Undo Button</string>
     <string name="redo_button">Redo Button</string>
@@ -101,8 +131,7 @@
     <string name="terms_conditions">Terms and Conditions</string>
     <string name="privacy_policy">Privacy Policy</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 <!--Meditation Screen-->
     <string name="welcome_meditation">Welcome Meditation</string>
@@ -111,5 +140,7 @@
     <string name="previous_audio_button">Previous Track</string>
     <string name="play_audio_button">Play</string>
     <string name="next_audio_button">Next Track</string>
+
+    <string name="hello_blank_fragment">Hello blank Fragment</string>
 
 </resources>

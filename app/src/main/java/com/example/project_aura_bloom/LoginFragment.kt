@@ -54,7 +54,29 @@ class LoginFragment : Fragment() {
                 return@setOnClickListener
             }
             //Log in the user
-            requestIntegrityToken(email, password)
+            loginUser(email, password)
+        }
+
+        // TODO: Antonio/Adrian ... work on this
+        binding.tvForgotPassword.setOnClickListener {
+            val email = binding.etEmail.text.toString()
+
+            //Check for empty email field
+            if(email.isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter email", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            //Check if the users email is valid and store in authentication database and send the reset password link.
+            //We don't have to take the user to another screen, they can use the email text box, enter their email and click on the "forgot password"
+            //to begin the reset password process.
+            auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener { task ->
+                    if(task.isSuccessful) {
+                        Toast.makeText(requireContext(), "Check your email for reset password link", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Email not found, check your email and try again", Toast.LENGTH_SHORT).show()
+                    }
+                }
         }
 
         // Handle "Sign Up" text click to navigate to SignUpFragment
@@ -66,51 +88,9 @@ class LoginFragment : Fragment() {
         binding.tvSignUp.typeface = customFont
     }
 
-    //Function to log in the user with Firebase Authentication
-
-    private fun requestIntegrityToken(email: String, password: String) {
-       val integrityManager = IntegrityManagerFactory.create(requireContext())
-
-        //Generate a unique nonce
-        val nonce = UUID.randomUUID().toString()
-
-        //Create the token request
-        val request = IntegrityTokenRequest.builder()
-            .setCloudProjectNumber(860582708038)
-            .setNonce(nonce)
-            .build()
-
-        integrityManager.requestIntegrityToken(request)
-        .addOnSuccessListener { response: IntegrityTokenResponse ->
-                val token = response.token()
-                loginUser(email, password, token)
-            }
-        .addOnFailureListener { exception ->
-                Toast.makeText(context, "Failed to request token: ${exception.message}", Toast.LENGTH_SHORT).show()
-            loginWithoutIntegrityCheck(email, password)
-        }
-    }
-
-    private fun loginWithoutIntegrityCheck(email: String, password: String) {
-        Toast.makeText(context, "Proceeding without integrity check (DEV MODE)", Toast.LENGTH_SHORT).show()
-        // Proceed with Firebase authentication
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(context, "Login Successful!", Toast.LENGTH_SHORT).show()
-                    // Navigate to the next screen
-                    findNavController().navigate(R.id.action_LoginFragment_to_HomeScreenFragment)
-                } else {
-                    Toast.makeText(context, "Login Failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-    }
-
-    // Updating loginUser function to handle the token
-    private fun loginUser(email: String, password: String, token: String?) {
-        // Log token and proceed with login
-        Log.d("IntegrityCheck", "Received integrity token: $token")
-
+    // Simplified log in for the user with firebase Authentication
+    private fun loginUser(email: String, password: String) {
+        //continue with firebase Authentication
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
