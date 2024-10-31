@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 class MeditationFragment : Fragment(R.layout.guided_meditation_player) {
 
     private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var playButton: ImageButton
     private lateinit var seekBar: SeekBar
     private var currentTrackIndex = 0
 
@@ -28,7 +29,7 @@ class MeditationFragment : Fragment(R.layout.guided_meditation_player) {
 
         // Setting up the buttons and the seek bar
         val prevButton = view.findViewById<ImageButton>(R.id.prev_button)
-        val playButton = view.findViewById<ImageButton>(R.id.play_button)
+        playButton = view.findViewById(R.id.play_button)
         val nextButton = view.findViewById<ImageButton>(R.id.next_button)
         seekBar = view.findViewById(R.id.guided_seekbar)
 
@@ -85,9 +86,11 @@ class MeditationFragment : Fragment(R.layout.guided_meditation_player) {
     private fun onPlayButtonClick(){
         if (!mediaPlayer.isPlaying){
             mediaPlayer.start()
+            playButton.setImageResource(R.drawable.ic_pause)
             updateSeekBar()
         }else {
             mediaPlayer.pause()
+            playButton.setImageResource(R.drawable.ic_play)
         }
     }
 
