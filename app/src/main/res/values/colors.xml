@@ -8,4 +8,6 @@
     <color name="charcoal">#192B33</color>
     <color name="transparent">#00000000</color>
     <color name="aura_bloom_background">#209EA2</color>
+    <color name="eraser_color">#fffafe</color>
+    <color name="cp_dialog_background">#808080</color>
 </resources>

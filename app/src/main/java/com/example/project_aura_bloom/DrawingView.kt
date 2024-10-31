@@ -1,9 +1,11 @@
 package com.example.project_aura_bloom
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.View
 
 class DrawingView @JvmOverloads constructor(
@@ -16,7 +18,7 @@ class DrawingView @JvmOverloads constructor(
     private var currentPath: CustomPath? = null
     private val drawingPaths = mutableListOf<Pair<Path, Paint>>()
     private val removedPaths = mutableListOf<Pair<Path, Paint>>()
-    private var brushColor = Color.BLACK
+    var brushColor = Color.BLACK
     private var eraserColor = Color.WHITE
     private var eraserThickness = 30f
     private var brushThickness = 10f
@@ -48,17 +50,7 @@ class DrawingView @JvmOverloads constructor(
         currentPath?.let { canvas.drawPath(it, paint) }
     }
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        val x = event.x
-        val y = event.y
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> startPath(x, y)
-            MotionEvent.ACTION_MOVE -> continuePath(x, y)
-            MotionEvent.ACTION_UP -> endPath(x, y)
-            else -> return false
-        }
-        return true
-    }
+
 
     fun startPath(x: Float, y: Float) {
         currentPath = CustomPath(brushColor, brushThickness).apply {
@@ -126,7 +118,7 @@ class DrawingView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun setBrushColor(color: Int) {
+    fun updateBrushColor(color: Int) {
         brushColor = color
         if (!isEraserMode) {
             paint.color = color

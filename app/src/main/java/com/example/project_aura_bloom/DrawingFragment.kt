@@ -1,13 +1,19 @@
 package com.example.project_aura_bloom
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog.show
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.project_aura_bloom.databinding.MindfulArtFragmentBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class DrawingFragment : Fragment() {
     private lateinit var drawingView: DrawingView
@@ -71,7 +77,7 @@ class DrawingFragment : Fragment() {
             else -> return ITEM_NOT_SAVED
         }
         drawingView.setBrushSize(brushSize)
-        drawingView.setBrushColor(ContextCompat.getColor(requireContext(), android.R.color.black))
+        drawingView.updateBrushColor(ContextCompat.getColor(requireContext(), android.R.color.black))
         binding.eraserCircle.visibility = View.GONE
         drawingView.exitEraseMode()
         return ITEM_SAVED
@@ -178,7 +184,33 @@ class DrawingFragment : Fragment() {
     }
 
     private fun openColorPickerDialog() {
-        TODO()
+        val colors = arrayOf("#F44336", "#E91E63", "#9C27B0",
+            "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4",
+            "#009688", "#4CAF50", "#8BC34A", "#CDDC39", "#FFEB3B",
+            "#FFC107", "#FF9800", "#FF5722")
+
+        var selectedColor: Int? = null
+
+        val colorPickerAdapter = ColorPickerAdapter(colors) { color ->
+            selectedColor = color
+        }
+        val recyclerView = RecyclerView(requireContext()).apply {
+            layoutManager = GridLayoutManager(requireContext(), 4)
+            adapter = colorPickerAdapter
+        }
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Choose a color")
+            .setView(recyclerView)
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton("Ok") { _, _ ->
+                selectedColor?.let {
+                    drawingView.updateBrushColor(it)
+                }
+            }
+            .create()
+        dialog.show()
     }
 
     override fun onDestroyView() {
@@ -186,6 +218,41 @@ class DrawingFragment : Fragment() {
         _binding = null
     }
 }
+
+class ColorPickerAdapter(private val colors: Array<String>, private val onColorSelected: (Int) -> Unit) :
+    RecyclerView.Adapter<ColorPickerAdapter.ColorViewHolder>() {
+
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.color_picker_menu, parent, false)
+        return ColorViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ColorViewHolder, @SuppressLint("RecyclerView") position: Int) {
+        val color = Color.parseColor(colors[position])
+        holder.colorView.setBackgroundColor(color)
+        holder.itemView.setOnClickListener {
+            val previousPosition = selectedPosition
+            selectedPosition = position
+            notifyItemChanged(previousPosition)
+            notifyItemChanged(position)
+            onColorSelected(color)
+        }
+
+        if (position == selectedPosition) {
+            holder.colorView.setBackgroundResource(R.drawable.selected_color_borber)
+        }
+    }
+
+
+    override fun getItemCount(): Int = colors.size
+
+    class ColorViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val colorView: ImageView = view.findViewById(R.id.color_view)
+    }
+}
+
 
 object BrushSize {
     const val LARGE_BRUSH_SIZE = 30f
