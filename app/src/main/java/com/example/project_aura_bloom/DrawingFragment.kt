@@ -1,7 +1,6 @@
 package com.example.project_aura_bloom
 
 import android.annotation.SuppressLint
-import android.app.ProgressDialog.show
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
@@ -184,10 +183,10 @@ class DrawingFragment : Fragment() {
     }
 
     private fun openColorPickerDialog() {
-        val colors = arrayOf("#F44336", "#E91E63", "#9C27B0",
+        val colors = arrayOf("#000000", "#E91E63", "#9C27B0",
             "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4",
             "#009688", "#4CAF50", "#8BC34A", "#CDDC39", "#FFEB3B",
-            "#FFC107", "#FF9800", "#FF5722")
+            "#FFC107", "#FF9800", "#F44336")
 
         var selectedColor: Int? = null
 
@@ -240,9 +239,9 @@ class ColorPickerAdapter(private val colors: Array<String>, private val onColorS
             onColorSelected(color)
         }
 
-        if (position == selectedPosition) {
-            holder.colorView.setBackgroundResource(R.drawable.selected_color_borber)
-        }
+        holder.colorBorder.visibility = if (position == selectedPosition)
+            View.VISIBLE else View.GONE
+
     }
 
 
@@ -250,6 +249,7 @@ class ColorPickerAdapter(private val colors: Array<String>, private val onColorS
 
     class ColorViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val colorView: ImageView = view.findViewById(R.id.color_view)
+        val colorBorder: View = view.findViewById(R.id.color_border)
     }
 }
 
