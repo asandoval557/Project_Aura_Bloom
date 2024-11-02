@@ -8,6 +8,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.animation.ValueAnimator
 import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
+import androidx.core.animation.doOnEnd
 import kotlin.math.min
 
 class CloudOfColor @JvmOverloads constructor(
@@ -43,6 +45,13 @@ class CloudOfColor @JvmOverloads constructor(
                 Shader.TileMode.CLAMP
             )
 
+            val middleGradient = RadialGradient(
+                touchX, touchY, cloudRad *0.75f,
+                Color.argb(150,Color.red(currentColor), Color.green(currentColor), Color.blue(currentColor)),
+                Color.argb(0,255,255,255),
+                Shader.TileMode.CLAMP
+            )
+
             val outerGradient = RadialGradient(
                 touchX, touchY, cloudRad,
                 Color.argb(150, Color.red(currentColor), Color.green(currentColor), Color.blue(currentColor)),
@@ -50,10 +59,13 @@ class CloudOfColor @JvmOverloads constructor(
                 Shader.TileMode.CLAMP
             )
 
+            // Cloud being created in a form of a circle
             paint.shader = innerGradient
             canvas.drawCircle(touchX, touchY, cloudRad/2, paint)
 
-                // Cloud being created in a form of a circle
+            paint.shader = middleGradient
+            canvas.drawCircle(touchX, touchY, cloudRad * 0.75f, paint)
+
             paint.shader = outerGradient
             canvas.drawCircle(touchX, touchY, cloudRad, paint)
         }
@@ -72,7 +84,8 @@ class CloudOfColor @JvmOverloads constructor(
                     // Random color being generated with each movement
                     // Expanding the cloud on touch
                 animateColorTransition()
-                expandCloud()
+                animateCloudExpansion()
+                animateRotation()
             }
 
                 // When touch of the finger has been removed from device the cloud position will reset and be redrawn
@@ -98,7 +111,7 @@ class CloudOfColor @JvmOverloads constructor(
 
         val colorAnimator = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
 
-        colorAnimator.duration = 2000
+        colorAnimator.duration = 1500
         colorAnimator.addUpdateListener { animator ->
             currentColor = animator.animatedValue as Int
             invalidate()
@@ -106,13 +119,28 @@ class CloudOfColor @JvmOverloads constructor(
         colorAnimator.start()
     }
 
-    private fun expandCloud() {
-        val animator = ValueAnimator.ofFloat(200f, 500f)
-        animator.duration = 1500
-        animator.addUpdateListener { animator ->
+    private fun animateCloudExpansion() {
+       val expandAnimator = ValueAnimator.ofFloat(cloudRad, 500f)
+        expandAnimator.duration = 1000
+        expandAnimator.addUpdateListener { animator ->
             cloudRad = animator.animatedValue as Float
             invalidate()
         }
-        animator.start()
+
+        val shrinkAnimator = ValueAnimator.ofFloat(500f, 200f)
+        shrinkAnimator.duration = 1500
+        shrinkAnimator.addUpdateListener { animator ->
+            cloudRad = animator.animatedValue as Float
+            invalidate()
+        }
+        expandAnimator.start()
+        expandAnimator.doOnEnd {shrinkAnimator.start()}
+    }
+
+    private fun animateRotation() {
+        val rotationAnimator = ObjectAnimator.ofFloat(this, "rotation", 0f, 360f)
+        rotationAnimator.duration = 5000
+        rotationAnimator.repeatCount = ObjectAnimator.INFINITE
+        rotationAnimator.start()
     }
 }
