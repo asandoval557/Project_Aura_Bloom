@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.project_aura_bloom.databinding.CalmZoneScreenBinding
@@ -17,7 +16,7 @@ class CalmZoneFragment: Fragment() {
     private val binding get() = _binding!!
 
         // Inflating the layout, and setting up the view
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = CalmZoneScreenBinding.inflate(inflater,container,false)
         return binding.root
     }

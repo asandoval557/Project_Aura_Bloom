@@ -41,6 +41,7 @@ import nl.dionsegijn.konfetti.core.emitter.Emitter
 import java.util.*
 import java.util.concurrent.TimeUnit
 import com.bumptech.glide.Glide
+import com.github.dhaval2404.imagepicker.ImagePicker
 
 class ProfileFragment : Fragment() {
 
@@ -48,28 +49,27 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var konfettiView: KonfettiView
-    private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val startForProfileImageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val resultCode = result.resultCode
+        val data = result.data
 
-        // Initialize imagePickerLauncher
-        imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val imageUri = result.data?.data
-                imageUri?.let {
-                    // Load the image into the profile picture view
-                    Glide.with(this).load(it).into(binding.profileImage)
-                    saveImageUriToFirestore(it.toString())
-                }
-            } else {
-                Toast.makeText(requireContext(), "Image selection cancelled", Toast.LENGTH_SHORT).show()
-            }
+        if (resultCode == Activity.RESULT_OK) {
+            val fileUri = data?.data!!
+
+            // Load the selected image into the profile image view
+            Glide.with(this).load(fileUri).into(binding.profileImage)
+            saveImageUriToFirestore(fileUri.toString())
+        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -90,8 +90,23 @@ class ProfileFragment : Fragment() {
         loadUserProfile()
 
         // Click listener for profile picture changing
-        binding.profileImage.setOnClickListener {
-            openImageChooser()
+        binding.changePictureFab.setOnClickListener {
+            ImagePicker.with(this)
+                .crop()                                     // Crop the image if needed
+                .compress(1024)                     // Final Image size will be less than 1 MB
+                .maxResultSize(1080, 1080)      // Set the maximum resolution
+                .createIntent { intent ->
+                    startForProfileImageResult.launch(intent)
+                }
+        }
+
+        // Click listener for Refresh Button
+        binding.reloadButton.setOnClickListener {
+            // Rotation animation
+            binding.reloadButton.animate().rotationBy(360f).setDuration(500).start()
+
+            loadUserProfile()
+            Toast.makeText(context, "Profile Refreshed", Toast.LENGTH_SHORT).show()
         }
 
         // Click listener for edit button
@@ -103,34 +118,28 @@ class ProfileFragment : Fragment() {
         setupMeditationBarChart(binding.meditationBarChart)
     }
 
-    private fun openImageChooser() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        imagePickerLauncher.launch(intent)
-    }
-
     private fun saveImageUriToFirestore(imageUrl: String) {
         val userId = auth.currentUser?.uid ?: return
         db.collection("AuraBloomUserData").whereEqualTo("auth_uid", userId).get()
-        .addOnSuccessListener {querySnapshot ->
-            if (querySnapshot != null && querySnapshot.documents.isNotEmpty()) {
-                val documentId = querySnapshot.documents[0].id
+            .addOnSuccessListener {querySnapshot ->
+                if (querySnapshot != null && querySnapshot.documents.isNotEmpty()) {
+                    val documentId = querySnapshot.documents[0].id
 
-                // Update the profileImageUrl" in the document
-                db.collection("AuraBloomUserData").document(documentId)
-                    .update("profileImageUrl", imageUrl)
-                    .addOnSuccessListener {
-                        // Load image into profile image view
-                        Glide.with(this).load(imageUrl).into(binding.profileImage)
-                    }
-                    .addOnFailureListener { exception ->
-                        Toast.makeText(requireContext(), "Failed to upload image URL: ${exception.message}"
-                            , Toast.LENGTH_SHORT).show()
-                    }
-            } else {
-                Toast.makeText(requireContext(), "User document not found", Toast.LENGTH_SHORT).show()
+                    // Update the profileImageUrl" in the document
+                    db.collection("AuraBloomUserData").document(documentId)
+                        .update("profileImageUrl", imageUrl)
+                        .addOnSuccessListener {
+                            // Load image into profile image view
+                            Glide.with(this).load(imageUrl).into(binding.profileImage)
+                        }
+                        .addOnFailureListener { exception ->
+                            Toast.makeText(requireContext(), "Failed to upload image URL: ${exception.message}"
+                                , Toast.LENGTH_SHORT).show()
+                        }
+                } else {
+                    Toast.makeText(requireContext(), "User document not found", Toast.LENGTH_SHORT).show()
+                }
             }
-        }
             .addOnFailureListener { exception ->
                 Toast.makeText(requireContext(), "Failed to locate user document: ${exception.message}"
                     , Toast.LENGTH_SHORT).show()
@@ -205,7 +214,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun formatGeneralInformation(name: String, email: String, address: String,
-                                 cityStateZip: String, emergencyContactName: String, emergencyContactPhoneNumber: String): SpannableStringBuilder {
+                                         cityStateZip: String, emergencyContactName: String, emergencyContactPhoneNumber: String): SpannableStringBuilder {
         val builder = SpannableStringBuilder()
 
         fun addBoldLabel(label: String, content: String) {
@@ -360,6 +369,26 @@ class ProfileFragment : Fragment() {
         editZipCode?.setText(zipCode)
         editEmergencyName?.setText(emergencyContactName)
         editEmergencyPhone?.setText(emergencyContactPhone)
+
+        // Use DOB to initialize the DatePicker
+        if (dateOfBirth.isNotEmpty()) {
+            val dateParts = dateOfBirth.split("/")
+            if (dateParts.size == 3) {
+                val month = dateParts[0].toIntOrNull() ?: 1
+                val day = dateParts[1].toIntOrNull() ?: 1
+                val year = dateParts[2].toIntOrNull() ?: Calendar.getInstance().get(Calendar.YEAR)
+                datePicker?.init(year, month - 1, day, null)
+            }
+        } else {
+            // Set default date if DOB in not available
+            val today = Calendar.getInstance()
+            datePicker?.init(
+                today.get(Calendar.YEAR),
+                today.get(Calendar.MONTH),
+                today.get(Calendar.DAY_OF_MONTH),
+                null
+            )
+        }
 
         // Initialize the Spinner with a hint
         stateSpinner?.let {

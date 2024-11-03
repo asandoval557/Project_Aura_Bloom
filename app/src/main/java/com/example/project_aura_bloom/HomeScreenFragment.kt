@@ -2,13 +2,10 @@ package com.example.project_aura_bloom
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.location.Location
-import android.location.LocationRequest
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +13,6 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.location.LocationManagerCompat.getCurrentLocation
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -40,7 +36,7 @@ class HomeScreenFragment : Fragment() {
 
     // Inflating the layout, and setting up the view
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = HomeScreenBinding.inflate(inflater,container,false)
         val view = binding.root
 
@@ -128,7 +124,7 @@ class HomeScreenFragment : Fragment() {
         binding.tvContact.text = "Emergency Contact: ${userProfile.emergencyContactName}\n$formattedPhoneNumber"
 
         // Load the profile image
-        if (!userProfile.profileImageUrl.isNullOrBlank()) {
+        if (userProfile.profileImageUrl.isNotBlank()) {
             Glide.with(this).load(userProfile.profileImageUrl).into(binding.profileImage)
         } else {
             binding.profileImage.setImageResource(R.drawable.ic_avatar)
@@ -136,12 +132,12 @@ class HomeScreenFragment : Fragment() {
     }
 
     private fun formatPhoneNumber(phoneNumber: String): String {
-        if (phoneNumber == null || phoneNumber.length != 10) return phoneNumber ?: ""
+        if (phoneNumber.length != 10) return phoneNumber
         return "(${phoneNumber.substring(0, 3)}) ${phoneNumber.substring(3,6)}-${phoneNumber.substring(6)}"
     }
 
     private fun checkProfileCompletion() {
-        val userId = auth.currentUser!!.uid ?: return
+        val userId = auth.currentUser!!.uid
         //updating the logic to search for the firebase user ID for the current user
         db.collection("AuraBloomUserData")
             //search based on the auth_id field within the AuraBloomUserData documents
@@ -183,7 +179,6 @@ class HomeScreenFragment : Fragment() {
         }
     }
 
-    //TODO: Adrian, this is where the Firebase pull for Emergency Contact happens
     private fun fetchEmergencyContact() {
         // Retrieve the current user's ID from Firebase Authentication
         val userId = FirebaseAuth.getInstance().currentUser!!.uid

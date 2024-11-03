@@ -10,15 +10,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp"
+            android:paddingBottom="64dp"
+            android:clipToPadding="false"
             android:background="@drawable/gradient_background">
 
         <!-- Main Vertical Layout -->
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="16dp"
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
+
+            <ImageButton
+                    android:id="@+id/reload_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:contentDescription="@string/reload_profile"
+                    android:src="@drawable/refresh"
+                    android:tint="@color/purple"
+                    android:padding="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"/>
+
 
             <TextView
                     android:id="@+id/birthdayMessage"
@@ -56,6 +70,18 @@
                         android:clickable="true"
                         android:focusable="true"/>
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/change_picture_fab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="-50dp"
+                        android:layout_marginLeft="65dp"
+                        android:contentDescription="@string/change_profile_picture"
+                        android:src="@drawable/camera"
+                        android:tint="@color/white"
+                        android:backgroundTint="@color/teal" />
+
                 <!-- Name and Details -->
                 <TextView
                         android:id="@+id/profile_name"
@@ -80,7 +106,7 @@
             <!-- Scrollable Panels -->
             <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:scrollbars="none">
 
@@ -120,7 +146,9 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/edit"
-                                    android:textSize="20sp"
+                                    android:textSize="24sp"
+                                    android:padding="8dp"
+                                    android:layout_marginTop="-16dp"
                                     android:textColor="@android:color/holo_blue_dark"
                                     android:gravity="end"
                                     android:layout_gravity="end"
@@ -136,6 +164,10 @@
                                     android:text=""
                                     android:textSize="24sp"
                                     android:textColor="@color/black"/>
+                            <nl.dionsegijn.konfetti.xml.KonfettiView
+                                    android:id="@+id/konfettiView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -208,8 +240,4 @@
     </ScrollView>
 
     <!-- Confetti animation layout -->
-    <nl.dionsegijn.konfetti.xml.KonfettiView
-            android:id="@+id/konfettiView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 </FrameLayout>
