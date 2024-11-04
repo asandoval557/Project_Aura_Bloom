@@ -145,14 +145,17 @@
 
 
 
-<!--Meditation Screen-->
+    <!--Meditation Screen-->
     <string name="welcome_meditation">Welcome Meditation</string>
     <string name="AUrabloom">Audio by AUraBloom</string>
     <string name="welcome_meditation_cover">Welcome meditation cover</string>
     <string name="previous_audio_button">Previous Track</string>
     <string name="play_audio_button">Play</string>
     <string name="next_audio_button">Next Track</string>
+    <string name="low_volume_icon">Decrease Volume</string>
+    <string name="increase_volume_icon">Increase Volume</string>
 
     <string name="hello_blank_fragment">Hello blank Fragment</string>
+
 
 </resources>
