@@ -57,7 +57,7 @@ class LoginFragment : Fragment() {
             loginUser(email, password)
         }
 
-        // TODO: Antonio/Adrian ... work on this
+
         binding.tvForgotPassword.setOnClickListener {
             // Retrieve email input from the email EditText field
             val email = binding.etEmail.text.toString()

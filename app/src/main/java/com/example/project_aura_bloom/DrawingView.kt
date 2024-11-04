@@ -1,10 +1,19 @@
 package com.example.project_aura_bloom
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
+import androidx.core.content.FileProvider
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import android.net.Uri
 
 class DrawingView @JvmOverloads constructor(
     context: Context,
@@ -141,12 +150,41 @@ class DrawingView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun saveDrawing() {
-        TODO("Not yet implemented")
+    fun saveDrawing(): Uri? {
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        this.draw(canvas)
+
+        return try{
+            val file = File(context.cacheDir, "drawing_${System.currentTimeMillis()}.png")
+            val outputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            outputStream.flush()
+            outputStream.close()
+
+            Toast.makeText(context, "Drawing saved at: ${file.path}", Toast.LENGTH_LONG).show()
+
+            FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(context, "Error saving drawing", Toast.LENGTH_SHORT).show()
+            null
+        }
+
     }
 
     fun shareDrawing() {
-        TODO("Not yet implemented")
+        val imageUri = saveDrawing()
+        if (imageUri != null) {
+            val shareIntent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_STREAM, imageUri)
+                type = "image/png"
+            }
+            context.startActivity(Intent.createChooser(shareIntent, "Share using the options"))
+        } else {
+            Toast.makeText(context, "Failed to save and share", Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun clear() {
