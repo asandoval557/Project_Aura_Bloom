@@ -36,6 +36,8 @@
     <string name="happy_birthday">Happy Birthday!</string>
     <string name="change_profile_picture">Change Profile Picture</string>
     <string name="reload_profile">Reload Profile</string>
+    <string name="current_achievement">Current Achievement</string>
+    <string name="next_milestone">Next Milestone</string>
 
     <!-- Array for State Spinner -->
     <string-array name="us_states">

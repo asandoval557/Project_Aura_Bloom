@@ -42,6 +42,9 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.firebase.firestore.FieldPath
+import java.text.SimpleDateFormat
 
 class ProfileFragment : Fragment() {
 
@@ -520,27 +523,83 @@ class ProfileFragment : Fragment() {
 
     // Function to set up Meditation Bar Chart
     private fun setupMeditationBarChart(barChart: BarChart) {
-        // Create a list of entries (data points)
-        val entries = listOf(
-            BarEntry(0f, 3f), // Sunday
-            BarEntry(1f, 2f), // Monday
-            BarEntry(2f, 1f), // Tuesday
-            BarEntry(3f, 5f), // Wednesday
-            BarEntry(4f, 3f), // Thursday
-            BarEntry(5f, 4f), // Friday
-            BarEntry(6f, 4f), // Saturday
-        )
+        val userId = auth.currentUser?.uid ?: return
 
-        // Create a dataset with the entries
-        val barDataSet = BarDataSet(entries, "Meditation time (hours)")
-        barDataSet.color = resources.getColor(R.color.dark_gray, null)
+        // Get last 7 days in 'YYYY-MM-DD' format
+        val last7Days = getLast7Days()
 
-        // Create a BarData object with the dataset
-        val data = BarData(barDataSet)
+        // Query Firestore for meditation data
+        db.collection("meditationData")
+            .document(userId)
+            .collection("dailySessions")
+            .whereIn(FieldPath.documentId(), last7Days) // Fetch only last 7 days
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val entries = mutableListOf<BarEntry>()
 
-        // Set data to the bar chart and refresh
-        barChart.data = data
-        barChart.invalidate() // Refresh
+                // Map each date to a corresponding index (0 - 6 for 7 days)
+                val dateToIndexMap = last7Days.withIndex().associate { it.value to it.index.toFloat() }
+
+                for (document in querySnapshot.documents) {
+                    val date = document.id
+                    val duration = document.getDouble("duration")?.toFloat() ?: 0f
+                    val index = dateToIndexMap[date]
+                    if (index != null) {
+                        entries.add(BarEntry(index, duration))
+                    }
+                }
+
+                // Fill missing days with zeroes if necessary
+                for (i in 0..6) {
+                    if (entries.none { it.x == i.toFloat() }) {
+                        entries.add(BarEntry(i.toFloat(), 0f))
+                    }
+                }
+
+                // Sort entries by x-value (date order)
+                entries.sortBy { it.x }
+
+                // Create and set data for BarChart
+                val barDataSet = BarDataSet(entries, "Meditation time (hours)")
+                barDataSet.color = resources.getColor(R.color.purple, null)
+                val data = BarData(barDataSet)
+
+                // Configure chart display options
+                barChart.data = data
+                barChart.invalidate() // Refresh chart
+
+                // Customize chart appearance
+                barChart.description.isEnabled = false
+                barChart.axisLeft.axisMinimum = 0f // Start y-axis at 0
+                barChart.axisLeft.axisMaximum = 1f // Y-axis increments
+                barChart.xAxis.granularity = 1f
+                barChart.xAxis.labelCount = 7 // Display all 7 days
+                barChart.xAxis.valueFormatter = IndexAxisValueFormatter(getLast7Days())
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(requireContext(), "Error loading meditation data: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun getLast7Days(): List<String> {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val calendar = Calendar.getInstance()
+        return List(7) {
+            val date = dateFormat.format(calendar.time)
+            calendar.add(Calendar.DAY_OF_YEAR, -1)
+            date
+        }.reversed() // Reversed to keep in chronological order
+    }
+
+    // Function to get last 7 day labels for X-axis
+    private fun getLast7DaysLabels(): List<String> {
+        val dayFormat = SimpleDateFormat("EEE", Locale.getDefault()) // Short day name
+        val calendar = Calendar.getInstance()
+        return List(7) {
+            val dayLabel = dayFormat.format(calendar.time)
+            calendar.add(Calendar.DAY_OF_YEAR, -1)
+            dayLabel
+        }.reversed()
     }
 
     override fun onDestroyView() {

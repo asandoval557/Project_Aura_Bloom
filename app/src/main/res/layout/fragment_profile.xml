@@ -107,6 +107,8 @@
             <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fadingEdgeLength="32dp"
+                    android:requiresFadingEdge="horizontal"
                     android:layout_marginTop="16dp"
                     android:scrollbars="none">
 

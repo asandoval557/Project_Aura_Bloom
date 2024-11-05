@@ -24,12 +24,17 @@ import com.example.project_aura_bloom.models.UserProfile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
+
 class HomeScreenFragment : Fragment() {
 
     private lateinit var binding: HomeScreenBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val LOCATION_PERMISSION_REQUEST_CODE = 1001
     private var emergencyContactNumber: String? = null
+
+    private var currentStreak: Long = 0
+    private var totalSessions: Long = 0
+    private lateinit var milestones: List<Long>
 
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
@@ -49,6 +54,11 @@ class HomeScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val userId = auth.currentUser!!.uid
+
+        initializeAchievementsIfNeeded(userId)
+        loadAchievements(userId)
 
         // Fetch Emergency Contact
         fetchEmergencyContact()
@@ -73,11 +83,6 @@ class HomeScreenFragment : Fragment() {
             findNavController().navigate(R.id.action_HomeScreenFragment_to_ProfileFragment)
         }
 
-        // Click listener for the "Finish Your Drawing" panel
-        binding.finishDrawingPanel.setOnClickListener {
-            findNavController().navigate(R.id.action_HomeScreenFragment_to_DrawingFragment)
-        }
-
         // Click listener for the "How are you today?" button
         binding.btnHowAreYou.setOnClickListener {
             findNavController().navigate(R.id.action_HomeScreenFragment_to_MoodProgressFragment)
@@ -87,6 +92,46 @@ class HomeScreenFragment : Fragment() {
         binding.btnHelp.setOnClickListener {
             showHelpOptions()
         }
+    }
+
+    private fun initializeAchievementsIfNeeded(userId: String) {
+        val userDocRef = db.collection("AuraBloomUserData").document(userId)
+
+        userDocRef.get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                val data = mutableMapOf<String, Any>()
+
+                if (!document.contains("currentStreak")) data["currentStreak"] = 0
+                if (!document.contains("totalSessions")) data["totalSessions"] = 0
+                if (!document.contains("milestones")) data["milestones"] = listOf(5, 10, 20)
+
+                if (data.isNotEmpty()) {
+                    userDocRef.update(data)
+                }
+            }
+        }
+    }
+
+    private fun loadAchievements(userId: String) {
+        val userDocRef = db.collection("AuraBloomUserData").document(userId)
+
+        userDocRef.get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                currentStreak = document.getLong("currentStreak") ?: 0
+                totalSessions = document.getLong("totalSessions") ?: 0
+                milestones = document["milestones"] as? List<Long> ?: listOf(5, 10, 20)
+
+                updateAchievementUI()
+            }
+        }
+    }
+
+    private fun updateAchievementUI() {
+        // Find the next milestone based on totalSessions
+        val nextMilestone = milestones.firstOrNull { it > totalSessions } ?: {totalSessions + 10}
+
+        binding.currentAchievementPanel.text = "Streak: $currentStreak days in a row!"
+        binding.nextMilestonePanel.text = "Next Milestone: $nextMilestone meditation sessions"
     }
 
     private fun loadUserData() {
