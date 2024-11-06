@@ -158,6 +158,11 @@
     <string name="low_volume_icon">Decrease Volume</string>
     <string name="increase_volume_icon">Increase Volume</string>
 
+
+
+    <!-- Privacy Policy Fragment -->
+    <string name="privacy_policy_content">Privacy Policy will go here</string>
+
     <string name="hello_blank_fragment">Hello blank Fragment</string>
 
 
