@@ -17,7 +17,7 @@ import android.webkit.WebViewClient
  */
 class PrivacyPolicyFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private val privacyPolicyURL = "https://1drv.ms/u/s!Ai8u-cbMfbjBg8prIDI5o70i7Vx89Q?e=LJvwSL" //load from MoonWolves Sharepoint
+    private val privacyPolicyURL = "https://1drv.ms/b/s!Ai8u-cbMfbjBg8ppb5guMWX9PdmKeQ?e=1EzK9n" //load from MoonWolves Sharepoint
 
 
 
