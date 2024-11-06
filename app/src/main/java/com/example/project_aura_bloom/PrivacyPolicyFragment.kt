@@ -27,7 +27,7 @@ class PrivacyPolicyFragment : Fragment() {
     ): View? {
         val viewPolicy = inflater.inflate(R.layout.fragment_privacy_policy, container, false)
 
-        view?.let {
+        viewPolicy?.let {
             val policyView = viewPolicy.findViewById<WebView>(R.id.privacy_policy_webview)
             policyView.webViewClient = WebViewClient()
             policyView.settings.javaScriptEnabled = true
