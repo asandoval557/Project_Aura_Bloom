@@ -1,7 +1,9 @@
 package com.example.project_aura_bloom
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.location.Location
 import android.net.Uri
@@ -9,8 +11,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.Toast
+import androidx.compose.animation.fadeIn
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -23,6 +27,15 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.example.project_aura_bloom.models.UserProfile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import com.example.project_aura_bloom.api.ZenQuote
+import com.example.project_aura_bloom.api.ZenQuotesApiService
+import java.util.concurrent.TimeUnit
+import kotlin.text.Typography.quote
 
 
 class HomeScreenFragment : Fragment() {
@@ -31,6 +44,8 @@ class HomeScreenFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val LOCATION_PERMISSION_REQUEST_CODE = 1001
     private var emergencyContactNumber: String? = null
+    private lateinit var zenQuotesApiService: ZenQuotesApiService
+    private lateinit var sharedPreferences: SharedPreferences
 
     private var currentStreak: Long = 0
     private var totalSessions: Long = 0
@@ -49,6 +64,17 @@ class HomeScreenFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
+        // Initialize SharedPreferences
+        sharedPreferences = requireContext().getSharedPreferences("QuotePreferences", Context.MODE_PRIVATE)
+
+        // Initialize Retrofit
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://zenquotes.io/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        zenQuotesApiService = retrofit.create(ZenQuotesApiService::class.java)
+
         return view
     }
 
@@ -66,6 +92,9 @@ class HomeScreenFragment : Fragment() {
         checkProfileCompletion()
 
         loadUserData()
+
+        // Load and display the Quote of the Day
+        displayQuoteOfTheDay()
 
         //  Initialize FusedLocationProviderClient for geolocation
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
@@ -92,6 +121,53 @@ class HomeScreenFragment : Fragment() {
         binding.btnHelp.setOnClickListener {
             showHelpOptions()
         }
+    }
+
+    private fun displayQuoteOfTheDay() {
+        // Get the last update time
+        val lastUpdateTime = sharedPreferences.getLong("lastUpdateTime", 0)
+        val currentTime = System.currentTimeMillis()
+
+        //Check if 24 hours has passed since last update
+        if (currentTime - lastUpdateTime >= TimeUnit.HOURS.toMillis(24)) {
+            // 24 hours has passed
+            fetchQuoteOfTheDay()
+        } else {
+            // Less than 24 hours, load saved quote
+            val savedQuote = sharedPreferences.getString("quoteText", "No Quote Available")
+            val savedAuthor = sharedPreferences.getString("quoteAuthor", "Author Unknown")
+            binding.QuoteOfTheDay.text = "\"$savedQuote\" - ${savedAuthor}"
+        }
+    }
+
+    private fun fetchQuoteOfTheDay() {
+        zenQuotesApiService.getRandomQuote().enqueue(object : Callback<List<ZenQuote>> {
+            override fun onResponse(call: Call<List<ZenQuote>>, response: Response<List<ZenQuote>>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val quote = response.body()!![0] // Get the first quote in response
+                    val quoteText = quote.q
+                    val quoteAuthor = quote.a
+                    binding.QuoteOfTheDay.text = "\"$quoteText\" - $quoteAuthor"
+
+                    // Fade-in animation
+                    val fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in_left_to_right)
+                    binding.QuoteOfTheDay.startAnimation(fadeInAnimation)
+
+                    // Save the Quote and the current time in SharedPreferences
+                    with(sharedPreferences.edit()) {
+                        putString("quoteText", quoteText)
+                        putString("quoteAuthor", quoteAuthor)
+                        putLong("lastUpdateTime", System.currentTimeMillis())
+                        apply()
+                    }
+                } else {
+                    binding.QuoteOfTheDay.text = "No Quote for today!"
+                }
+            }
+            override fun onFailure(call: Call<List<ZenQuote>>, t: Throwable) {
+                binding.QuoteOfTheDay.text = "Error loading quote."
+            }
+        })
     }
 
     private fun initializeAchievementsIfNeeded(userId: String) {

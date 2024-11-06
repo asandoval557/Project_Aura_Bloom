@@ -38,6 +38,7 @@
     <string name="reload_profile">Reload Profile</string>
     <string name="current_achievement">Current Achievement</string>
     <string name="next_milestone">Next Milestone</string>
+    <string name="quote_of_the_day">Quote of the Day</string>
 
     <!-- Array for State Spinner -->
     <string-array name="us_states">

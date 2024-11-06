@@ -2,6 +2,7 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
+        android:background="@drawable/qotd_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
@@ -22,6 +23,7 @@
             android:layout_height="wrap_content"
             android:text="@string/crisis_lifeline"
             android:textSize="20sp"
+            android:stateListAnimator="@animator/button_state_animator"
             android:fontFamily="@font/montserrat_alternates_regular"
             android:backgroundTint="@color/teal"
             android:paddingBottom="12dp"/>
@@ -32,6 +34,7 @@
             android:layout_height="wrap_content"
             android:text="@string/call_911"
             android:textSize="20sp"
+            android:stateListAnimator="@animator/button_state_animator"
             android:fontFamily="@font/montserrat_alternates_regular"
             android:backgroundTint="@color/teal"
             android:paddingBottom="12dp"/>
@@ -42,6 +45,7 @@
             android:layout_height="wrap_content"
             android:text="@string/emergency_contact"
             android:textSize="20sp"
+            android:stateListAnimator="@animator/button_state_animator"
             android:fontFamily="@font/montserrat_alternates_regular"
             android:backgroundTint="@color/teal"
             android:paddingBottom="12dp"/>
@@ -52,6 +56,7 @@
             android:layout_height="wrap_content"
             android:text="@string/crisis_text_line"
             android:textSize="20sp"
+            android:stateListAnimator="@animator/button_state_animator"
             android:fontFamily="@font/montserrat_alternates_regular"
             android:backgroundTint="@color/teal"/>
 </LinearLayout>
