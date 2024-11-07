@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:orientation="vertical"
+        android:background="@drawable/mood_scale_background"
+        android:gravity="center">
+
+    <TextView
+        android:id="@+id/emotion_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"/>
+
+    <SeekBar
+        android:id="@+id/emotional_scale"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="4"/>
+
+    <TextView
+        android:id="@+id/scale_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/just_happy"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:padding="8dp"/>
+
+    <Button
+        android:id="@+id/mood_confirm_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/confirm_mood"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+
+            />
+
+
+
+</LinearLayout>

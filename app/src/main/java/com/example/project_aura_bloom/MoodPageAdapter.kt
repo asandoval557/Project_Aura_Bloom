@@ -6,8 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 
+class MoodPageAdapter(
+    private val moods: List<Int>,
+    private val onEmotionClick: (String) -> Unit
+) : RecyclerView.Adapter<MoodPageAdapter.MoodViewHolder>() {
 
-class MoodPageAdapter(private val moods: List<Int>) : RecyclerView.Adapter<MoodPageAdapter.MoodViewHolder>() {
     inner class MoodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val moodAnimationView: LottieAnimationView = view.findViewById(R.id.mood_animation_view)
     }
@@ -18,11 +21,12 @@ class MoodPageAdapter(private val moods: List<Int>) : RecyclerView.Adapter<MoodP
     }
 
     override fun onBindViewHolder(holder: MoodViewHolder, position: Int) {
-        holder.moodAnimationView.setAnimation(moods[position])
+        val moodResId = moods[position]
+        holder.moodAnimationView.setAnimation(moodResId)
         holder.moodAnimationView.playAnimation()
 
         // Adjusting the scaling for specified emotion animations
-        when (moods[position]) {
+        when (moodResId) {
             R.raw.calm, R.raw.bothered, R.raw.anxious -> {
                 holder.moodAnimationView.scaleX = 0.8f
                 holder.moodAnimationView.scaleY = 0.8f
@@ -32,8 +36,24 @@ class MoodPageAdapter(private val moods: List<Int>) : RecyclerView.Adapter<MoodP
                 holder.moodAnimationView.scaleY = 1f
             }
         }
+
+        // Determining the emotion
+        val emotionLabel = when (moodResId) {
+            R.raw.happy -> "Happy"
+            R.raw.sad -> "Sad"
+            R.raw.angry -> "Angry"
+            R.raw.confused -> "Confused"
+            R.raw.calm -> "Calm"
+            R.raw.bothered -> "Bothered"
+            R.raw.anxious -> "Anxious"
+            else -> "Emotion"
+        }
+
+
+        holder.moodAnimationView.setOnClickListener {
+            onEmotionClick(emotionLabel)
+        }
     }
 
     override fun getItemCount(): Int = moods.size
-
 }
