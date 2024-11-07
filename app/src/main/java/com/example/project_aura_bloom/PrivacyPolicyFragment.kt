@@ -15,7 +15,7 @@ import android.webkit.WebViewClient
 // * Use the [PrivacyPolicyFragment.newInstance] factory method to
 // * create an instance of this fragment.
  */
-class PrivacyPolicyFragment : Fragment() {
+class  PrivacyPolicyFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private val privacyPolicyURL = "https://1drv.ms/b/s!Ai8u-cbMfbjBg8ppb5guMWX9PdmKeQ?e=1EzK9n" //load from MoonWolves Sharepoint
 

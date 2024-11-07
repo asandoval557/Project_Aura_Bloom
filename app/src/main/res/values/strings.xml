@@ -39,6 +39,12 @@
     <string name="current_achievement">Current Achievement</string>
     <string name="next_milestone">Next Milestone</string>
     <string name="quote_of_the_day">Quote of the Day</string>
+    <string name="one">1</string>
+    <string name="day">Day</string>
+    <string name="days">Days</string>
+    <string name="way_to_go">Way to go!\nKeep it going!</string>
+    <string name="so_close">You\'re so close!\nKeep going!</string>
+    <string name="ten">10</string>
 
     <!-- Array for State Spinner -->
     <string-array name="us_states">

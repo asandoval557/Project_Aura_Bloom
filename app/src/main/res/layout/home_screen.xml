@@ -166,27 +166,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
-        <TextView
-                android:id="@+id/tvQuoteOfTheDay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/quote_of_the_day"
-                android:textColor="@color/soft_white"
-                android:textSize="32sp"
-                android:fontFamily="@font/montserrat_alternates_semi_bold"
-                android:gravity="center"
-                android:layout_marginBottom="8dp"/>
+            <TextView
+                    android:id="@+id/tvQuoteOfTheDay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/quote_of_the_day"
+                    android:textColor="@color/soft_white"
+                    android:textSize="32sp"
+                    android:fontFamily="@font/montserrat_alternates_semi_bold"
+                    android:gravity="center"
+                    android:layout_marginBottom="8dp"/>
 
-        <TextView
-                android:id="@+id/QuoteOfTheDay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/quote_of_the_day"
-                android:textColor="@color/deep_purple"
-                android:textSize="24sp"
-                android:fontFamily="@font/montserrat_alternates_regular"
-                android:gravity="center"
-                android:layout_marginBottom="8dp"/>
+            <TextView
+                    android:id="@+id/QuoteOfTheDay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/quote_of_the_day"
+                    android:textColor="@color/deep_purple"
+                    android:textSize="24sp"
+                    android:fontFamily="@font/montserrat_alternates_regular"
+                    android:gravity="center"
+                    android:layout_marginBottom="8dp"/>
         </LinearLayout>
 
         <!-- How are you? button -->
@@ -241,26 +241,108 @@
                     android:paddingEnd="28dp"
                     android:padding="8dp">
 
-                <!-- White panels -->
-                <TextView
+                <!-- Current Achievement White panel -->
+                <LinearLayout
                         android:id="@+id/currentAchievementPanel"
                         android:layout_width="260dp"
                         android:layout_height="260dp"
-                        android:layout_marginEnd="16dp"
-                        android:text="@string/current_achievement"
-                        android:textSize="18sp"
-                        android:padding="8dp"
-                        android:background="@drawable/panel_background"/>
+                        android:orientation="vertical"
+                        android:background="@drawable/panel_background"
+                        android:padding="16dp"
+                        android:gravity="center"
+                        android:layout_marginEnd="16dp">
 
-                <TextView
+                    <TextView
+                            android:id="@+id/currentAchievementHeader"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/current_achievement"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/montserrat_alternates_semi_bold"
+                            android:gravity="center"/>
+
+                    <TextView
+                            android:id="@+id/currentAchievementCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/one"
+                            android:textSize="72sp"
+                            android:textColor="@color/deep_purple"
+                            android:fontFamily="@font/montserrat_alternates_semi_bold"
+                            android:gravity="center"
+                            android:layout_marginTop="8dp"/>
+
+                    <TextView
+                            android:id="@+id/currentAchievementLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/day"
+                            android:textSize="24sp"
+                            android:fontFamily="@font/montserrat_alternates_semi_bold"
+                            android:gravity="center"
+                            android:layout_marginTop="4dp"/>
+
+                    <TextView
+                            android:id="@+id/currentAchievementMessage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/way_to_go"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/montserrat_alternates_semi_bold"
+                            android:gravity="center"
+                            android:layout_marginTop="8dp"/>
+                </LinearLayout>
+
+                <!-- Next Milestone White panel -->
+                <LinearLayout
                         android:id="@+id/nextMilestonePanel"
                         android:layout_width="260dp"
                         android:layout_height="260dp"
-                        android:layout_marginEnd="16dp"
-                        android:text="@string/next_milestone"
-                        android:textSize="18sp"
-                        android:padding="8dp"
-                        android:background="@drawable/panel_background"/>
+                        android:orientation="vertical"
+                        android:background="@drawable/panel_background"
+                        android:padding="16dp"
+                        android:gravity="center">
+
+                    <TextView
+                            android:id="@+id/nextMilestoneHeader"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/next_milestone"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/montserrat_alternates_semi_bold"
+                            android:gravity="center"/>
+
+                    <TextView
+                            android:id="@+id/nextMilestoneCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ten"
+                            android:textSize="72sp"
+                            android:textColor="@color/deep_purple"
+                            android:fontFamily="@font/montserrat_alternates_semi_bold"
+                            android:gravity="center"
+                            android:layout_marginTop="8dp"/>
+
+                    <TextView
+                            android:id="@+id/nextMilestoneLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/days"
+                            android:textSize="24sp"
+                            android:fontFamily="@font/montserrat_alternates_semi_bold"
+                            android:gravity="center"
+                            android:layout_marginTop="4dp"/>
+
+                    <TextView
+                            android:id="@+id/nextMilestoneMessage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/so_close"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/montserrat_alternates_semi_bold"
+                            android:gravity="center"
+                            android:layout_marginTop="8dp"/>
+                </LinearLayout>
             </LinearLayout>
         </HorizontalScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
