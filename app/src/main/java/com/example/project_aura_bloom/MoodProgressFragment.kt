@@ -90,7 +90,7 @@ class MoodProgressFragment : Fragment() {
         val confirmButton = dialogView.findViewById<Button>(R.id.mood_confirm_button)
 
         // Dialog question
-        emotionTitle.text = "How $emotion are you?"
+        emotionTitle.text = getString(R.string.how_are_you, emotion.replaceFirstChar { it.lowercase() })
 
         // Set initial scale label
         intensityLabel.text = labels[0]

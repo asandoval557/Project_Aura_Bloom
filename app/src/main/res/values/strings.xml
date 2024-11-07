@@ -162,6 +162,7 @@
     <string name="happy">Happy</string>
     <string name="just_happy">Just happy</string>
     <string name="confirm_mood">Confirm Mood</string>
+    <string name="how_are_you">How %1$s are you?</string>
 
 
 </resources>
