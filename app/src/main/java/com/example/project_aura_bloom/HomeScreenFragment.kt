@@ -1,7 +1,9 @@
 package com.example.project_aura_bloom
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.location.Location
 import android.net.Uri
@@ -9,8 +11,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.Toast
+import androidx.compose.animation.fadeIn
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -23,6 +27,17 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.example.project_aura_bloom.models.UserProfile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import com.example.project_aura_bloom.api.ZenQuote
+import com.example.project_aura_bloom.api.ZenQuotesApiService
+import kotlinx.coroutines.tasks.await
+import java.util.*
+import java.util.concurrent.TimeUnit
+import kotlin.text.Typography.quote
 
 
 class HomeScreenFragment : Fragment() {
@@ -31,6 +46,8 @@ class HomeScreenFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val LOCATION_PERMISSION_REQUEST_CODE = 1001
     private var emergencyContactNumber: String? = null
+    private lateinit var zenQuotesApiService: ZenQuotesApiService
+    private lateinit var sharedPreferences: SharedPreferences
 
     private var currentStreak: Long = 0
     private var totalSessions: Long = 0
@@ -49,13 +66,26 @@ class HomeScreenFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
+        // Initialize SharedPreferences
+        sharedPreferences = requireContext().getSharedPreferences("QuotePreferences", Context.MODE_PRIVATE)
+
+        // Initialize Retrofit
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://zenquotes.io/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        zenQuotesApiService = retrofit.create(ZenQuotesApiService::class.java)
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        addMilestoneFieldsToExistingUsers() // Call to update fields for the current users
 
         val userId = auth.currentUser!!.uid
+        trackLoginStreak(userId)
 
         initializeAchievementsIfNeeded(userId)
         loadAchievements(userId)
@@ -66,6 +96,9 @@ class HomeScreenFragment : Fragment() {
         checkProfileCompletion()
 
         loadUserData()
+
+        // Load and display the Quote of the Day
+        displayQuoteOfTheDay()
 
         //  Initialize FusedLocationProviderClient for geolocation
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
@@ -94,6 +127,106 @@ class HomeScreenFragment : Fragment() {
         }
     }
 
+    private fun trackLoginStreak(userId: String) {
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("AuraBloomUserData").whereEqualTo("auth_uid", userId)
+            .get().addOnSuccessListener { querySnapshot ->
+                if (querySnapshot != null && querySnapshot.documents.isNotEmpty()) {
+                    val document = querySnapshot.documents[0]
+                    val docRef = db.collection("AuraBloomUserData").document(document.id)
+                    val lastLoginDate = document.getTimestamp("lastLoginDate")?.toDate()
+                    val currentDate = Date()
+                    val calendar = Calendar.getInstance()
+                    calendar.time = currentDate
+                    calendar.set(Calendar.HOUR_OF_DAY, 0)
+                    calendar.set(Calendar.MINUTE, 0)
+                    calendar.set(Calendar.SECOND, 0)
+                    calendar.set(Calendar.MILLISECOND, 0)
+                    val todayDate = calendar.time
+
+                    var updatedStreak = document.getLong("currentStreak") ?: 0
+
+                    if (lastLoginDate != null) {
+                        val differenceInDays = TimeUnit.MILLISECONDS.toDays(todayDate.time - lastLoginDate.time).toInt()
+
+                        if (differenceInDays == 1) {
+                            // Increment streak if it's the next consecutive day
+                            updatedStreak++
+                        } else if (differenceInDays > 1) {
+                            // Reset streak if more than one day has passed
+                            updatedStreak = 1
+                        }
+                    } else {
+                        // Set streak to 1 if no previous login date exists
+                        updatedStreak = 1
+                    }
+
+                    docRef.update(
+                        mapOf(
+                            "currentStreak" to updatedStreak,
+                            "lastLoginDate" to todayDate
+                        )
+                    ).addOnSuccessListener {
+                        updateAchievementUI(updatedStreak)
+                    }.addOnFailureListener { exception ->
+                        println("Error updating streak: ${exception.message}")
+                    }
+                } else {
+                    println("No document found for userId: $userId")
+                }
+            }.addOnFailureListener { exception ->
+                println("Error getting documents: ${exception.message}")
+            }
+    }
+
+    private fun displayQuoteOfTheDay() {
+        // Get the last update time
+        val lastUpdateTime = sharedPreferences.getLong("lastUpdateTime", 0)
+        val currentTime = System.currentTimeMillis()
+
+        //Check if 24 hours has passed since last update
+        if (currentTime - lastUpdateTime >= TimeUnit.HOURS.toMillis(24)) {
+            // 24 hours has passed
+            fetchQuoteOfTheDay()
+        } else {
+            // Less than 24 hours, load saved quote
+            val savedQuote = sharedPreferences.getString("quoteText", "No Quote Available")
+            val savedAuthor = sharedPreferences.getString("quoteAuthor", "Author Unknown")
+            binding.QuoteOfTheDay.text = "\"$savedQuote\" - $savedAuthor"
+        }
+    }
+
+    private fun fetchQuoteOfTheDay() {
+        zenQuotesApiService.getRandomQuote().enqueue(object : Callback<List<ZenQuote>> {
+            override fun onResponse(call: Call<List<ZenQuote>>, response: Response<List<ZenQuote>>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val quote = response.body()!![0] // Get the first quote in response
+                    val quoteText = quote.q
+                    val quoteAuthor = quote.a
+                    binding.QuoteOfTheDay.text = "\"$quoteText\" - $quoteAuthor"
+
+                    // Fade-in animation
+                    val fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in_left_to_right)
+                    binding.QuoteOfTheDay.startAnimation(fadeInAnimation)
+
+                    // Save the Quote and the current time in SharedPreferences
+                    with(sharedPreferences.edit()) {
+                        putString("quoteText", quoteText)
+                        putString("quoteAuthor", quoteAuthor)
+                        putLong("lastUpdateTime", System.currentTimeMillis())
+                        apply()
+                    }
+                } else {
+                    binding.QuoteOfTheDay.text = "No Quote for today!"
+                }
+            }
+            override fun onFailure(call: Call<List<ZenQuote>>, t: Throwable) {
+                binding.QuoteOfTheDay.text = "Error loading quote."
+            }
+        })
+    }
+
     private fun initializeAchievementsIfNeeded(userId: String) {
         val userDocRef = db.collection("AuraBloomUserData").document(userId)
 
@@ -119,19 +252,59 @@ class HomeScreenFragment : Fragment() {
             if (document.exists()) {
                 currentStreak = document.getLong("currentStreak") ?: 0
                 totalSessions = document.getLong("totalSessions") ?: 0
-                milestones = document["milestones"] as? List<Long> ?: listOf(5, 10, 20)
+                milestones = document["milestones"] as? List<Long> ?: listOf(5, 10, 20, 50, 100)
 
-                updateAchievementUI()
+                updateAchievementUI(currentStreak)
             }
         }
     }
 
-    private fun updateAchievementUI() {
-        // Find the next milestone based on totalSessions
-        val nextMilestone = milestones.firstOrNull { it > totalSessions } ?: {totalSessions + 10}
+    private fun updateAchievementUI(currentStreak: Long) {
+        // Define milestones
+        val milestones = listOf(5, 10, 20, 50, 100)
+        val nextMilestone = (milestones.firstOrNull { it > currentStreak } ?: (currentStreak + 10)).toLong()
+        val daysUntilNextMilestone = nextMilestone - currentStreak
 
-        binding.currentAchievementPanel.text = "Streak: $currentStreak days in a row!"
-        binding.nextMilestonePanel.text = "Next Milestone: $nextMilestone meditation sessions"
+        // Update current achievement panel
+        binding.currentAchievementCount.text = currentStreak.toString()
+        binding.currentAchievementLabel.text = if (currentStreak == 1L) "DAY" else "DAYS"
+        binding.currentAchievementMessage.text = "Way to go!\nKeep it going!"
+
+        // Update next milestone panel
+        binding.nextMilestoneCount.text = nextMilestone.toString()
+        binding.nextMilestoneLabel.text = if (nextMilestone == 1L) "DAY" else "DAYS"
+        binding.nextMilestoneMessage.text = "You\'re only $daysUntilNextMilestone days away!"
+    }
+
+    private fun addMilestoneFieldsToExistingUsers() {
+        val db = FirebaseFirestore.getInstance()
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+
+        db.collection("AuraBloomUserData").whereEqualTo("auth_uid", userId)
+            .get().addOnSuccessListener { querySnapshot ->
+                for (document in querySnapshot.documents) {
+                    val docRef = db.collection("AuraBloomUserData").document(document.id)
+                    val updates = hashMapOf(
+                        "currentStreak" to (document.getLong("currentStreak") ?: 0),
+                        "totalSessions" to (document.getLong("totalSessions") ?: 0),
+                        "milestones" to listOf(5, 10, 20, 50, 100),
+                        "achievements" to mapOf(
+                            "5_sessions" to false,
+                            "10_sessions" to false,
+                            "20_sessions" to false,
+                            "50_sessions" to false,
+                            "100_sessions" to false
+                        )
+                    )
+                    docRef.update(updates).addOnSuccessListener {
+                        println("Updated document ${document.id} successfully.")
+                    }.addOnFailureListener { exception ->
+                        println("Error updating document ${document.id} failed with ${exception.message}")
+                    }
+                }
+            }.addOnFailureListener { exception ->
+                println("Error retrieving documents: ${exception.message}")
+            }
     }
 
     private fun loadUserData() {
