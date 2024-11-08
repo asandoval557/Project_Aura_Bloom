@@ -45,6 +45,7 @@
     <string name="way_to_go">Way to go!\nKeep it going!</string>
     <string name="so_close">You\'re so close!\nKeep going!</string>
     <string name="ten">10</string>
+    <string name="animated_profile_picture">Animated Profile Picture</string>
 
     <!-- Array for State Spinner -->
     <string-array name="us_states">

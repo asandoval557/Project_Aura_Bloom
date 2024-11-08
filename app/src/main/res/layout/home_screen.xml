@@ -24,19 +24,40 @@
                 android:gravity="center_vertical"
                 android:paddingBottom="16dp">
 
-            <!-- Profile Image -->
-            <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/profileImage"
+            <FrameLayout
+                    android:id="@+id/profile_frame"
                     android:layout_width="160dp"
                     android:layout_height="160dp"
-                    android:src="@drawable/ic_avatar"
                     android:layout_marginEnd="16dp"
-                    android:padding="4dp"
-                    android:contentDescription="@string/profile_picture"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance_Material3_smallComponent"
-                    app:strokeColor="@color/white"
-                    app:strokeWidth="2dp"
-                    android:scaleType="centerCrop"/>
+                    android:padding="4dp">
+
+                <!-- Profile Image - Front image -->
+                <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/profileImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_avatar"
+                        android:padding="4dp"
+                        android:contentDescription="@string/profile_picture"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance_Material3_smallComponent"
+                        app:strokeColor="@color/white"
+                        app:strokeWidth="2dp"
+                        android:scaleType="centerCrop"/>
+
+                <!-- Profile Image - Animated image -->
+                <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/animatedProfileImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/animated_profile"
+                        android:padding="4dp"
+                        android:contentDescription="@string/animated_profile_picture"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance_Material3_smallComponent"
+                        app:strokeColor="@color/white"
+                        app:strokeWidth="2dp"
+                        android:visibility="gone"
+                        android:scaleType="centerCrop"/>
+            </FrameLayout>
 
             <!-- User Info -->
             <LinearLayout

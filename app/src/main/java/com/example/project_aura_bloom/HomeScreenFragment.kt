@@ -1,6 +1,9 @@
 package com.example.project_aura_bloom
 
 import android.Manifest
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -125,6 +128,54 @@ class HomeScreenFragment : Fragment() {
         binding.btnHelp.setOnClickListener {
             showHelpOptions()
         }
+
+        // Click listener for profile image
+        binding.profileImage.setOnClickListener {
+            flipProfilePicture()
+        }
+    }
+
+    private fun flipProfilePicture() {
+        val profileImage = binding.profileImage // Front-side picture
+        val animatedImage = binding.animatedProfileImage // Back-side animated picture
+
+        // Animate to rotate from 0 to 90 degrees
+        val flipOut = ObjectAnimator.ofFloat(profileImage, "rotationY", 0f, 90f)
+        flipOut.duration = 300
+        // Animate to rotate from 90 to 180 degrees
+        val flipIn = ObjectAnimator.ofFloat(animatedImage, "rotationY", -90f, 0f)
+        flipIn.duration = 300
+
+        // Listener to switch images at the halfway point
+        flipOut.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                profileImage.visibility = View.GONE
+                animatedImage.visibility = View.VISIBLE
+                // Load GIF
+                Glide.with(this@HomeScreenFragment).asGif().load(R.drawable.animated_profile).into(animatedImage)
+                flipIn.start()
+            }
+        })
+        // Start the 1st animation
+        flipOut.start()
+        // Return to original profile picture after a delay
+        animatedImage.postDelayed({
+            // Reverse the animation
+            val reverseFlipOut = ObjectAnimator.ofFloat(animatedImage, "rotationY", 0f, 90f)
+            val reverseFlipIn = ObjectAnimator.ofFloat(profileImage, "rotationY", -90f, 0f)
+
+            reverseFlipOut.duration = 300
+            reverseFlipIn.duration = 300
+
+            reverseFlipOut.addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    animatedImage.visibility = View.GONE
+                    profileImage.visibility = View.VISIBLE
+                    reverseFlipIn.start()
+                }
+            })
+            reverseFlipOut.start()
+        }, 4000) // Delay in milliseconds before flipping back
     }
 
     private fun trackLoginStreak(userId: String) {
@@ -201,21 +252,33 @@ class HomeScreenFragment : Fragment() {
         zenQuotesApiService.getRandomQuote().enqueue(object : Callback<List<ZenQuote>> {
             override fun onResponse(call: Call<List<ZenQuote>>, response: Response<List<ZenQuote>>) {
                 if (response.isSuccessful && response.body() != null) {
-                    val quote = response.body()!![0] // Get the first quote in response
-                    val quoteText = quote.q
-                    val quoteAuthor = quote.a
-                    binding.QuoteOfTheDay.text = "\"$quoteText\" - $quoteAuthor"
+                    val quoteList = response.body()!!
+                    val motivationalKeywords = listOf("motivation", "success", "achieve", "dream", "inspire", "goal", "growth", "persevere")
 
-                    // Fade-in animation
-                    val fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in_left_to_right)
-                    binding.QuoteOfTheDay.startAnimation(fadeInAnimation)
+                    // Filter the first matching motivational quote
+                    val motivationalQuote = quoteList.firstOrNull { quote ->
+                        motivationalKeywords.any { keyword -> quote.q.contains(keyword, ignoreCase = true) }
+                    }
 
-                    // Save the Quote and the current time in SharedPreferences
-                    with(sharedPreferences.edit()) {
-                        putString("quoteText", quoteText)
-                        putString("quoteAuthor", quoteAuthor)
-                        putLong("lastUpdateTime", System.currentTimeMillis())
-                        apply()
+                    if (motivationalQuote != null) {
+                        // Display the motivational quote
+                        val quoteText = motivationalQuote.q
+                        val quoteAuthor = motivationalQuote.a
+                        binding.QuoteOfTheDay.text = "\"$quoteText\" - $quoteAuthor"
+
+                        // Save the quote in SharedPreferences
+                        with(sharedPreferences.edit()) {
+                            putString("quoteText", quoteText)
+                            putString("quoteAuthor", quoteAuthor)
+                            putLong("lastUpdateTime", System.currentTimeMillis())
+                            apply()
+                        }
+
+                        // Fade-in animation
+                        val fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in_left_to_right)
+                        binding.QuoteOfTheDay.startAnimation(fadeInAnimation)
+                    } else {
+                        binding.QuoteOfTheDay.text = "No motivational quote found today."
                     }
                 } else {
                     binding.QuoteOfTheDay.text = "No Quote for today!"
