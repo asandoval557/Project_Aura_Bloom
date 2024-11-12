@@ -102,6 +102,12 @@ class SignUpFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            // Check if Terms and Conditions are checked
+            if (!binding.cbTerms.isChecked) {
+                Toast.makeText(context, "Please agree to the Terms and Conditions and Privacy Policy", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             //Create the User Firebase Authentication
             auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -122,6 +128,11 @@ class SignUpFragment : Fragment() {
         // Handle "Log In" text click to navigate to LogInFragment
         binding.tvLogIn.setOnClickListener {
             findNavController().navigate(R.id.action_SignUpFragment_to_LoginFragment)
+        }
+
+        // Handle "Read Terms and Conditions" text click to navigate to TermsFragment
+        binding.tvTerms.setOnClickListener {
+            findNavController().navigate(R.id.action_SignUpFragment_to_TermsFragment)
         }
     }
     //

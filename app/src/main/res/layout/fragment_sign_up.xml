@@ -117,25 +117,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-    <EditText
-            android:id="@+id/et_confirm_password"
-            android:layout_width="340dp"
-            android:layout_height="wrap_content"
-            android:autofillHints="password"
-            android:hint="@string/confirm_password"
-            android:background="@drawable/rounded_border"
-            android:fontFamily="@font/montserrat_alternates_regular"
-            android:inputType="textPassword"
-            android:textColor="@color/dark_gray"
-            android:textColorHint="@color/dark_gray"
-            android:textSize="20sp"
-            android:padding="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/iv_confirm_password_toggle"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_bias="0.0"/>
+        <EditText
+                android:id="@+id/et_confirm_password"
+                android:layout_width="340dp"
+                android:layout_height="wrap_content"
+                android:autofillHints="password"
+                android:hint="@string/confirm_password"
+                android:background="@drawable/rounded_border"
+                android:fontFamily="@font/montserrat_alternates_regular"
+                android:inputType="textPassword"
+                android:textColor="@color/dark_gray"
+                android:textColorHint="@color/dark_gray"
+                android:textSize="20sp"
+                android:padding="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_confirm_password_toggle"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
                 android:id="@+id/iv_confirm_password_toggle"
@@ -148,6 +148,31 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Clickable Terms Text -->
+    <TextView
+            android:id="@+id/tv_terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Read Terms and Conditions"
+            android:textColor="@color/aqua"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/confirm_password_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="12dp"/>
+
+
+    <!-- Terms and Conditions Checkbox -->
+    <CheckBox
+            android:id="@+id/cb_terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I agree to the Terms and Conditions"
+            android:textColor="@color/dark_gray"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/tv_terms"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"/>
 
     <!-- Sign Up Button -->
     <Button
@@ -163,10 +188,10 @@
             android:backgroundTint="@color/white"
             android:stateListAnimator="@animator/button_state_animator"
             android:textAllCaps="false"
-            app:layout_constraintTop_toBottomOf="@id/confirm_password_layout"
+            app:layout_constraintTop_toBottomOf="@id/cb_terms"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="16dp"/>
 
     <!-- Log In and Sign Up Links (bottom of screen) -->
     <LinearLayout
@@ -187,6 +212,7 @@
                 android:fontFamily="@font/montserrat_alternates_regular"
                 android:textColor="@color/aqua"
                 android:textSize="32sp"/>
+
         <TextView
                 android:id="@+id/tv_sign_up"
                 android:layout_width="wrap_content"
