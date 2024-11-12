@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Project_Aura_Bloom</string>
+
+    <string name="app_icon">App Icon</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -97,7 +99,9 @@
     <string name="share">Share</string>
     <string name="arrow_menu">Arrow Menu</string>
     <string name="clear_button">Clear Button</string>
-
+    <string name="pick_a_pic">Pick a Pic</string>
+    <string name="clear_background">Clear Background</string>
+    <string name="photo_view">Photo View</string>
 
 
 </resources>

@@ -2,19 +2,15 @@ package com.example.project_aura_bloom
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Path
+import android.graphics.*
+import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.FileProvider
-import android.graphics.Bitmap
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import android.net.Uri
 
 class DrawingView @JvmOverloads constructor(
     context: Context,
@@ -31,6 +27,7 @@ class DrawingView @JvmOverloads constructor(
     private var eraserThickness = 30f
     private var brushThickness = 10f
     var isEraserMode = false
+    private var backgroundBitmap: Bitmap? = null
 
     private fun initializePaint() = Paint().apply {
         style = Paint.Style.STROKE
@@ -52,6 +49,9 @@ class DrawingView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        backgroundBitmap?.let {
+            canvas.drawBitmap(it, 0f, 0f, null)
+        }
         for ((path, paint) in drawingPaths) {
             canvas.drawPath(path, paint)
         }
@@ -184,6 +184,17 @@ class DrawingView @JvmOverloads constructor(
     fun clear() {
         drawingPaths.clear()
         removedPaths.clear()
+        invalidate()
+    }
+
+    fun addPhoto(photoResId: Int) {
+        val bitmap = BitmapFactory.decodeResource(resources, photoResId)
+        backgroundBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false)
+        invalidate()
+    }
+
+    fun clearPhoto() {
+        backgroundBitmap = null
         invalidate()
     }
 }

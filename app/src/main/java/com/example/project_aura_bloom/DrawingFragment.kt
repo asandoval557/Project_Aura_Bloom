@@ -177,9 +177,52 @@ class DrawingFragment : Fragment() {
                 drawingView.shareDrawing()
                 ITEM_SAVED
             }
+            R.id.pick_a_pic -> {
+                openPhotoPickerDialog()
+                ITEM_SAVED
+            }
+            R.id.clear_photo -> {
+                drawingView.clearPhoto()
+                ITEM_SAVED
+            }
 
             else -> ITEM_NOT_SAVED
         }
+    }
+
+    private fun openPhotoPickerDialog() {
+        val photos = listOf(
+            R.drawable.mandala_1,
+            R.drawable.mandala_2,
+            R.drawable.mandala_3
+            )
+        val photoPickerAdapter = PhotoPickerAdaptor(photos) { photoResId ->
+            addPhotoToCanvas(photoResId)
+        }
+        val recyclerView = RecyclerView(requireContext()).apply {
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            adapter = photoPickerAdapter
+        }
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Pick a Photo")
+            .setView(recyclerView)
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton("Ok") { dialog, _ ->
+
+                val selectedPhotoResId = photoPickerAdapter.getSelectedPhoto()
+                if (selectedPhotoResId != null) {
+                    addPhotoToCanvas(selectedPhotoResId)
+                }
+                dialog.dismiss()
+            }
+            .create()
+        dialog.show()
+    }
+
+    private fun addPhotoToCanvas(photoResId: Int) {
+        drawingView.addPhoto(photoResId)
     }
 
     private fun openColorPickerDialog() {

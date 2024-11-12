@@ -80,7 +80,7 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:contentDescription="@string/clear_button"
-            android:src="@drawable/close" />
+            android:src="@drawable/delete_24dp" />
 
         <ImageButton
             android:id="@+id/arrow_menu_button"
