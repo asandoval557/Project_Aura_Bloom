@@ -30,6 +30,8 @@ class DrawingView @JvmOverloads constructor(
     private var brushThickness = 10f
     var isEraserMode = false
 
+
+
     private fun initializePaint() = Paint().apply {
         style = Paint.Style.STROKE
         strokeWidth = brushThickness
@@ -191,6 +193,14 @@ class DrawingView @JvmOverloads constructor(
         drawingPaths.clear()
         removedPaths.clear()
         invalidate()
+    }
+
+    fun updateBrushColor(color: Int) {
+        brushColor = color
+        if (!isEraserMode) {
+            paint.color = color
+        }
+        invalidate() // Redraw the view
     }
 }
 

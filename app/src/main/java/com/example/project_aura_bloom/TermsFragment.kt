@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.util.Log
+import android.widget.TextView
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 
 
@@ -17,50 +19,35 @@ import android.webkit.WebViewClient
  */
 class TermsFragment : Fragment() {
 
-    private val termsandconditionsPolicyURL = "https://1drv.ms/b/s!Ai8u-cbMfbjBg8po7yjoY387emAp7Q?e=C2opUU" //load from MoonWolves Sharepoint
+    private lateinit var firestore: FirebaseFirestore
+    private val legalDocsCollection = "LegalDocuments"
+    private val termsDocument = "TermsAndConditions"
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_terms, container, false)
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
-//    }
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-       val viewTermsConditions = inflater.inflate(R.layout.fragment_terms, container, false)
+        firestore = FirebaseFirestore.getInstance()
 
-        viewTermsConditions?.let {
-            val termsconditionsView = viewTermsConditions.findViewById<WebView>(R.id.terms_conditions_webview)
-            termsconditionsView.webViewClient = WebViewClient()
-            termsconditionsView.settings.javaScriptEnabled = true
-            termsconditionsView.loadUrl(termsandconditionsPolicyURL)
-        }
+        val termsTextView = view.findViewById<TextView>(R.id.terms_conditions_textview)
 
-        return viewTermsConditions
+        firestore.collection(legalDocsCollection)
+            .document(termsDocument)
+            .get()
+            .addOnSuccessListener {document ->
+                if (document != null && document.exists()){
+                    val termsText = document.getString("termsContent")
+                    if (!termsText.isNullOrEmpty()) {
+                        termsTextView.text = termsText
+                    }
+                } else {
+                    termsTextView.text = "Terms and Conditions are not available."
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TermsFragment", "Error getting documents.", exception)
+                termsTextView.text = "Error getting documents."
+            }
+        return view
     }
 
-//    companion object {
-//        /**
-//         * Use this factory method to create a new instance of
-//         * this fragment using the provided parameters.
-//         *
-//         * @param param1 Parameter 1.
-//         * @param param2 Parameter 2.
-//         * @return A new instance of fragment termsFragment.
-//         */
-//        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            TermsFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
-//            }
-//    }
 }

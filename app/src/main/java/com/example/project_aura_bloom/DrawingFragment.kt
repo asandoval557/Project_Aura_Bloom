@@ -82,6 +82,7 @@ class DrawingFragment : Fragment() {
         return ITEM_SAVED
     }
 
+
     private fun handleEraserSizeSelection(itemId: Int): Boolean {
         val eraseSize = when (itemId) {
             R.id.eraser_large -> EraseSize.LARGE_ERASE_SIZE
