@@ -28,6 +28,7 @@ import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderF
 import com.google.firebase.auth.FirebaseAuth
 import android.util.Log
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.enableEdgeToEdge
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         FirebaseApp.initializeApp(this)  // Firebase initialization
 
         //Initialize Firebase app check

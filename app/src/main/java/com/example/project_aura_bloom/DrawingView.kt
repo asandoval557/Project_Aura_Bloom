@@ -3,22 +3,20 @@ package com.example.project_aura_bloom
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
+import android.net.Uri
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.FileProvider
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import android.net.Uri
 
 class DrawingView @JvmOverloads constructor(
     context: Context,
-    attrs: AttributeSet? = null
-) : View(context, attrs) {
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
 
     private var paint = initializePaint()
     private var currentPath: CustomPath? = null
@@ -29,8 +27,7 @@ class DrawingView @JvmOverloads constructor(
     private var eraserThickness = 30f
     private var brushThickness = 10f
     var isEraserMode = false
-
-
+    private var backgroundBitmap: Bitmap? = null
 
     private fun initializePaint() = Paint().apply {
         style = Paint.Style.STROKE
@@ -52,23 +49,16 @@ class DrawingView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        backgroundBitmap?.let {
+            canvas.drawBitmap(it, 0f, 0f, null)
+        }
         for ((path, paint) in drawingPaths) {
             canvas.drawPath(path, paint)
         }
         currentPath?.let { canvas.drawPath(it, paint) }
     }
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        val x = event.x
-        val y = event.y
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> startPath(x, y)
-            MotionEvent.ACTION_MOVE -> continuePath(x, y)
-            MotionEvent.ACTION_UP -> endPath(x, y)
-            else -> return false
-        }
-        return true
-    }
+
 
     fun startPath(x: Float, y: Float) {
         currentPath = CustomPath(brushColor, brushThickness).apply {
@@ -136,7 +126,7 @@ class DrawingView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun setBrushColor(color: Int) {
+    fun updateBrushColor(color: Int) {
         brushColor = color
         if (!isEraserMode) {
             paint.color = color
@@ -158,7 +148,7 @@ class DrawingView @JvmOverloads constructor(
         this.draw(canvas)
 
         return try{
-            val file = File(context.cacheDir, "drawing_${System.currentTimeMillis()}.png")
+            val file = File(context.cacheDir, "drawing${System.currentTimeMillis()}.png")
             val outputStream = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
             outputStream.flush()
@@ -185,9 +175,11 @@ class DrawingView @JvmOverloads constructor(
             }
             context.startActivity(Intent.createChooser(shareIntent, "Share using the options"))
         } else {
-            Toast.makeText(context, "Failed to save and share", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Failed to save and share", Toast.LENGTH_SHORT)
+                .show()
         }
     }
+
 
     fun clear() {
         drawingPaths.clear()
@@ -195,12 +187,15 @@ class DrawingView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun updateBrushColor(color: Int) {
-        brushColor = color
-        if (!isEraserMode) {
-            paint.color = color
-        }
-        invalidate() // Redraw the view
+    fun addPhoto(photoResId: Int) {
+        val bitmap = BitmapFactory.decodeResource(resources, photoResId)
+        backgroundBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false)
+        invalidate()
+    }
+
+    fun clearPhoto() {
+        backgroundBitmap = null
+        invalidate()
     }
 }
 

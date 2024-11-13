@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Project_Aura_Bloom</string>
-    <string name="action_settings">Settings</string>
 
+    <string name="app_icon">App Icon</string>
+    <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -176,6 +177,9 @@
     <string name="just_happy">Just happy</string>
     <string name="confirm_mood">Confirm Mood</string>
     <string name="how_are_you">How %1$s are you?</string>
+    <string name="pick_a_pic">Pick a Pic</string>
+    <string name="clear_background">Clear Background</string>
+    <string name="photo_view">Photo View</string>
 
 
 </resources>

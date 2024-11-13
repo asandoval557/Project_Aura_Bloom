@@ -13,6 +13,12 @@
         <item name="fontFamily">@font/montserrat_alternates_regular</item>
     </style>
 
+    <style name="Theme.Project_Aura_Bloom.Splash" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
     <style name="ShapeAppearance_Material3_smallComponent" parent="ShapeAppearance.Material3.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>

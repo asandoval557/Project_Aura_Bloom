@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/splash_background"
+        tools:context=".MainActivity">
+    <!--The other spot for background color-->
+
+<ViewAnimator
+            android:id="@+id/app_icon_animator"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:inAnimation="@android:anim/fade_in"
+            android:outAnimation="@android:anim/fade_out"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@color/transparent">
+
+            <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/aura_bloom_round"
+                    android:contentDescription="@string/app_icon"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@color/transparent"/>
+    </ViewAnimator>
+
+    <TextView
+            android:text="@string/aurabloom"
+            android:layout_width="238dp"
+            android:layout_height="64dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/textView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.736"
+            android:textSize="44sp"
+            android:textColor="#3949AB"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
