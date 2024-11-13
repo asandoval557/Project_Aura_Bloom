@@ -104,7 +104,7 @@ class SignUpFragment : Fragment() {
 
             // Check if Terms and Conditions are checked
             if (!binding.cbTerms.isChecked) {
-                Toast.makeText(context, "Please agree to the Terms and Conditions and Privacy Policy", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Please agree to the Terms and Conditions", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
