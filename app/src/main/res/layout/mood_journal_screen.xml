@@ -28,6 +28,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <ImageButton
+            android:id="@+id/journal_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_arrow"
+            android:contentDescription="@string/leave_journal"
+            app:layout_constraintTop_toBottomOf="@id/journal_date"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="#FFFFFF"/>
+
     <ScrollView
             android:id="@+id/journal_scrolling"
             android:layout_width="0dp"
@@ -40,135 +50,38 @@
             app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
+                android:id="@+id/journal_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="8dp">
 
-            <TextView
-                    android:id="@+id/line1"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#000000"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginBottom="16dp"/>
+            <EditText
+                android:id="@+id/journal_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/type_your_thoughts_here"
+                android:autofillHints="autofill_notes"
+                android:gravity="top"
+                android:background="#CCCCCC"
+                android:padding="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:inputType="textMultiLine"
+                android:minLines="25"
+                android:scrollbars="vertical"/>
 
-            <TextView
-                    android:id="@+id/line2"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#000000"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="16dp"/>
-
-            <TextView
-                    android:id="@+id/line3"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#000000"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="16dp"/>
-
-            <TextView
-                    android:id="@+id/line4"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#000000"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="16dp"/>
-
-            <TextView
-                    android:id="@+id/line5"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#000000"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="16dp"/>
-
-            <TextView
-                    android:id="@+id/line6"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#000000"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="16dp"/>
-
-            <TextView
-                    android:id="@+id/line7"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#000000"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="16dp"/>
-
-            <TextView
-                    android:id="@+id/line8"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#000000"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="16dp"/>
-
-            <TextView
-                    android:id="@+id/line9"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#000000"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="16dp"/>
-
-            <TextView
-                    android:id="@+id/line10"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#000000"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="16dp"/>
-
-            <TextView
-                    android:id="@+id/line11"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#000000"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="16dp"/>
-
-            <TextView
-                    android:id="@+id/line12"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#000000"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="16dp"/>
-
-            <TextView
-                    android:id="@+id/line13"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#000000"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="16dp"/>
-
-            <TextView
-                    android:id="@+id/line14"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#000000"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="16dp"/>
 
         </LinearLayout>
 
     </ScrollView>
 
-    <ImageButton
-            android:id="@+id/mic_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+    <Button
+            android:id="@+id/submit_journal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="@null"
-            android:contentDescription="@string/mic"
-            android:src="@drawable/ic_journal_mic"
+            android:text="@string/submit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 

@@ -207,6 +207,7 @@
     <!-- Privacy Policy Fragment -->
     <string name="privacy_policy_content">Privacy Policy will go here</string>
 
+    <!--Journal Screen-->
     <string name="hello_blank_fragment">Hello blank Fragment</string>
     <string name="how_are_you_feeling_today">How are you feeling today?</string>
     <string name="happy">Happy</string>
@@ -215,9 +216,10 @@
     <string name="how_are_you">How %1$s are you?</string>
     <string name="today_s_date">Today\'s Date</string>
     <string name="emotion_s_here">Emotion(s) here</string>
-    <string name="mic">Mic</string>
     <string name="customization_options_drawer">Customization Options Drawer</string>
     <string name="leave_journal">Leave journal</string>
+    <string name="type_your_thoughts_here">Type your thoughts here…</string>
+    <string name="submit">Submit</string>
 
 
 </resources>

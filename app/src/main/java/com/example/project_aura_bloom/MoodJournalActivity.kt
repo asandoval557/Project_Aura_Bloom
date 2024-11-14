@@ -1,6 +1,7 @@
 package com.example.project_aura_bloom
 
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -17,6 +18,11 @@ class MoodJournalActivity : AppCompatActivity() {
         val selectedMoodTextView = findViewById<TextView>(R.id.selected_mood)
         val selectedMood = intent.getStringExtra("selectedMood") ?: "No mood selected"
         selectedMoodTextView.text = selectedMood
+
+        val backButton = findViewById<ImageButton>(R.id.journal_back_button)
+        backButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
 
     }
 
