@@ -88,6 +88,8 @@ class HomeScreenFragment : Fragment() {
 
         loadUserData()
 
+        flipProfilePicture()
+
         // Load and display the Quote of the Day
         displayQuoteOfTheDay()
 
@@ -554,5 +556,11 @@ class HomeScreenFragment : Fragment() {
     private fun dialPhone(phoneNumber: String) {
         val intent = Intent(Intent.ACTION_DIAL).apply { data = Uri.parse("tel:$phoneNumber") }
         startActivity(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        flipProfilePicture()
     }
 }
