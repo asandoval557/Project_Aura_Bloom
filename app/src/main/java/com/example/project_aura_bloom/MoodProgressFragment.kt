@@ -1,6 +1,7 @@
 package com.example.project_aura_bloom
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -112,11 +113,38 @@ class MoodProgressFragment : Fragment() {
 
         confirmButton.setOnClickListener {
 
-            val selectedIntensity = seekBar.progress + 1
+            val selectedIntensityText = labels[seekBar.progress]
+            val moodWithIntensity = selectedIntensityText
 
             dialog.dismiss()
+
+
+            showJournalPromptDialog(selectedIntensityText)
         }
 
         dialog.show()
     }
+
+    // Asking if user would like to journal their emotions
+    private fun showJournalPromptDialog(selectedMood: String) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Journal Your Emotions")
+        builder.setMessage("Would you like to journal your emotions?")
+
+        // If yes is clicked then open journal
+        builder.setPositiveButton("Yes") { dialog, _ ->
+            dialog.dismiss()
+            val intent = Intent(requireContext(), MoodJournalActivity::class.java)
+            intent.putExtra("selectedMood", selectedMood) // Putting the selected intensity mood onto the journal
+            startActivity(intent)
+        }
+
+        // If no is clicked then close dialog and do not open journal
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        builder.create().show()
+    }
+
 }

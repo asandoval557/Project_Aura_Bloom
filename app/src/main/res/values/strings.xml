@@ -48,16 +48,56 @@
 
     <!-- Array for State Spinner -->
     <string-array name="us_states">
-        <item>AL</item> <item>AK</item> <item>AZ</item> <item>AR</item> <item>CA</item>
-        <item>CO</item> <item>CT</item> <item>DE</item> <item>FL</item> <item>GA</item>
-        <item>HI</item> <item>ID</item> <item>IL</item> <item>IN</item> <item>IA</item>
-        <item>KS</item> <item>KY</item> <item>LA</item> <item>ME</item> <item>MD</item>
-        <item>MA</item> <item>MI</item> <item>MN</item> <item>MS</item> <item>MO</item>
-        <item>MT</item> <item>NE</item> <item>NV</item> <item>NH</item> <item>NJ</item>
-        <item>NM</item> <item>NY</item> <item>NC</item> <item>ND</item> <item>OH</item>
-        <item>OK</item> <item>OR</item> <item>PA</item> <item>RI</item> <item>SC</item>
-        <item>SD</item> <item>TN</item> <item>TX</item> <item>UT</item> <item>VT</item>
-        <item>VA</item> <item>WA</item> <item>WV</item> <item>WI</item> <item>WY</item>
+        <item>AL</item>
+        <item>AK</item>
+        <item>AZ</item>
+        <item>AR</item>
+        <item>CA</item>
+        <item>CO</item>
+        <item>CT</item>
+        <item>DE</item>
+        <item>FL</item>
+        <item>GA</item>
+        <item>HI</item>
+        <item>ID</item>
+        <item>IL</item>
+        <item>IN</item>
+        <item>IA</item>
+        <item>KS</item>
+        <item>KY</item>
+        <item>LA</item>
+        <item>ME</item>
+        <item>MD</item>
+        <item>MA</item>
+        <item>MI</item>
+        <item>MN</item>
+        <item>MS</item>
+        <item>MO</item>
+        <item>MT</item>
+        <item>NE</item>
+        <item>NV</item>
+        <item>NH</item>
+        <item>NJ</item>
+        <item>NM</item>
+        <item>NY</item>
+        <item>NC</item>
+        <item>ND</item>
+        <item>OH</item>
+        <item>OK</item>
+        <item>OR</item>
+        <item>PA</item>
+        <item>RI</item>
+        <item>SC</item>
+        <item>SD</item>
+        <item>TN</item>
+        <item>TX</item>
+        <item>UT</item>
+        <item>VT</item>
+        <item>VA</item>
+        <item>WA</item>
+        <item>WV</item>
+        <item>WI</item>
+        <item>WY</item>
     </string-array>
 
     <!-- Strings used in Log In Screen -->
@@ -153,7 +193,6 @@
     <string name="privacy_policy">Privacy Policy</string>
 
 
-
     <!--Meditation Screen-->
     <string name="welcome_meditation">Welcome Meditation</string>
     <string name="AUrabloom">Audio by AUraBloom</string>
@@ -165,7 +204,6 @@
     <string name="increase_volume_icon">Increase Volume</string>
 
 
-
     <!-- Privacy Policy Fragment -->
     <string name="privacy_policy_content">Privacy Policy will go here</string>
 
@@ -175,6 +213,11 @@
     <string name="just_happy">Just happy</string>
     <string name="confirm_mood">Confirm Mood</string>
     <string name="how_are_you">How %1$s are you?</string>
+    <string name="today_s_date">Today\'s Date</string>
+    <string name="emotion_s_here">Emotion(s) here</string>
+    <string name="mic">Mic</string>
+    <string name="customization_options_drawer">Customization Options Drawer</string>
+    <string name="leave_journal">Leave journal</string>
 
 
 </resources>
