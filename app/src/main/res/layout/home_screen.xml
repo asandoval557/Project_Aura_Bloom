@@ -31,7 +31,7 @@
                     android:id="@+id/profile_frame"
                     android:layout_width="160dp"
                     android:layout_height="160dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="4dp"
                     android:padding="4dp">
 
                 <!-- Profile Image - Front image -->
@@ -74,13 +74,14 @@
                         android:layout_height="wrap_content"
                         android:text="Name"
                         android:textSize="32sp"
-                        android:textColor="@color/dark_gray"
-                        android:textStyle="bold"/>
+                        android:fontFamily="@font/montserrat_alternates_bold"
+                        android:textColor="@color/dark_gray"/>
 
                 <TextView
                         android:id="@+id/tvJoined"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_alternates_medium"
                         android:text="Joined 2024"
                         android:textSize="20sp"
                         android:textColor="@color/dark_gray"/>
@@ -89,6 +90,7 @@
                         android:id="@+id/tvContact"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_alternates_medium"
                         android:text="Emergency Contact:\nMary 866-222-1234"
                         android:textSize="20sp"
                         android:textColor="@color/dark_gray"/>
@@ -203,6 +205,10 @@
                     android:text="@string/quote_of_the_day"
                     android:textColor="@color/soft_white"
                     android:textSize="32sp"
+                    android:shadowColor="#1B0226"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="2"
                     android:fontFamily="@font/montserrat_alternates_semi_bold"
                     android:gravity="center"
                     android:layout_marginBottom="8dp"/>
@@ -212,9 +218,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/quote_of_the_day"
-                    android:textColor="@color/deep_purple"
+                    android:textColor="#1B0226"
                     android:textSize="24sp"
-                    android:fontFamily="@font/montserrat_alternates_regular"
+                    android:fontFamily="@font/montserrat_alternates_medium_italic"
                     android:gravity="center"
                     android:layout_marginBottom="8dp"/>
         </LinearLayout>
@@ -225,7 +231,8 @@
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:textSize="32sp"
+                android:textSize="28sp"
+                android:fontFamily="@font/montserrat_alternates_semi_bold"
                 android:stateListAnimator="@animator/button_state_animator"
                 android:text="@string/how_are_you_today"
                 android:textColor="@color/black"
@@ -233,7 +240,8 @@
                 app:layout_constraintTop_toBottomOf="@id/QOTDLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:padding="16dp"/>
+                android:textAlignment="center"
+                android:padding="12dp"/>
 
         <!-- Help button -->
         <Button
@@ -241,7 +249,8 @@
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:textSize="32sp"
+                android:textSize="28sp"
+                android:fontFamily="@font/montserrat_alternates_semi_bold"
                 android:stateListAnimator="@animator/button_state_animator"
                 android:text="@string/help"
                 android:textColor="@color/black"
@@ -249,7 +258,8 @@
                 app:layout_constraintTop_toBottomOf="@id/btn_how_are_you"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:padding="16dp"/>
+                android:textAlignment="center"
+                android:padding="12dp"/>
 
         <!-- Horizontal Scroll panels -->
         <HorizontalScrollView

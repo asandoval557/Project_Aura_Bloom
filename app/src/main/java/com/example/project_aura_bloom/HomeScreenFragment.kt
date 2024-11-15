@@ -85,9 +85,9 @@ class HomeScreenFragment : Fragment() {
         fetchEmergencyContact()
         // Check profile completion
         checkProfileCompletion()
-
+        // Loads User's information
         loadUserData()
-
+        // Profile Picture flip animation
         flipProfilePicture()
 
         // Load and display the Quote of the Day

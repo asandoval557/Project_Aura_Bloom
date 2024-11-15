@@ -78,8 +78,8 @@
                         android:gravity="center"
                         android:text=""
                         android:textSize="32sp"
-                        android:textColor="@color/dark_gray"
-                        android:textStyle="bold"/>
+                        android:fontFamily="@font/montserrat_alternates_bold"
+                        android:textColor="@color/black"/>
 
                 <TextView
                         android:id="@+id/profile_details"
@@ -88,7 +88,8 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textSize="24sp"
-                        android:textColor="@color/dark_gray"/>
+                        android:fontFamily="@font/montserrat_alternates_medium"
+                        android:textColor="@color/black"/>
             </LinearLayout>
 
             <!-- Scrollable Panels -->
@@ -128,7 +129,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/general_information"
                                     android:textSize="24sp"
-                                    android:textStyle="bold"/>
+                                    android:fontFamily="@font/montserrat_alternates_bold"/>
 
                             <!-- Edit button -->
                             <TextView
@@ -137,8 +138,8 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/edit"
                                     android:textSize="24sp"
-                                    android:padding="8dp"
-                                    android:layout_marginTop="-16dp"
+                                    android:fontFamily="@font/montserrat_alternates_regular"
+                                    android:layout_marginTop="0dp"
                                     android:textColor="@android:color/holo_blue_dark"
                                     android:gravity="end"
                                     android:layout_gravity="end"
@@ -152,6 +153,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text=""
+                                    android:layout_marginTop="-8dp"
                                     android:textSize="24sp"
                                     android:textColor="@color/black"/>
                             <nl.dionsegijn.konfetti.xml.KonfettiView
@@ -180,7 +182,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/meditation_time"
                                     android:textSize="24sp"
-                                    android:textStyle="bold"/>
+                                    android:fontFamily="@font/montserrat_alternates_bold"/>
 
                             <TextView
                                     android:id="@+id/resetZoomButton"
@@ -223,7 +225,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/mood_stats"
                                     android:textSize="24sp"
-                                    android:textStyle="bold"/>
+                                    android:fontFamily="@font/montserrat_alternates_bold"/>
 
                             <!-- Mood Tracking Days Count -->
                             <LinearLayout
