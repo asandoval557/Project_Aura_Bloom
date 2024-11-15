@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Project_Aura_Bloom</string>
-    <string name="action_settings">Settings</string>
 
+    <string name="app_icon">App Icon</string>
+    <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -10,7 +11,7 @@
 
     <!-- Strings used in Profile and Home screens -->
     <string name="meditation_time">Meditation Time</string>
-    <string name="coloring_stats">Coloring Stats</string>
+    <string name="mood_stats">Mood Journey Stats</string>
     <string name="edit">Edit</string>
     <string name="general_information">General Information</string>
     <string name="profile_picture">Profile Picture</string>
@@ -49,16 +50,56 @@
 
     <!-- Array for State Spinner -->
     <string-array name="us_states">
-        <item>AL</item> <item>AK</item> <item>AZ</item> <item>AR</item> <item>CA</item>
-        <item>CO</item> <item>CT</item> <item>DE</item> <item>FL</item> <item>GA</item>
-        <item>HI</item> <item>ID</item> <item>IL</item> <item>IN</item> <item>IA</item>
-        <item>KS</item> <item>KY</item> <item>LA</item> <item>ME</item> <item>MD</item>
-        <item>MA</item> <item>MI</item> <item>MN</item> <item>MS</item> <item>MO</item>
-        <item>MT</item> <item>NE</item> <item>NV</item> <item>NH</item> <item>NJ</item>
-        <item>NM</item> <item>NY</item> <item>NC</item> <item>ND</item> <item>OH</item>
-        <item>OK</item> <item>OR</item> <item>PA</item> <item>RI</item> <item>SC</item>
-        <item>SD</item> <item>TN</item> <item>TX</item> <item>UT</item> <item>VT</item>
-        <item>VA</item> <item>WA</item> <item>WV</item> <item>WI</item> <item>WY</item>
+        <item>AL</item>
+        <item>AK</item>
+        <item>AZ</item>
+        <item>AR</item>
+        <item>CA</item>
+        <item>CO</item>
+        <item>CT</item>
+        <item>DE</item>
+        <item>FL</item>
+        <item>GA</item>
+        <item>HI</item>
+        <item>ID</item>
+        <item>IL</item>
+        <item>IN</item>
+        <item>IA</item>
+        <item>KS</item>
+        <item>KY</item>
+        <item>LA</item>
+        <item>ME</item>
+        <item>MD</item>
+        <item>MA</item>
+        <item>MI</item>
+        <item>MN</item>
+        <item>MS</item>
+        <item>MO</item>
+        <item>MT</item>
+        <item>NE</item>
+        <item>NV</item>
+        <item>NH</item>
+        <item>NJ</item>
+        <item>NM</item>
+        <item>NY</item>
+        <item>NC</item>
+        <item>ND</item>
+        <item>OH</item>
+        <item>OK</item>
+        <item>OR</item>
+        <item>PA</item>
+        <item>RI</item>
+        <item>SC</item>
+        <item>SD</item>
+        <item>TN</item>
+        <item>TX</item>
+        <item>UT</item>
+        <item>VT</item>
+        <item>VA</item>
+        <item>WA</item>
+        <item>WV</item>
+        <item>WI</item>
+        <item>WY</item>
     </string-array>
 
     <!-- Strings used in Log In Screen -->
@@ -81,6 +122,8 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="sign_up_button">Sign Up for Account</string>
     <string name="show_password">Show Password</string>
+    <string name="read_terms">Read Terms and Conditions</string>
+    <string name="terms_agree">I agree to the Terms and Conditions</string>
 
     <!--Menu Drawer-->
     <string name="resources_button">Open Resources</string>
@@ -154,7 +197,6 @@
     <string name="privacy_policy">Privacy Policy</string>
 
 
-
     <!--Meditation Screen-->
     <string name="welcome_meditation">Welcome Meditation</string>
     <string name="AUrabloom">Audio by AUraBloom</string>
@@ -166,7 +208,6 @@
     <string name="increase_volume_icon">Increase Volume</string>
 
 
-
     <!-- Privacy Policy Fragment -->
     <string name="privacy_policy_content">Privacy Policy will go here</string>
 
@@ -176,6 +217,9 @@
     <string name="just_happy">Just happy</string>
     <string name="confirm_mood">Confirm Mood</string>
     <string name="how_are_you">How %1$s are you?</string>
+    <string name="pick_a_pic">Pick a Pic</string>
+    <string name="clear_background">Clear Background</string>
+    <string name="photo_view">Photo View</string>
 
 
 </resources>

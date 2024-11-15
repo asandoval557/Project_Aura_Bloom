@@ -13,4 +13,16 @@
         android:icon="@drawable/share_24dp"
         android:title="@string/share"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/pick_a_pic"
+        android:icon="@drawable/add_photo_24dp"
+        android:title="@string/pick_a_pic"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/clear_photo"
+        android:icon="@drawable/close"
+        android:title="@string/clear_background"
+        app:showAsAction="ifRoom"/>
 </menu>

@@ -29,6 +29,7 @@ class DrawingView @JvmOverloads constructor(
     private var eraserThickness = 30f
     private var brushThickness = 10f
     var isEraserMode = false
+    private var backgroundBitmap: Bitmap? = null
 
 
 
@@ -52,6 +53,9 @@ class DrawingView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        backgroundBitmap?.let {
+            canvas.drawBitmap(it, 0f, 0f, null)
+        }
         for ((path, paint) in drawingPaths) {
             canvas.drawPath(path, paint)
         }
@@ -136,7 +140,7 @@ class DrawingView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun setBrushColor(color: Int) {
+    fun updateBrushColor(color: Int) {
         brushColor = color
         if (!isEraserMode) {
             paint.color = color
@@ -158,7 +162,7 @@ class DrawingView @JvmOverloads constructor(
         this.draw(canvas)
 
         return try{
-            val file = File(context.cacheDir, "drawing_${System.currentTimeMillis()}.png")
+            val file = File(context.cacheDir, "drawing${System.currentTimeMillis()}.png")
             val outputStream = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
             outputStream.flush()
@@ -185,7 +189,8 @@ class DrawingView @JvmOverloads constructor(
             }
             context.startActivity(Intent.createChooser(shareIntent, "Share using the options"))
         } else {
-            Toast.makeText(context, "Failed to save and share", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Failed to save and share", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
@@ -195,12 +200,15 @@ class DrawingView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun updateBrushColor(color: Int) {
-        brushColor = color
-        if (!isEraserMode) {
-            paint.color = color
-        }
-        invalidate() // Redraw the view
+    fun addPhoto(photoResId: Int) {
+        val bitmap = BitmapFactory.decodeResource(resources, photoResId)
+        backgroundBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false)
+        invalidate()
+    }
+
+    fun clearPhoto() {
+        backgroundBitmap = null
+        invalidate()
     }
 }
 

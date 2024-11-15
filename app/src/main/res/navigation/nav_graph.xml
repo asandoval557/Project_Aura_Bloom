@@ -31,6 +31,7 @@
         <action
                 android:id="@+id/action_SignUpFragment_to_LoginFragment"
                 app:destination="@id/LoginFragment"/>
+        <action android:id="@+id/action_SignUpFragment_to_TermsFragment" app:destination="@id/TermsFragment"/>
     </fragment>
 
     <fragment
@@ -101,12 +102,18 @@
 
         <action
             android:id="@+id/action_peaceful_creations_to_lumosPathFragment"
-            app:destination="@id/lumosPathFragment"
-        />
+            app:destination="@id/lumosPathFragment" />
 
     <fragment
             android:id="@+id/lumosPathFragment"
             android:name="com.example.project_aura_bloom.LumosPathFragment" />
+
+    <fragment
+        android:id="@+id/DrawingFragment"
+        android:name="com.example.project_aura_bloom.DrawingFragment"
+        android:label="Mindful Art"
+        tools:layout="@layout/mindful_art_fragment" />
+
 
     <fragment
             android:id="@+id/MoodProgressFragment"

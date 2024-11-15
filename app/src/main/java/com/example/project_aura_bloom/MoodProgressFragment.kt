@@ -8,11 +8,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.SeekBar
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import androidx.appcompat.app.AlertDialog
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MoodProgressFragment : Fragment() {
+
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.mood_progress_screen, container, false)
@@ -23,6 +31,8 @@ class MoodProgressFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
 
         val moods = listOf(
             R.raw.happy,
@@ -39,10 +49,28 @@ class MoodProgressFragment : Fragment() {
             "Happy" to listOf("Slightly happy", "Moderately happy", "Very happy", "Extremely happy", "Blissful"),
             "Sad" to listOf("Slightly sad", "Moderately sad", "Very sad", "Extremely sad", "Devastated"),
             "Angry" to listOf("Slightly annoyed", "Moderately angry", "Very angry", "Extremely angry", "Furious"),
-            "Confused" to listOf("Slightly confused", "Moderately confused", "Very confused", "Extremely confused", "Completely baffled"),
+            "Confused" to listOf(
+                "Slightly confused",
+                "Moderately confused",
+                "Very confused",
+                "Extremely confused",
+                "Completely baffled"
+            ),
             "Calm" to listOf("Slightly calm", "Moderately calm", "Very calm", "Extremely calm", "Completely serene"),
-            "Bothered" to listOf("Slightly bothered", "Moderately bothered", "Very bothered", "Extremely bothered", "Completely unsettled"),
-            "Anxious" to listOf("Slightly anxious", "Moderately anxious", "Very anxious", "Extremely anxious", "Panicked")
+            "Bothered" to listOf(
+                "Slightly bothered",
+                "Moderately bothered",
+                "Very bothered",
+                "Extremely bothered",
+                "Completely unsettled"
+            ),
+            "Anxious" to listOf(
+                "Slightly anxious",
+                "Moderately anxious",
+                "Very anxious",
+                "Extremely anxious",
+                "Panicked"
+            )
         )
 
         val moodViewPager = view.findViewById<ViewPager2>(R.id.mood_view_page)
@@ -74,7 +102,8 @@ class MoodProgressFragment : Fragment() {
 
 
                 emotionLabel.setOnClickListener {
-                    val labels = emotionLabels[selectedEmotion] ?: listOf("Level 1", "Level 2", "Level 3", "Level 4", "Level 5")
+                    val labels =
+                        emotionLabels[selectedEmotion] ?: listOf("Level 1", "Level 2", "Level 3", "Level 4", "Level 5")
                     showEmotionIntensityDialog(selectedEmotion, labels)
                 }
             }
@@ -113,10 +142,46 @@ class MoodProgressFragment : Fragment() {
         confirmButton.setOnClickListener {
 
             val selectedIntensity = seekBar.progress + 1
-
+            saveMoodToFirebase(emotion, selectedIntensity)
             dialog.dismiss()
         }
 
         dialog.show()
+    }
+
+    private fun saveMoodToFirebase(emotion: String, intensity: Int) {
+        val userId = auth.currentUser!!.uid
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = dateFormat.format(Date())
+
+        // Get user document ID
+        db.collection("AuraBloomUserData").whereEqualTo("auth_uid", userId).get()
+            .addOnSuccessListener { querySnapshot ->
+                if (querySnapshot != null && querySnapshot.documents.isNotEmpty()) {
+                    val userDocumentId = querySnapshot.documents[0].id
+
+                    // Create new mood entry document in MoodTracking
+                    val moodEntry = hashMapOf(
+                        "date" to date,
+                        "emotion" to emotion,
+                        "intensity" to intensity
+                    )
+
+                    // Add mood entry document under MoodTracking
+                    db.collection("AuraBloomUserData").document(userDocumentId)
+                        .collection("MoodTracking").add(moodEntry)
+                        .addOnSuccessListener {
+                            Toast.makeText(requireContext(), "Mood logged successfully!", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { exception ->
+                            Toast.makeText(requireContext(), "Failed to log mood: ${exception.message}", Toast.LENGTH_SHORT).show()
+                        }
+                } else {
+                    Toast.makeText(requireContext(), "User document not found.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(requireContext(), "Failed to locate user document: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }

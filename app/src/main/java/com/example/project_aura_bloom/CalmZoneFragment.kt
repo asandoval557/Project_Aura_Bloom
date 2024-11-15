@@ -11,7 +11,6 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.project_aura_bloom.databinding.CalmZoneScreenBinding
-import java.util.logging.Handler
 
 class CalmZoneFragment : Fragment() {
 

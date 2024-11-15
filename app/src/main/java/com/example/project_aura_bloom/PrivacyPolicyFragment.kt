@@ -1,13 +1,13 @@
 package com.example.project_aura_bloom
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
-import android.webkit.WebViewClient
-
+import android.widget.TextView
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 /**
@@ -17,23 +17,34 @@ import android.webkit.WebViewClient
  */
 class  PrivacyPolicyFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private val privacyPolicyURL = "https://1drv.ms/b/s!Ai8u-cbMfbjBg8ppb5guMWX9PdmKeQ?e=1EzK9n" //load from MoonWolves Sharepoint
+    private lateinit var firestore: FirebaseFirestore
+    private val legalDocsCollection = "LegalDocuments"
+    private val policyDocument = "PrivacyPolicy"
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_privacy_policy, container, false)
 
+        firestore = FirebaseFirestore.getInstance()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val viewPolicy = inflater.inflate(R.layout.fragment_privacy_policy, container, false)
+        val termsTextView = view.findViewById<TextView>(R.id.privacy_policy_textview)
 
-        viewPolicy?.let {
-            val policyView = viewPolicy.findViewById<WebView>(R.id.privacy_policy_webview)
-            policyView.webViewClient = WebViewClient()
-            policyView.settings.javaScriptEnabled = true
-            policyView.loadUrl(privacyPolicyURL)
-        }
-
-        return viewPolicy
-        }
+        firestore.collection(legalDocsCollection)
+            .document(policyDocument)
+            .get()
+            .addOnSuccessListener {document ->
+                if (document != null && document.exists()){
+                    val termsText = document.getString("privacyContent")
+                    if (!termsText.isNullOrEmpty()) {
+                        termsTextView.text = termsText
+                    }
+                } else {
+                    termsTextView.text = "Privacy Policy is not available."
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TermsFragment", "Error getting documents.", exception)
+                termsTextView.text = "Error getting documents."
+            }
+        return view
+    }
 }
