@@ -3,20 +3,22 @@ package com.example.project_aura_bloom
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
-import android.net.Uri
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import android.net.Uri
 
 class DrawingView @JvmOverloads constructor(
     context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr) {
+    attrs: AttributeSet? = null
+) : View(context, attrs) {
 
     private var paint = initializePaint()
     private var currentPath: CustomPath? = null
@@ -28,6 +30,8 @@ class DrawingView @JvmOverloads constructor(
     private var brushThickness = 10f
     var isEraserMode = false
     private var backgroundBitmap: Bitmap? = null
+
+
 
     private fun initializePaint() = Paint().apply {
         style = Paint.Style.STROKE
@@ -58,7 +62,17 @@ class DrawingView @JvmOverloads constructor(
         currentPath?.let { canvas.drawPath(it, paint) }
     }
 
-
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        val x = event.x
+        val y = event.y
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> startPath(x, y)
+            MotionEvent.ACTION_MOVE -> continuePath(x, y)
+            MotionEvent.ACTION_UP -> endPath(x, y)
+            else -> return false
+        }
+        return true
+    }
 
     fun startPath(x: Float, y: Float) {
         currentPath = CustomPath(brushColor, brushThickness).apply {
@@ -179,7 +193,6 @@ class DrawingView @JvmOverloads constructor(
                 .show()
         }
     }
-
 
     fun clear() {
         drawingPaths.clear()
