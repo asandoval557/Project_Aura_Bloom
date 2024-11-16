@@ -26,7 +26,7 @@ class MoodJournalActivity : AppCompatActivity() {
         // Added functionality to the journal back button
         val backButton = findViewById<ImageButton>(R.id.journal_back_button)
         backButton.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
+            finish()
         }
 
         val journalInput = findViewById<EditText>(R.id.journal_input)
