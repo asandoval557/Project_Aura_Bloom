@@ -155,7 +155,7 @@ class MoodProgressFragment : Fragment() {
         val date = dateFormat.format(Date())
 
         // Get user document ID
-        db.collection("AuraBloomUserData").whereEqualTo("auth_uid", userId).get()
+        db.collection("AuraBloomUserData").whereEqualTo("user_uid", userId).get()
             .addOnSuccessListener { querySnapshot ->
                 if (querySnapshot != null && querySnapshot.documents.isNotEmpty()) {
                     val userDocumentId = querySnapshot.documents[0].id
