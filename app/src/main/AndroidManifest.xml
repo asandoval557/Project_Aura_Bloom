@@ -24,15 +24,16 @@
             android:roundIcon="@mipmap/aura_bloom_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.Project_Aura_Bloom"
-            android:duration="10000"
             tools:targetApi="31">
         <activity
-                android:name=".SplashActivity"
+                android:name=".MoodJournalActivity"
+                android:exported="true"/>
+        <activity
+                android:name=".MainActivity"
                 android:exported="true"
-                android:theme="@style/Theme.Project_Aura_Bloom.Splash">
+                android:theme="@style/Theme.Project_Aura_Bloom">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -51,13 +52,6 @@
                     android:resource="@xml/file_paths"/>
         </provider>
 
-        <activity
-                android:name=".MainActivity"
-                android:exported="true"
-                android:theme="@style/Theme.Project_Aura_Bloom">
-        </activity>
-
-        <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
     </application>
 
 </manifest>

@@ -62,6 +62,7 @@ dependencies {
     //Import play integrity
     implementation("com.google.android.play:integrity:1.4.0")
     implementation("com.google.firebase:firebase-appcheck-playintegrity:18.0.0")
+    implementation(libs.androidx.activity)
 
 
     testImplementation(libs.junit)
