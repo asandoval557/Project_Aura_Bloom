@@ -13,4 +13,7 @@
     <color name="deep_purple">#7B1FA2</color>
     <color name="eraser_color">#fffafe</color>
     <color name="cp_dialog_background">#808080</color>
+    <color name="orange">#Ffa500</color>
+    <color name="dark_orange">#ff8c00</color>
+
 </resources>
