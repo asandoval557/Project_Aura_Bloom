@@ -150,38 +150,52 @@ class MoodProgressFragment : Fragment() {
     }
 
     private fun saveMoodToFirebase(emotion: String, intensity: Int) {
-        val userId = auth.currentUser!!.uid
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(requireContext(), "User not authenticated.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val userId = currentUser.uid
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val date = dateFormat.format(Date())
-
-        // Get user document ID
-        db.collection("AuraBloomUserData").whereEqualTo("user_uid", userId).get()
+        // Query the user's document by matching `user_uid`
+        db.collection("AuraBloomUserData").whereEqualTo("auth_uid", userId).get()
             .addOnSuccessListener { querySnapshot ->
                 if (querySnapshot != null && querySnapshot.documents.isNotEmpty()) {
+                    // If the document exists, get the document ID
                     val userDocumentId = querySnapshot.documents[0].id
-
-                    // Create new mood entry document in MoodTracking
-                    val moodEntry = hashMapOf(
-                        "date" to date,
-                        "emotion" to emotion,
-                        "intensity" to intensity
-                    )
-
-                    // Add mood entry document under MoodTracking
-                    db.collection("AuraBloomUserData").document(userDocumentId)
-                        .collection("MoodTracking").add(moodEntry)
-                        .addOnSuccessListener {
-                            Toast.makeText(requireContext(), "Mood logged successfully!", Toast.LENGTH_SHORT).show()
+                    createMoodEntry(userDocumentId, date, emotion, intensity)
+                } else {
+                    // If no document exists, create a new one
+                    val newUserDocument = hashMapOf("user_uid" to userId) // Consistent field name
+                    db.collection("AuraBloomUserData").add(newUserDocument)
+                        .addOnSuccessListener { newDocumentRef ->
+                            createMoodEntry(newDocumentRef.id, date, emotion, intensity)
                         }
                         .addOnFailureListener { exception ->
-                            Toast.makeText(requireContext(), "Failed to log mood: ${exception.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "Failed to create user document: ${exception.message}", Toast.LENGTH_SHORT).show()
                         }
-                } else {
-                    Toast.makeText(requireContext(), "User document not found.", Toast.LENGTH_SHORT).show()
                 }
             }
             .addOnFailureListener { exception ->
                 Toast.makeText(requireContext(), "Failed to locate user document: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+    // Helper function to add mood entry
+    private fun createMoodEntry(userDocumentId: String, date: String, emotion: String, intensity: Int) {
+        val moodEntry = hashMapOf(
+            "date" to date,
+            "emotion" to emotion,
+            "intensity" to intensity
+        )
+        db.collection("AuraBloomUserData").document(userDocumentId)
+            .collection("MoodTracking").add(moodEntry)
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Mood logged successfully!", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(requireContext(), "Failed to log mood: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
     }
 }
