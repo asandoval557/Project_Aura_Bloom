@@ -150,6 +150,25 @@ class MoodProgressFragment : Fragment() {
         dialog.show()
     }
 
+    // Asking if user would like to journal their emotions
+    private fun showJournalPromptDialog(selectedMood: String) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Journal Your Emotions")
+        builder.setMessage("Would you like to journal your emotions?")
+        // If yes is clicked then open journal
+        builder.setPositiveButton("Yes") { dialog, _ ->
+            dialog.dismiss()
+            val intent = Intent(requireContext(), MoodJournalActivity::class.java)
+            intent.putExtra("selectedMood", selectedMood) // Putting the selected intensity mood onto the journal
+            startActivity(intent)
+        }
+        // If no is clicked then close dialog and do not open journal
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.create().show()
+    }
+
     private fun saveMoodToFirebase(emotion: String, intensity: Int) {
         val currentUser = auth.currentUser
         if (currentUser == null) {
@@ -194,11 +213,7 @@ class MoodProgressFragment : Fragment() {
             .collection("MoodTracking").add(moodEntry)
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Mood logged successfully!", Toast.LENGTH_SHORT).show()
-
-                val intent = Intent(requireContext(), MoodJournalActivity::class.java)
-                startActivity(intent)
-
-                requireActivity().finish()
+                showJournalPromptDialog(emotion)
             }
             .addOnFailureListener { exception ->
                 Toast.makeText(requireContext(), "Failed to log mood: ${exception.message}", Toast.LENGTH_SHORT).show()
