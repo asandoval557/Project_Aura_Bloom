@@ -8,17 +8,10 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.fragment.findNavController
 import android.widget.Toast
-import com.example.project_aura_bloom.R
 import com.example.project_aura_bloom.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.android.play.core.integrity.IntegrityManagerFactory
-import com.google.android.play.core.integrity.IntegrityTokenRequest
-import com.google.android.gms.tasks.Task
-import com.google.android.play.core.integrity.IntegrityTokenResponse
-import java.util.UUID
-import android.util.Log
 
 
 class LoginFragment : Fragment() {
@@ -31,7 +24,7 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }

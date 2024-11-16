@@ -21,4 +21,5 @@
     <item name="lumos_path_button" type="id"/>
     <item name="coloring_button" type="id"/>
     <item name="mindful_art" type="id"/>
+    <item name="color_preview" type="id"/>
 </resources>

@@ -11,7 +11,6 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.project_aura_bloom.databinding.CalmZoneScreenBinding
-import java.util.logging.Handler
 
 class CalmZoneFragment : Fragment() {
 
@@ -46,18 +45,14 @@ class CalmZoneFragment : Fragment() {
 
         // Set listener to stop audio when animation stops
         fadeInLeftToRight.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation?) {
-                // No action needed at the start
-            }
+            override fun onAnimationStart(animation: Animation?) {}
 
             override fun onAnimationEnd(animation: Animation?) {
                 // Stop and release media player when the animation ends
                 fadeOutMediaPlayer()
             }
 
-            override fun onAnimationRepeat(animation: Animation?) {
-                // No action needed on repeat
-            }
+            override fun onAnimationRepeat(animation: Animation?) {}
         })
 
         // If button below is clicked within calm zone hub then...
@@ -68,6 +63,13 @@ class CalmZoneFragment : Fragment() {
 
         binding.meditationButton.setOnClickListener {
             findNavController().navigate(R.id.action_calm_zone_to_Meditation)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (mediaPlayer?.isPlaying == true) {
+            mediaPlayer?.pause()
         }
     }
 

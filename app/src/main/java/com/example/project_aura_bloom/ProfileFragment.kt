@@ -1,10 +1,7 @@
 package com.example.project_aura_bloom
 
 import android.app.Activity
-import android.app.DatePickerDialog
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,26 +19,21 @@ import nl.dionsegijn.konfetti.core.models.Size
 import nl.dionsegijn.konfetti.core.models.Shape
 import android.graphics.Color
 import android.graphics.Typeface
-import android.net.Uri
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import kotlinx.coroutines.selects.select
-import com.example.project_aura_bloom.models.UserProfile
-import com.google.firebase.storage.FirebaseStorage
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import java.util.*
 import java.util.concurrent.TimeUnit
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.firebase.firestore.FieldPath
 import java.text.SimpleDateFormat
@@ -56,22 +48,28 @@ class ProfileFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 
-    private val startForProfileImageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        val resultCode = result.resultCode
-        val data = result.data
+    private val startForProfileImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val resultCode = result.resultCode
+            val data = result.data
 
-        if (resultCode == Activity.RESULT_OK) {
-            val fileUri = data?.data!!
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    val fileUri = data?.data!!
+                    // Load the selected image into the profile image view
+                    Glide.with(this).load(fileUri).into(binding.profileImage)
+                    saveImageUriToFirestore(fileUri.toString())
+                }
 
-            // Load the selected image into the profile image view
-            Glide.with(this).load(fileUri).into(binding.profileImage)
-            saveImageUriToFirestore(fileUri.toString())
-        } else if (resultCode == ImagePicker.RESULT_ERROR) {
-            Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
+                ImagePicker.RESULT_ERROR -> {
+                    Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                }
+
+                else -> {
+                    Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,6 +89,7 @@ class ProfileFragment : Fragment() {
 
         // Load User's profile
         loadUserProfile()
+        loadMoodTrackingDays()
 
         // Click listener for profile picture changing
         binding.changePictureFab.setOnClickListener {
@@ -101,15 +100,6 @@ class ProfileFragment : Fragment() {
                 .createIntent { intent ->
                     startForProfileImageResult.launch(intent)
                 }
-        }
-
-        // Click listener for Refresh Button
-        binding.reloadButton.setOnClickListener {
-            // Rotation animation
-            binding.reloadButton.animate().rotationBy(360f).setDuration(500).start()
-
-            loadUserProfile()
-            Toast.makeText(context, "Profile Refreshed", Toast.LENGTH_SHORT).show()
         }
 
         // Click listener for edit button
@@ -124,11 +114,11 @@ class ProfileFragment : Fragment() {
     private fun saveImageUriToFirestore(imageUrl: String) {
         val userId = auth.currentUser?.uid ?: return
         db.collection("AuraBloomUserData").whereEqualTo("auth_uid", userId).get()
-            .addOnSuccessListener {querySnapshot ->
+            .addOnSuccessListener { querySnapshot ->
                 if (querySnapshot != null && querySnapshot.documents.isNotEmpty()) {
                     val documentId = querySnapshot.documents[0].id
 
-                    // Update the profileImageUrl" in the document
+                    // Update the "profileImageUrl" in the document
                     db.collection("AuraBloomUserData").document(documentId)
                         .update("profileImageUrl", imageUrl)
                         .addOnSuccessListener {
@@ -136,16 +126,18 @@ class ProfileFragment : Fragment() {
                             Glide.with(this).load(imageUrl).into(binding.profileImage)
                         }
                         .addOnFailureListener { exception ->
-                            Toast.makeText(requireContext(), "Failed to upload image URL: ${exception.message}"
-                                , Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(), "Failed to upload image URL: ${exception.message}", Toast.LENGTH_SHORT
+                            ).show()
                         }
                 } else {
                     Toast.makeText(requireContext(), "User document not found", Toast.LENGTH_SHORT).show()
                 }
             }
             .addOnFailureListener { exception ->
-                Toast.makeText(requireContext(), "Failed to locate user document: ${exception.message}"
-                    , Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(), "Failed to locate user document: ${exception.message}", Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
@@ -153,8 +145,13 @@ class ProfileFragment : Fragment() {
         val userId = auth.currentUser?.uid ?: return
 
         // Retrieve the document with the current's user's data
-        db.collection("AuraBloomUserData").whereEqualTo("auth_uid", userId).get()
-            .addOnSuccessListener { querySnapshot ->
+        db.collection("AuraBloomUserData").whereEqualTo("auth_uid", userId)
+            .addSnapshotListener { querySnapshot, error ->
+                if (error != null) {
+                    Toast.makeText(requireContext(), "Error loading data: ${error.message}", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
+
                 if (querySnapshot != null && querySnapshot.documents.isNotEmpty()) {
                     val document = querySnapshot.documents[0]
 
@@ -211,13 +208,12 @@ class ProfileFragment : Fragment() {
                     Toast.makeText(requireContext(), "User data not found", Toast.LENGTH_SHORT).show()
                 }
             }
-            .addOnFailureListener { exception ->
-                Toast.makeText(requireContext(), "Failed to load data: ${exception.message}", Toast.LENGTH_SHORT).show()
-            }
     }
 
-    private fun formatGeneralInformation(name: String, email: String, address: String,
-                                         cityStateZip: String, emergencyContactName: String, emergencyContactPhoneNumber: String): SpannableStringBuilder {
+    private fun formatGeneralInformation(
+        name: String, email: String, address: String,
+        cityStateZip: String, emergencyContactName: String, emergencyContactPhoneNumber: String
+    ): SpannableStringBuilder {
         val builder = SpannableStringBuilder()
 
         fun addBoldLabel(label: String, content: String) {
@@ -229,14 +225,17 @@ class ProfileFragment : Fragment() {
         addBoldLabel("Name: ", name)
         addBoldLabel("Email: ", email)
         addBoldLabel("Address: ", "\n$address\n$cityStateZip")
-        addBoldLabel("Emergency Contact: ", "\n$emergencyContactName\n${formatPhoneNumber(emergencyContactPhoneNumber)}")
+        addBoldLabel(
+            "Emergency Contact: ",
+            "\n$emergencyContactName\n${formatPhoneNumber(emergencyContactPhoneNumber)}"
+        )
 
         return builder
     }
 
     private fun formatPhoneNumber(phoneNumber: String): String {
-        if (phoneNumber == null || phoneNumber.length != 10) return phoneNumber ?: ""
-        return "(${phoneNumber.substring(0, 3)}) ${phoneNumber.substring(3,6)}-${phoneNumber.substring(6)}"
+        if (phoneNumber.length != 10) return phoneNumber
+        return "(${phoneNumber.substring(0, 3)}) ${phoneNumber.substring(3, 6)}-${phoneNumber.substring(6)}"
     }
 
     private fun startConfettiAnimation() {
@@ -244,7 +243,7 @@ class ProfileFragment : Fragment() {
             Party(
                 speed = 10f,
                 maxSpeed = 15f,
-                damping =  0.9f,
+                damping = 0.9f,
                 spread = 360,
                 colors = listOf(Color.YELLOW, Color.BLUE, Color.MAGENTA, Color.GREEN, Color.RED),
                 position = Position.Relative(0.5, 0.3),
@@ -424,7 +423,7 @@ class ProfileFragment : Fragment() {
 
             // Save or update the information in Firebase
             saveProfileInfo(
-                updatedName,updatedDateOfBirth, updatedEmail, updatedAddress, updatedCity, selectedState,
+                updatedName, updatedDateOfBirth, updatedEmail, updatedAddress, updatedCity, selectedState,
                 updatedZipCode, updatedEmergencyName, updatedEmergencyPhone
             )
 
@@ -525,61 +524,117 @@ class ProfileFragment : Fragment() {
     private fun setupMeditationBarChart(barChart: BarChart) {
         val userId = auth.currentUser?.uid ?: return
 
-        // Get last 7 days in 'YYYY-MM-DD' format
-        val last7Days = getLast7Days()
-
-        // Query Firestore for meditation data
-        db.collection("meditationData")
-            .document(userId)
-            .collection("dailySessions")
-            .whereIn(FieldPath.documentId(), last7Days) // Fetch only last 7 days
-            .get()
+        // Find the document ID for the current user based on their auth_uid
+        db.collection("AuraBloomUserData").whereEqualTo("auth_uid", userId).get()
             .addOnSuccessListener { querySnapshot ->
-                val entries = mutableListOf<BarEntry>()
+                if (querySnapshot != null && querySnapshot.documents.isNotEmpty()) {
+                    val userDocumentId = querySnapshot.documents[0].id
 
-                // Map each date to a corresponding index (0 - 6 for 7 days)
-                val dateToIndexMap = last7Days.withIndex().associate { it.value to it.index.toFloat() }
+                    // Get the last 7 days in 'YYYY-MM-DD' format
+                    val last7Days = getLast7Days()
 
-                for (document in querySnapshot.documents) {
-                    val date = document.id
-                    val duration = document.getDouble("duration")?.toFloat() ?: 0f
-                    val index = dateToIndexMap[date]
-                    if (index != null) {
-                        entries.add(BarEntry(index, duration))
-                    }
+                    // Query the dailySessions sub-collection for the last 7 days
+                    db.collection("AuraBloomUserData")
+                        .document(userDocumentId)
+                        .collection("dailySessions")
+                        .whereIn(FieldPath.documentId(), last7Days)
+                        .get()
+                        .addOnSuccessListener { dailySessionsSnapshot ->
+                            val entries = mutableListOf<BarEntry>()
+                            val dateToIndexMap = last7Days.withIndex().associate { it.value to it.index.toFloat() }
+
+                            // Populate entries with data from Firestore
+                            for (document in dailySessionsSnapshot.documents) {
+                                val date = document.id
+                                val durationInMinutes = document.getDouble("duration")?.toFloat() ?: 0f
+                                val index = dateToIndexMap[date]
+                                if (index != null) {
+                                    entries.add(BarEntry(index, durationInMinutes))
+                                }
+                            }
+
+                            // Fill missing days with zeroes if necessary
+                            for (i in 0..6) {
+                                if (entries.none { it.x == i.toFloat() }) {
+                                    entries.add(BarEntry(i.toFloat(), 0f))
+                                }
+                            }
+
+                            // Sort and set data for the BarChart
+                            entries.sortBy { it.x }
+                            val barDataSet = BarDataSet(entries, "Meditation Time (minutes)")
+                            barDataSet.color = resources.getColor(R.color.purple, null)
+                            val data = BarData(barDataSet)
+
+                            barChart.data = data
+                            barChart.invalidate() // Refresh the chart
+
+                            // Customize the chart appearance
+                            barChart.description.isEnabled = false
+                            barChart.axisLeft.apply {
+                                axisMinimum = 0f
+                                axisMaximum = 30f
+                                textSize = 14f // Font for Y-axis labels
+                                setDrawGridLines(true)
+                            }
+                            barChart.xAxis.apply {
+                                granularity = 1f
+                                labelCount = 7
+                                textSize = 14f // Font for X-axis labels
+                                valueFormatter = IndexAxisValueFormatter(getLast7DaysLabels())
+                                position = XAxis.XAxisPosition.BOTTOM
+                                setDrawGridLines(false)
+                                labelRotationAngle = -45f // Rotating X-axis labels for better readability
+                            }
+                            barChart.axisRight.isEnabled = false
+
+                            // Adjust padding and offsets to avoid label clipping
+                            barChart.setExtraOffsets(16f, 8f, 16f, 24f)
+
+                            // Adjust Legend Position and Font Size
+                            barChart.legend.apply {
+                                verticalAlignment = Legend.LegendVerticalAlignment.TOP
+                                horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+                                orientation = Legend.LegendOrientation.HORIZONTAL
+                                textSize = 14f // Font for legend
+                            }
+
+                            // Zoom and Panning interactions
+                            barChart.setPinchZoom(true)
+                            barChart.isDoubleTapToZoomEnabled = true
+                            barChart.setScaleEnabled(true)
+                            barChart.setTouchEnabled(true)
+                            barChart.isDragEnabled = true
+
+                            // Set font sizes for chart elements
+                            barDataSet.valueTextSize = 14f // Font for bar values
+                        }
+                        .addOnFailureListener { exception ->
+                            Toast.makeText(
+                                requireContext(),
+                                "Error loading meditation data: ${exception.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                } else {
+                    Toast.makeText(requireContext(), "User document not found", Toast.LENGTH_SHORT).show()
                 }
-
-                // Fill missing days with zeroes if necessary
-                for (i in 0..6) {
-                    if (entries.none { it.x == i.toFloat() }) {
-                        entries.add(BarEntry(i.toFloat(), 0f))
-                    }
-                }
-
-                // Sort entries by x-value (date order)
-                entries.sortBy { it.x }
-
-                // Create and set data for BarChart
-                val barDataSet = BarDataSet(entries, "Meditation time (hours)")
-                barDataSet.color = resources.getColor(R.color.purple, null)
-                val data = BarData(barDataSet)
-
-                // Configure chart display options
-                barChart.data = data
-                barChart.invalidate() // Refresh chart
-
-                // Customize chart appearance
-                barChart.description.isEnabled = false
-                barChart.axisLeft.axisMinimum = 0f // Start y-axis at 0
-                barChart.axisLeft.axisMaximum = 1f // Y-axis increments
-                barChart.xAxis.granularity = 1f
-                barChart.xAxis.labelCount = 7 // Display all 7 days
-                barChart.xAxis.valueFormatter = IndexAxisValueFormatter(getLast7Days())
             }
             .addOnFailureListener { exception ->
-                Toast.makeText(requireContext(), "Error loading meditation data: ${exception.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Failed to locate user document: ${exception.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+
+        // Set up Reset Zoom button
+        binding.resetZoomButton.setOnClickListener {
+            barChart.fitScreen()
+            barChart.zoom(1f, 1f, 0f, 0f)
+        }
     }
+
 
     private fun getLast7Days(): List<String> {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -591,7 +646,7 @@ class ProfileFragment : Fragment() {
         }.reversed() // Reversed to keep in chronological order
     }
 
-    // Function to get last 7 day labels for X-axis
+    // Function to get last 7-day labels for X-axis
     private fun getLast7DaysLabels(): List<String> {
         val dayFormat = SimpleDateFormat("EEE", Locale.getDefault()) // Short day name
         val calendar = Calendar.getInstance()
@@ -601,6 +656,54 @@ class ProfileFragment : Fragment() {
             dayLabel
         }.reversed()
     }
+
+    private fun loadMoodTrackingDays() {
+        val userId = auth.currentUser?.uid ?: return
+
+        db.collection("AuraBloomUserData").whereEqualTo("auth_uid", userId).get()
+            .addOnSuccessListener { querySnapshot ->
+                if (querySnapshot != null && querySnapshot.documents.isNotEmpty()) {
+                    val userDocumentId = querySnapshot.documents[0].id
+
+                    // Set to store unique dates
+                    val uniqueDates = mutableSetOf<String>()
+
+                    db.collection("AuraBloomUserData").document(userDocumentId)
+                        .collection("MoodTracking")
+                        .get()
+                        .addOnSuccessListener { moodTrackingSnapshot ->
+                            // For each mood entry, add the date to the set
+                            for (document in moodTrackingSnapshot.documents) {
+                                val date = document.getString("date")
+                                if (date != null) {
+                                    uniqueDates.add(date)
+                                }
+                            }
+
+                            // Update UI with the count of unique dates
+                            val trackedDaysCount = uniqueDates.size
+                            binding.moodTrackingCount.text = trackedDaysCount.toString()
+                            binding.moodTrackingLabel.text = if (trackedDaysCount == 1) "Day" else "Days"
+                        }
+                        .addOnFailureListener { exception ->
+                            Toast.makeText(
+                                requireContext(), "Error loading mood tracking data: ${exception.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                } else {
+                    Toast.makeText(requireContext(), "User document not found", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(
+                    requireContext(),
+                    "Failed to locate user document: ${exception.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -1,6 +1,9 @@
 package com.example.project_aura_bloom
 
 import android.Manifest
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,10 +14,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
-import androidx.compose.animation.fadeIn
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -27,26 +31,21 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.example.project_aura_bloom.models.UserProfile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import com.example.project_aura_bloom.api.ZenQuote
-import com.example.project_aura_bloom.api.ZenQuotesApiService
-import kotlinx.coroutines.tasks.await
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.text.Typography.quote
+import com.example.project_aura_bloom.models.Quote
 
 
 class HomeScreenFragment : Fragment() {
 
     private lateinit var binding: HomeScreenBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private val LOCATION_PERMISSION_REQUEST_CODE = 1001
+    private val locationPermissionRequestCode = 1001
     private var emergencyContactNumber: String? = null
-    private lateinit var zenQuotesApiService: ZenQuotesApiService
     private lateinit var sharedPreferences: SharedPreferences
 
     private var currentStreak: Long = 0
@@ -69,14 +68,6 @@ class HomeScreenFragment : Fragment() {
         // Initialize SharedPreferences
         sharedPreferences = requireContext().getSharedPreferences("QuotePreferences", Context.MODE_PRIVATE)
 
-        // Initialize Retrofit
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://zenquotes.io/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        zenQuotesApiService = retrofit.create(ZenQuotesApiService::class.java)
-
         return view
     }
 
@@ -94,8 +85,10 @@ class HomeScreenFragment : Fragment() {
         fetchEmergencyContact()
         // Check profile completion
         checkProfileCompletion()
-
+        // Loads User's information
         loadUserData()
+        // Profile Picture flip animation
+        flipProfilePicture()
 
         // Load and display the Quote of the Day
         displayQuoteOfTheDay()
@@ -125,6 +118,54 @@ class HomeScreenFragment : Fragment() {
         binding.btnHelp.setOnClickListener {
             showHelpOptions()
         }
+
+        // Click listener for profile image
+        binding.profileImage.setOnClickListener {
+            flipProfilePicture()
+        }
+    }
+
+    private fun flipProfilePicture() {
+        val profileImage = binding.profileImage // Front-side picture
+        val animatedImage = binding.animatedProfileImage // Back-side animated picture
+
+        // Animate to rotate from 0 to 90 degrees
+        val flipOut = ObjectAnimator.ofFloat(profileImage, "rotationY", 0f, 90f)
+        flipOut.duration = 300
+        // Animate to rotate from 90 to 180 degrees
+        val flipIn = ObjectAnimator.ofFloat(animatedImage, "rotationY", -90f, 0f)
+        flipIn.duration = 300
+
+        // Listener to switch images at the halfway point
+        flipOut.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                profileImage.visibility = View.GONE
+                animatedImage.visibility = View.VISIBLE
+                // Load GIF
+                Glide.with(this@HomeScreenFragment).asGif().load(R.drawable.animated_profile).into(animatedImage)
+                flipIn.start()
+            }
+        })
+        // Start the 1st animation
+        flipOut.start()
+        // Return to original profile picture after a delay
+        animatedImage.postDelayed({
+            // Reverse the animation
+            val reverseFlipOut = ObjectAnimator.ofFloat(animatedImage, "rotationY", 0f, 90f)
+            val reverseFlipIn = ObjectAnimator.ofFloat(profileImage, "rotationY", -90f, 0f)
+
+            reverseFlipOut.duration = 300
+            reverseFlipIn.duration = 300
+
+            reverseFlipOut.addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    animatedImage.visibility = View.GONE
+                    profileImage.visibility = View.VISIBLE
+                    reverseFlipIn.start()
+                }
+            })
+            reverseFlipOut.start()
+        }, 4000) // Delay in milliseconds before flipping back
     }
 
     private fun trackLoginStreak(userId: String) {
@@ -188,7 +229,7 @@ class HomeScreenFragment : Fragment() {
         //Check if 24 hours has passed since last update
         if (currentTime - lastUpdateTime >= TimeUnit.HOURS.toMillis(24)) {
             // 24 hours has passed
-            fetchQuoteOfTheDay()
+            fetchQuoteFromFirestore()
         } else {
             // Less than 24 hours, load saved quote
             val savedQuote = sharedPreferences.getString("quoteText", "No Quote Available")
@@ -197,34 +238,37 @@ class HomeScreenFragment : Fragment() {
         }
     }
 
-    private fun fetchQuoteOfTheDay() {
-        zenQuotesApiService.getRandomQuote().enqueue(object : Callback<List<ZenQuote>> {
-            override fun onResponse(call: Call<List<ZenQuote>>, response: Response<List<ZenQuote>>) {
-                if (response.isSuccessful && response.body() != null) {
-                    val quote = response.body()!![0] // Get the first quote in response
-                    val quoteText = quote.q
-                    val quoteAuthor = quote.a
-                    binding.QuoteOfTheDay.text = "\"$quoteText\" - $quoteAuthor"
+    private fun fetchQuoteFromFirestore() {
+        db.collection("Quotes").get().addOnSuccessListener { querySnapshot ->
+            if (!querySnapshot.isEmpty) {
+                // Get random document (quote) from the List of Quotes
+                val quotesList = querySnapshot.documents
+                val randomQuoteDoc = quotesList.random()
 
-                    // Fade-in animation
-                    val fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in_left_to_right)
-                    binding.QuoteOfTheDay.startAnimation(fadeInAnimation)
+                val quoteText = randomQuoteDoc.getString("text") ?: "No Quote Available"
+                val quoteAuthor = randomQuoteDoc.getString("author") ?: "Author Unknown"
 
-                    // Save the Quote and the current time in SharedPreferences
-                    with(sharedPreferences.edit()) {
-                        putString("quoteText", quoteText)
-                        putString("quoteAuthor", quoteAuthor)
-                        putLong("lastUpdateTime", System.currentTimeMillis())
-                        apply()
-                    }
-                } else {
-                    binding.QuoteOfTheDay.text = "No Quote for today!"
+                // Display the quote in the TextView
+                binding.QuoteOfTheDay.text = "\"$quoteText\" - $quoteAuthor"
+
+                // Save the quote in SharedPreferences
+                with(sharedPreferences.edit()) {
+                    putString("quoteText", quoteText)
+                    putString("quoteAuthor", quoteAuthor)
+                    putLong("lastUpdateTime", System.currentTimeMillis())
+                    apply()
                 }
+
+                // Fade-in animation
+                val fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+                binding.QuoteOfTheDay.startAnimation(fadeInAnimation)
+            } else {
+                binding.QuoteOfTheDay.text = "No Quote found for today"
             }
-            override fun onFailure(call: Call<List<ZenQuote>>, t: Throwable) {
-                binding.QuoteOfTheDay.text = "Error loading quote."
-            }
-        })
+        }.addOnFailureListener { exception ->
+            binding.QuoteOfTheDay.text = "Error loading quote"
+            println("Error getting quote: ${exception.message}")
+        }
     }
 
     private fun initializeAchievementsIfNeeded(userId: String) {
@@ -252,7 +296,7 @@ class HomeScreenFragment : Fragment() {
             if (document.exists()) {
                 currentStreak = document.getLong("currentStreak") ?: 0
                 totalSessions = document.getLong("totalSessions") ?: 0
-                milestones = document["milestones"] as? List<Long> ?: listOf(5, 10, 20, 50, 100)
+                milestones = (document["milestones"] as? List<*>)?.filterIsInstance<Long>() ?: listOf(5, 10, 20, 50, 100)
 
                 updateAchievementUI(currentStreak)
             }
@@ -480,7 +524,7 @@ class HomeScreenFragment : Fragment() {
     private fun requestLocationPermission() {
         ActivityCompat.requestPermissions(requireActivity(),
             arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-            LOCATION_PERMISSION_REQUEST_CODE)
+            locationPermissionRequestCode)
     }
 
     // Function to retrieve the current location
@@ -512,5 +556,11 @@ class HomeScreenFragment : Fragment() {
     private fun dialPhone(phoneNumber: String) {
         val intent = Intent(Intent.ACTION_DIAL).apply { data = Uri.parse("tel:$phoneNumber") }
         startActivity(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        flipProfilePicture()
     }
 }

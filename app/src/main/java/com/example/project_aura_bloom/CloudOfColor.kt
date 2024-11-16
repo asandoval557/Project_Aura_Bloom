@@ -10,7 +10,6 @@ import android.animation.ValueAnimator
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import androidx.core.animation.doOnEnd
-import kotlin.math.min
 
 class CloudOfColor @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null

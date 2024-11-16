@@ -11,4 +11,6 @@
     <color name="purple">#4819AC</color>
     <color name="soft_white">#f5f5f5</color>
     <color name="deep_purple">#7B1FA2</color>
+    <color name="eraser_color">#fffafe</color>
+    <color name="cp_dialog_background">#808080</color>
 </resources>
