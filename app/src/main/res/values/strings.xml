@@ -181,6 +181,11 @@
     <string name="leave_journal">Leave journal</string>
     <string name="type_your_thoughts_here">Type your thoughts here…</string>
     <string name="submit">Submit</string>
+    <string name="app_icon">App Icon</string>
+    <string name="mood_stats">Mood Journey Stats</string>
+    <string name="read_terms">Read Terms and Conditions</string>
+    <string name="terms_agree">I agree to the Terms and Conditions</string>
+    <string name="animated_profile_picture">Animated Profile Picture</string>
     <string name="pick_a_pic">Pick a Pic</string>
     <string name="clear_background">Clear Background</string>
     <string name="photo_view">Photo View</string>

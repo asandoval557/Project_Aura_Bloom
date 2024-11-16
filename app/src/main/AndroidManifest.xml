@@ -52,13 +52,6 @@
                     android:resource="@xml/file_paths"/>
         </provider>
 
-        <activity
-                android:name=".MainActivity"
-                android:exported="true"
-                android:theme="@style/Theme.Project_Aura_Bloom">
-        </activity>
-
-        <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
     </application>
 
 </manifest>
