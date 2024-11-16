@@ -1,6 +1,7 @@
 package com.example.project_aura_bloom
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -193,6 +194,11 @@ class MoodProgressFragment : Fragment() {
             .collection("MoodTracking").add(moodEntry)
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Mood logged successfully!", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(requireContext(), MoodJournalActivity::class.java)
+                startActivity(intent)
+
+                requireActivity().finish()
             }
             .addOnFailureListener { exception ->
                 Toast.makeText(requireContext(), "Failed to log mood: ${exception.message}", Toast.LENGTH_SHORT).show()
