@@ -36,6 +36,10 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textAlignment="center"
+                    android:shadowColor="#1B0226"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="2"
                     android:fontFamily="@font/montserrat_alternates_regular"
                     android:layout_gravity="center"
                     android:layout_marginBottom="32dp"/>
@@ -48,7 +52,7 @@
                     android:autofillHints="emailAddress"
                     android:hint="@string/email_address"
                     android:textSize="24sp"
-                    android:fontFamily="@font/montserrat_alternates_regular"
+                    android:fontFamily="@font/montserrat_alternates_medium"
                     android:background="@drawable/rounded_border"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white"
@@ -64,7 +68,7 @@
                     android:autofillHints="password"
                     android:hint="@string/password"
                     android:textSize="24sp"
-                    android:fontFamily="@font/montserrat_alternates_regular"
+                    android:fontFamily="@font/montserrat_alternates_medium"
                     android:background="@drawable/rounded_border"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white"
@@ -154,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/log_in"
                 android:fontFamily="@font/montserrat_alternates_regular"
-                android:textColor="@color/dark_orange"
+                android:textColor="@color/aqua"
                 android:textSize="32sp"/>
 
         <TextView
