@@ -142,9 +142,11 @@ class MoodProgressFragment : Fragment() {
 
         confirmButton.setOnClickListener {
 
-            val selectedIntensity = seekBar.progress + 1
-            saveMoodToFirebase(emotion, selectedIntensity)
+            val selectedIntensity = labels[seekBar.progress]
+            val moodWithIntensity = "$selectedIntensity $emotion"
+            saveMoodToFirebase(moodWithIntensity, seekBar.progress + 1)
             dialog.dismiss()
+            showJournalPromptDialog(moodWithIntensity)
         }
 
         dialog.show()
