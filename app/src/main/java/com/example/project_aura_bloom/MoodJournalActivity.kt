@@ -8,11 +8,20 @@ import android.widget.Button
 import android.widget.Toast
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MoodJournalActivity : AppCompatActivity() {
+
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mood_journal_screen)
+
+        db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
 
         // Getting and setting the current date
         val journalDate = findViewById<TextView>(R.id.journal_date)
@@ -35,7 +44,7 @@ class MoodJournalActivity : AppCompatActivity() {
         submitButton.setOnClickListener {
             val inputText = journalInput.text.toString()
             if (inputText.isNotBlank()) {
-                saveJournalEntry(inputText)
+                saveJournalEntry(selectedMood, inputText)
                 Toast.makeText(this,"Journal saved successfully!",Toast.LENGTH_SHORT).show()
                 finish()
             } else {
@@ -47,15 +56,74 @@ class MoodJournalActivity : AppCompatActivity() {
 
 
     // Function to get the current date
-    private fun getCurrentDate(): String {
-        val dateFormat = java.text.SimpleDateFormat("MMMM dd, yyyy", java.util.Locale.getDefault())
+    private fun getCurrentDate(format: String = "MMMM dd, yyyy"): String {
+        val dateFormat = java.text.SimpleDateFormat(format, java.util.Locale.getDefault())
         return dateFormat.format(java.util.Date())
     }
 
-    private fun saveJournalEntry(entry: String) {
-        val sharedPreferences = getSharedPreferences("MoodJournal", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString("lastJournalEntry", entry)
-        editor.apply()
+    private fun saveJournalEntry(selectedMood: String, journalEntry: String) {
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "User not authenticated.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val userId = currentUser.uid
+        val date = getCurrentDate("yyyy-MM-dd")
+
+        //Check if user document exists
+        db.collection("AuraBloomUserData").whereEqualTo("auth_uid", userId).get()
+            .addOnSuccessListener { querySnapshot ->
+                if (querySnapshot != null && querySnapshot.documents.isNotEmpty()) {
+                    // User document exists
+                    val userDocumentId = querySnapshot.documents[0].id
+                    createJournalEntry(userDocumentId, date, selectedMood, journalEntry)
+                } else {
+                    // User document does not exist, create a new one
+                    val newUserDocument = hashMapOf("auth_uid" to userId)
+                    db.collection("AuraBloomUserData").add(newUserDocument)
+                        .addOnSuccessListener { newDocumentRef ->
+                            createJournalEntry(newDocumentRef.id, date, selectedMood, journalEntry)
+                        }
+                        .addOnFailureListener { exception ->
+                            Toast.makeText(
+                                this,
+                                "Failed to create user document: ${exception.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(
+                    this,
+                    "Failed to locate user document: ${exception.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+    }
+
+    private fun createJournalEntry(userDocumentId: String, date: String, mood: String, entry: String) {
+        val journalData = hashMapOf(
+            "date" to date,
+            "mood" to mood,
+            "entry" to entry
+        )
+
+        //Save journal entry
+        db.collection("AuraBloomUserData").document(userDocumentId)
+            .collection("JournalEntry").add(journalData)
+            .addOnSuccessListener {
+                //Redirect only after success
+                Toast.makeText(this, "Journal saved successfully!", Toast.LENGTH_SHORT).show()
+                finish() // Exit the activity only after confirming the save
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(
+                    this,
+                    "Failed to save journal: ${exception.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
     }
 }
