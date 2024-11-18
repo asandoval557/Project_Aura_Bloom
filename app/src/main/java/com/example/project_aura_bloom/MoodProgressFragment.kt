@@ -214,7 +214,7 @@ class MoodProgressFragment : Fragment() {
             .collection("MoodTracking").add(moodEntry)
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Mood logged successfully!", Toast.LENGTH_SHORT).show()
-                showJournalPromptDialog(emotion)
+                // showJournalPromptDialog(emotion)
             }
             .addOnFailureListener { exception ->
                 Toast.makeText(requireContext(), "Failed to log mood: ${exception.message}", Toast.LENGTH_SHORT).show()
