@@ -52,7 +52,7 @@
                         android:id="@+id/animatedProfileImage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/animated_profile"
+                        android:src="@drawable/malcolm_gif"
                         android:padding="4dp"
                         android:contentDescription="@string/animated_profile_picture"
                         app:shapeAppearanceOverlay="@style/ShapeAppearance_Material3_smallComponent"

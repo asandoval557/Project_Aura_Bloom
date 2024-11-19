@@ -142,7 +142,7 @@ class HomeScreenFragment : Fragment() {
                 profileImage.visibility = View.GONE
                 animatedImage.visibility = View.VISIBLE
                 // Load GIF
-                Glide.with(this@HomeScreenFragment).asGif().load(R.drawable.animated_profile).into(animatedImage)
+                Glide.with(this@HomeScreenFragment).asGif().load(R.drawable.malcolm_gif).into(animatedImage)
                 flipIn.start()
             }
         })
